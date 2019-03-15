@@ -1,3 +1,16 @@
+.book{
+  padding: 0px 10px;
+  text-align: center;
+}
+
 .book img{
-  width: 100px;
+  width: 200px;
+}
+
+.unavailable{
+  color: red;
+}
+
+.available{
+  color: green;
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import jwtDecode from 'jwt-decode';
 import {Redirect} from 'react-router-dom';
 import {API_BASE_URL} from '../config';
-import {loadAuthToken, clearAuthToken} from '../local-storage';
+import {loadAuthToken, refreshAuthToken, storeAuthInfo} from '../local-storage';
 import {normalizeResponseErrors} from '../utils';
 import {UserContext} from "../context";
 
@@ -16,14 +16,23 @@ export default function LandingPage(props) {
   //when the component mounts, check if the user is logged in (based on local storage) - if they are, hydrate the token from local storage 
   useEffect(() => {
     const authToken = loadAuthToken();
+    console.log(authToken)
     if (authToken) {
         user.loggedIn = true;
-        refreshAuthToken();
+        refreshAuthToken()
+        .then(token=>{
+          console.log('hereeee')
+          const decodedToken = jwtDecode(token);
+          user.info = decodedToken.user;
+          console.log('hereeee', decodedToken.user)
+        })
+        setRedirect(true);
     }}, 
   []);
 
   /*Logs in user*/
   const loginUser = (email, password) => {
+    console.log('logging in')
     fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
@@ -36,7 +45,17 @@ export default function LandingPage(props) {
     })
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
-    .then(({authToken}) => storeAuthInfo(authToken))
+    .then(({authToken}) => {
+      storeAuthInfo(authToken);
+      return authToken;
+    })
+    .then((authToken)=>{
+      user.loggedIn = true;
+      const decodedToken = jwtDecode(authToken);
+      user.info = (decodedToken.user);
+      setAuthError(null);
+      setRedirect(true);
+    })
     .catch(err => {
       const {status} = err;
       const message =
@@ -47,47 +66,12 @@ export default function LandingPage(props) {
   })
   };
 
-  /*Refreshes auth token*/
-  const refreshAuthToken = () => {
-    const authToken = loadAuthToken();
-    return fetch(`${API_BASE_URL}/auth/refresh`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-    })
-    .then(res => normalizeResponseErrors(res))
-    .then(res => res.json())
-    .then(({authToken}) => storeAuthInfo(authToken))
-    .catch(err => {
-        // We couldn't get a refresh token because our current credentials are invalid or expired, or something else went wrong, so clear them and sign us out
-        setAuthError(err);
-        clearAuthToken(authToken);
-    });
-  }; 
-
-  // Stores the auth token in localStorage, and decodes and stores the user data stored in the token
-  const storeAuthInfo = (authToken) => {
-    console.log('in store auth info')
-    const decodedToken = jwtDecode(authToken);
-    user.info = (decodedToken.user);
-    try {
-      localStorage.setItem('authToken', authToken);
-      setAuthError(null);
-      user.loggedIn = true;
-      setRedirect(true);
-    } 
-    catch (e) {
-    }
-  };
-
   const handleSubmit = e => {
     e.preventDefault();
     loginUser(username, password);
   };
 
-  if(redirect){
-    console.log('here')
+  if(user.loggedIn){
     return <Redirect to="/dashboard" />;
   }
 

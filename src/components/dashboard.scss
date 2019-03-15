@@ -1,0 +1,15 @@
+.dashboard{
+  margin-top: 55px;
+}
+
+.booklist{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+@media(min-width: 900px){
+  .dashboard{
+    margin-left: 200px;
+  }
+}

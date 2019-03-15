@@ -4,12 +4,14 @@ frontend:
 - user can only place hold if a) media is unavailable and b) that user is not the one who has checked out that media c) hasnt placed hold already
 if a book was returned and theres no hold queue, button says "book returned". if the book was returned and there is a hold queue, button should say "book was returned, ready for next user in hold queue"
 
+- only  2 books on hold and 2 books checked out at  a time 
+
 PAGES/Routes
 1) Onboarding/landing page: brief description of app, rules, login, or register 
   - Has navbar similar to DownTheBlock that will change once logged in
 2) Dashboard:
   - Grid of all books, search option and filter by category 
-  - Each book shows: image, title, availability, place hold (if unavailable/not checked out by user/on hold by user already). Buttons shown are conditional 
+  - Each book shows: image, title, availability, place hold (if unavailable/not checked out by user/on hold by user already/user doesnt have more than 2 books checked out). Buttons shown are conditional 
   - Sidebar where user can see list of their currently checked out books, books on hold, overdue books + balance
 3) Checked out
 4) On hold

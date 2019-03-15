@@ -37,7 +37,6 @@ export default class SidebarNav extends React.Component{
    if(this.props.user && this.props.user.info.email==='jewishbookcorner@gmail.com'){
     admin=true;
    }
-   console.log(this.props);
     return(
       <React.Fragment>
         {!this.state.sidebarDocked && 

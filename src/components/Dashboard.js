@@ -2,17 +2,21 @@ import React, { useState, useEffect, useContext }  from 'react';
 import {UserContext} from "../context";
 import {Redirect} from 'react-router-dom';
 import SidebarNav from './Sidebar';
-import { clearAuthToken, loadAuthToken } from '../local-storage';
+import { clearAuthToken, loadAuthToken, refreshAuthToken } from '../local-storage';
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from '../utils';
 import Book from './Book';
+import './dashboard.scss';
+import jwtDecode from 'jwt-decode';
 
 export default function Dashboard(props) {
   //make sure user is logged in before being able to see this page (context?)
   let user = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
   const [category, setCategory] = useState("");
-  const [books, setBooks] = useState();
+  const [media, setMedia] = useState();
+  const [exceededHolds, setExceededHolds] = useState(false);
+  const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
 
   const logOut = () => {
     clearAuthToken();
@@ -20,12 +24,24 @@ export default function Dashboard(props) {
     setRedirect(true);
   }
 
+  const refresh = () => {
+    refreshAuthToken()
+    .then(token=>{
+      const decodedToken = jwtDecode(token);
+      user.info = decodedToken.user;
+      console.log('after refresh', user.info)
+      if(user.info.currentlyCheckedOut.length===2){
+        setExceededCheckOuts(true);
+      }
+    })
+  }
+
   useEffect(() => {
-    console.log('USE')
     if(!user.loggedIn || redirect){
       setRedirect(true);
     }
     else{
+      refresh();
       changeCategory('allMedia')
     }
   }, 
@@ -42,32 +58,48 @@ export default function Dashboard(props) {
   })
       .then(res => normalizeResponseErrors(res))
       .then(res => res.json())
-      .then(books => {
-          setBooks(books);
-          console.log(books);
+      .then(media => {
+          setMedia(media)
+          console.log('media', media)
+          refresh();
       })
       .catch(error => {
         console.log(error);
       });
   }
 
-  const generateBooks = (books) => {
-    return books.map(book=>{
-      return <Book {...book}/>
+  const generateBooks = (media) => {
+    return media.map((media, index)=>{
+      return <Book 
+        user={user.info}
+        key={index}
+        exceededCheckOuts={exceededCheckOuts} 
+        exceededHolds={exceededHolds}
+        media={media} 
+        category={category} 
+        refresh={refresh}/>
     })
   }
 
   if(!user.loggedIn || redirect){
     return <Redirect to="/" />;
   }
-  else{
+
+  else if (media && user.info){
+    console.log(user.info)
     return (
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-        <main>
-          {books && generateBooks(books)}
+        <main className="dashboard">
+          <section className="booklist">
+            {generateBooks(media)}
+          </section>
         </main>
       </React.Fragment>
     );
+  }
+
+  else{
+    return null;
   }
 }
