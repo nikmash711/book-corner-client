@@ -4,6 +4,7 @@ import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from '../utils';
 import './book.scss'
 import {UserContext} from "../context";
+import moment from 'moment';
 
 export default function Book(props) {
   let user = useContext(UserContext);
@@ -16,6 +17,15 @@ export default function Book(props) {
   if(user && user.info.email==='jewishbookcorner@gmail.com'){
    admin=true;
   }
+
+  let dueDate = moment().add(14, 'days').calendar(null, {
+    sameDay: 'MM/DD/YYYY',
+    nextDay: 'MM/DD/YYYY',
+    nextWeek: 'MM/DD/YYYY',
+    lastDay: 'MM/DD/YYYY',
+    lastWeek:'MM/DD/YYYY',
+    sameElse: 'MM/DD/YYYY'
+  });
 
   useEffect(() => {
     //user can only place a hold on a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its unavailable, and not admin 
@@ -93,12 +103,34 @@ export default function Book(props) {
       });
   }
 
+  const readyForPickup = (mediaId) => {
+    let updatedMedia;
+    const authToken = loadAuthToken();
+    fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
+      method: 'PUT',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+      }
+    })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(results => {
+        updatedMedia = results;
+        return props.refresh()
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <article className="book">
       <img src={props.media.img} alt="media"/>
       <h2>{props.media.title}</h2>
       {props.category==='allMedia' && <h6 className={availability.toLowerCase()}>{availability}</h6>}
-      {props.category==='myCheckedOutMedia' && <h6 className="unavailable">{props.media.dueDate || 'Not Ready For Pickup'}</h6>}
+      {props.category==='myCheckedOutMedia' && <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>}
       {
         ableToCheckOut && 
         <button
@@ -122,6 +154,16 @@ export default function Book(props) {
         >
           Cancel Hold
         </button>
+      }
+      {
+        admin && props.category==='allRequests' &&
+        
+        <a
+        href={`mailto:${props.media.checkedOutBy.email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
+        onClick={()=>readyForPickup(props.media.id, 'pickup')}
+        >
+          Ready For Pickup
+        </a>
       }
     </article>
   );
