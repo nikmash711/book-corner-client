@@ -23,7 +23,7 @@ User Stories:
 - User can see which books they have on hold under "on hold" 
 - User can cancel hold if they want to
 
-3) [] X User can see a history of checked out books 
+3) [x] User can see a history of checked out books 
 
 4) Admin can see and manage requests, returns, holds 
 [x] "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup" (which will then email the user that their book is ready)
@@ -41,4 +41,4 @@ User Stories:
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available
 
-Bug: on admin, clicking catalog throws "email of endefined" error
+Bug: book goes into checkout history even when it is currently checked out. should only do this after its returned

@@ -183,7 +183,7 @@ export default function Book(props) {
       {props.category==='allMedia' && <h6 className={availability.toLowerCase()}>{availability}</h6>}
       {props.category==='myCheckedOutMedia' && <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>}
       {
-        ableToCheckOut && 
+        ableToCheckOut && props.category === "allMedia" &&
         <button
           onClick={()=>checkOut(props.media.id)}
         >
@@ -191,7 +191,7 @@ export default function Book(props) {
         </button>
       }
       {
-        ableToPlaceHold && 
+        ableToPlaceHold && props.category === "allMedia" &&
         <button
           onClick={()=>placeHold(props.media.id, 'place')}
         >

@@ -59,13 +59,21 @@ export default class SidebarNav extends React.Component{
               </button>     
               {!admin && 
               <React.Fragment>
-              <button 
+            <button 
               onClick={() => {
                 this.onSetSidebarOpen(false)
                 this.props.changeCategory('myCheckedOutMedia')
                 }
               }>
               Currently Checked Out
+            </button>
+            <button 
+              onClick={() => {
+                this.onSetSidebarOpen(false)
+                this.props.changeCategory('myCheckoutHistory')
+                }
+              }>
+              Checkout History
             </button>
             <button 
               onClick={() => {
