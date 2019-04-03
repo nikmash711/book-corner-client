@@ -77,7 +77,7 @@ export default function Dashboard(props) {
   }
 
   const generateBooks = (media) => {
-    console.log('generating books with category', category)
+    console.log('generating books with media', media)
     return media.map((media, index)=>{
       return <Book 
         user={user.info}

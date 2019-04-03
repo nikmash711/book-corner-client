@@ -4,8 +4,6 @@ PAGES/Routes
 2) Dashboard:
   - Grid of all books, search option and filter by category 
   - Each book shows: image, title, availability, place hold (if unavailable/not checked out by user/on hold by user already/user doesnt have more than 2 books checked out). Buttons shown are conditional 
-  - Sidebar where user can see list of their currently checked out books, books on hold, overdue books + balance
-4) On hold
 5) Overdue/balance 
 6)  Account Settings 
 
@@ -33,7 +31,7 @@ User Stories:
 5) [] User can renew a media
 - If they currently checked it out 
 - It has a due date
-- Cannot renew more than twice
+- Cannot renew a given media more than once
 
 6) [] Admin can add new media (title, type, and image)
 

@@ -125,6 +125,28 @@ export default function Book(props) {
       });
   }
 
+  const renew = (mediaId) => {
+    let updatedMedia;
+    const authToken = loadAuthToken();
+    fetch(`${API_BASE_URL}/media/renew/${mediaId}`, {
+      method: 'PUT',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+      }
+    })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(results => {
+        updatedMedia = results;
+        return props.refresh()
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   const returnMedia = (mediaId, userId) => {
     let updatedMedia;
     const authToken = loadAuthToken();
@@ -174,7 +196,8 @@ export default function Book(props) {
         console.log(error);
       });
   }
-  console.log('the category is', props.category);
+
+
   console.log('the media is', props.media)
   return (
     <article className="book">
@@ -225,6 +248,15 @@ export default function Book(props) {
           Return Media
         </a>
       }
+      {
+        !admin && props.category==='myCheckedOutMedia' && !props.media.renewals && props.media.dueDate &&
+        <button
+          onClick={()=>renew(props.media.id)}
+        >
+          Renew
+        </button>
+      }
+      
     </article>
   );
 }
