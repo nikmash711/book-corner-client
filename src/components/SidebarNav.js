@@ -56,39 +56,47 @@ export default class SidebarNav extends React.Component{
                   }
                 }>
                 Catalog
-              </button>            
+              </button>     
+              {!admin && 
+              <React.Fragment>
               <button 
-                onClick={() => {
-                  this.onSetSidebarOpen(false)
-                  this.props.changeCategory('myCheckedOutMedia')
-                  }
-                }>
-                Currently Checked Out
-              </button>
-              <button 
-                onClick={() => {
-                  this.onSetSidebarOpen(false)
-                  this.props.changeCategory('myMediaOnHold')
-                  }
-                }>
-                On Hold
-              </button>
-              <button 
-                onClick={() => {
-                  this.onSetSidebarOpen(false)
-                  this.props.changeCategory('myOverdueMedia')
-                  }
-                }>
-                Overdue
-              </button>
-              {admin && <button 
-                onClick={() => {
-                  this.onSetSidebarOpen(false)
-                  this.props.logOut()
-                  }
-                }>
-                Admin Page
-              </button>}
+              onClick={() => {
+                this.onSetSidebarOpen(false)
+                this.props.changeCategory('myCheckedOutMedia')
+                }
+              }>
+              Currently Checked Out
+            </button>
+            <button 
+              onClick={() => {
+                this.onSetSidebarOpen(false)
+                this.props.changeCategory('myMediaOnHold')
+                }
+              }>
+              On Hold
+            </button>
+            <button 
+              onClick={() => {
+                this.onSetSidebarOpen(false)
+                this.props.changeCategory('myOverdueMedia')
+                }
+              }>
+              Overdue
+            </button>
+              </React.Fragment>
+              }       
+              {admin && 
+              <React.Fragment>
+                <button 
+                  onClick={() => {
+                    this.onSetSidebarOpen(false)
+                    this.props.changeCategory('allRequests')
+                    }
+                  }>
+                  Requests
+                </button>
+              </React.Fragment>
+            }
               <button 
                 onClick={() => {
                   this.onSetSidebarOpen(false)

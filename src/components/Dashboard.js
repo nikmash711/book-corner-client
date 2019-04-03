@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext }  from 'react';
 import {UserContext} from "../context";
 import {Redirect} from 'react-router-dom';
-import SidebarNav from './Sidebar';
+import SidebarNav from './SidebarNav';
 import { clearAuthToken, loadAuthToken, refreshAuthToken } from '../local-storage';
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from '../utils';
@@ -29,9 +29,16 @@ export default function Dashboard(props) {
     .then(token=>{
       const decodedToken = jwtDecode(token);
       user.info = decodedToken.user;
-      console.log('after refresh', user.info)
+      console.log('refreshing'); 
       if(user.info.currentlyCheckedOut.length===2){
         setExceededCheckOuts(true);
+      }
+      else if(user.info.mediaOnHold.length===2){
+        setExceededHolds(true);
+      }
+      //so that the page refreshes: 
+      else {
+        changeCategory(category || 'allMedia')
       }
     })
   }
@@ -47,8 +54,7 @@ export default function Dashboard(props) {
   }, 
   []);
 
-  const changeCategory = (category) => {
-    setCategory(category);
+  const changeCategory = (category) => { 
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/media/${category}`, {
       method: 'GET',
@@ -59,9 +65,9 @@ export default function Dashboard(props) {
       .then(res => normalizeResponseErrors(res))
       .then(res => res.json())
       .then(media => {
-          setMedia(media)
-          console.log('media', media)
-          refresh();
+        console.log('the media is', media);
+        setMedia(media);
+        setCategory(category);
       })
       .catch(error => {
         console.log(error);
@@ -69,6 +75,7 @@ export default function Dashboard(props) {
   }
 
   const generateBooks = (media) => {
+    console.log('generating books')
     return media.map((media, index)=>{
       return <Book 
         user={user.info}
@@ -86,7 +93,6 @@ export default function Dashboard(props) {
   }
 
   else if (media && user.info){
-    console.log(user.info)
     return (
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
