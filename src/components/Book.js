@@ -125,6 +125,56 @@ export default function Book(props) {
       });
   }
 
+  const returnMedia = (mediaId, userId) => {
+    let updatedMedia;
+    const authToken = loadAuthToken();
+    fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
+      method: 'PUT',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+      },
+      body: JSON.stringify({
+        available: true
+      })
+    })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(results => {
+        updatedMedia = results;
+        console.log('hold queue', props.media.holdQueue)
+        //if theres a hold queue: 
+        if(props.media.holdQueue.length){
+          return fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+              holdQueue: props.media.holdQueue
+            })
+          })
+        }
+        else {
+          return Promise.resolve();
+        }
+      })
+      .then(results=>{
+        if(results){
+          updatedMedia = results;
+        }
+
+        return props.refresh()
+
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <article className="book">
       <img src={props.media.img} alt="media"/>
@@ -163,6 +213,15 @@ export default function Book(props) {
         onClick={()=>readyForPickup(props.media.id, 'pickup')}
         >
           Ready For Pickup
+        </a>
+      }
+      {
+        admin && props.category==='allCheckedOutMedia' &&
+        <a
+          href= {props.media.holdQueue.length ? `mailto:${props.media.holdQueue[0].email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}` : "#"}
+          onClick={()=>returnMedia(props.media.id, props.media.checkedOutBy.id)}
+        >
+          Return Media
         </a>
       }
     </article>

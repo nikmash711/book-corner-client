@@ -95,6 +95,14 @@ export default class SidebarNav extends React.Component{
                   }>
                   Requests
                 </button>
+                <button 
+                  onClick={() => {
+                    this.onSetSidebarOpen(false)
+                    this.props.changeCategory('allCheckedOutMedia')
+                    }
+                  }>
+                  Checked Out
+                </button>
               </React.Fragment>
             }
               <button 

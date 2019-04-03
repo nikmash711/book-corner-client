@@ -1,8 +1,3 @@
-frontend: 
-- option to renew should only be there if theres a due date (meaning ready for pickup)
-- creating media needs: title, type, and image
-if a book was returned and theres no hold queue, button says "book returned". if the book was returned and there is a hold queue, button should say "book was returned, ready for next user in hold queue"
-
 PAGES/Routes
 1) Onboarding/landing page: brief description of app, rules, login, or register 
   - Has navbar similar to DownTheBlock that will change once logged in
@@ -15,12 +10,12 @@ PAGES/Routes
 6)  Account Settings 
 
 User Stories:
-1) User can check out books.
+1) [x] User can check out books.
 - Only 2 check outs at a time
 - When user has 2 books checked out, the "check out" button no longer appears for them 
 - User can see which books they currently have checked out under the "checked out" tab on the sidebar 
 
-2) User can place holds on a book 
+2) [x] User can place holds on a book 
 - Max of 2 holds 
 - Only if this book isnt already in their currently checked out
 - Only if it's not already in their hold list 
@@ -28,12 +23,22 @@ User Stories:
 - User can see which books they have on hold under "on hold" 
 - User can cancel hold if they want to
 
-3) X User can see a history of checked out books 
+3) [] X User can see a history of checked out books 
 
 4) Admin can see and manage requests, returns, holds 
-- "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup" (which will then email the user that their book is ready)
-- "Checked Out": Media with a due date. Admin can change status of media (if user returns it) here. 
-- If media being returned has a hold queue, make a request to '/availability/:mediaId/:userId' to return, and in the same async call, make a request to '/pickup/:mediaId' for the next user on the hold queue to get the book (and this will also consequently send an email to that user that their book is ready for pickup)
+[x] "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup" (which will then email the user that their book is ready)
+[] "Checked Out": Media with a due date. Admin can change status of media (if user returns it) here. 
+[] Check if media being returned has a hold queue, make a request to '/availability/:mediaId/:userId' to return, and in the same async call, make a request to '/pickup/:mediaId' for the next user on the hold queue to get the book (and this will also consequently send an email to that user that their book is ready for pickup)
+
+5) [] User can renew a media
+- If they currently checked it out 
+- It has a due date
+- Cannot renew more than twice
+
+6) [] Admin can add new media (title, type, and image)
+
 
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available
+
+Bug: on admin, clicking catalog throws "email of endefined" error
