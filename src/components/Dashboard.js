@@ -13,7 +13,7 @@ export default function Dashboard(props) {
   //make sure user is logged in before being able to see this page (context?)
   let user = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState();
   const [media, setMedia] = useState();
   const [exceededHolds, setExceededHolds] = useState(false);
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
@@ -38,6 +38,7 @@ export default function Dashboard(props) {
       }
       //so that the page refreshes: 
       else {
+        console.log('here');
         changeCategory(category || 'allMedia')
       }
     })
@@ -55,6 +56,7 @@ export default function Dashboard(props) {
   []);
 
   const changeCategory = (category) => { 
+    console.log('category received:', category);
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/media/${category}`, {
       method: 'GET',
@@ -65,9 +67,9 @@ export default function Dashboard(props) {
       .then(res => normalizeResponseErrors(res))
       .then(res => res.json())
       .then(media => {
-        console.log('the media is', media);
-        setMedia(media);
         setCategory(category);
+        setMedia(media);
+        console.log('category was changed to:', category);
       })
       .catch(error => {
         console.log(error);
@@ -75,7 +77,7 @@ export default function Dashboard(props) {
   }
 
   const generateBooks = (media) => {
-    console.log('generating books')
+    console.log('generating books with category', category)
     return media.map((media, index)=>{
       return <Book 
         user={user.info}

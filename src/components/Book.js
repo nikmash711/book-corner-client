@@ -174,7 +174,8 @@ export default function Book(props) {
         console.log(error);
       });
   }
-
+  console.log('the category is', props.category);
+  console.log('the media is', props.media)
   return (
     <article className="book">
       <img src={props.media.img} alt="media"/>
@@ -206,7 +207,7 @@ export default function Book(props) {
         </button>
       }
       {
-        admin && props.category==='allRequests' &&
+        admin && props.category==='allRequests' && props.media.checkedOutBy &&
         
         <a
         href={`mailto:${props.media.checkedOutBy.email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
@@ -216,7 +217,7 @@ export default function Book(props) {
         </a>
       }
       {
-        admin && props.category==='allCheckedOutMedia' &&
+        admin && props.category==='allCheckedOutMedia' && props.media.checkedOutBy &&
         <a
           href= {props.media.holdQueue.length ? `mailto:${props.media.holdQueue[0].email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}` : "#"}
           onClick={()=>returnMedia(props.media.id, props.media.checkedOutBy.id)}
