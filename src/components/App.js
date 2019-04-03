@@ -11,12 +11,12 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LandingPage}></Route>
           <Route exact path="/dashboard" component={Dashboard}></Route>
-          <Route exact path="/catalog" component={Dashboard}></Route>
+          {/* <Route exact path="/catalog" component={Dashboard}></Route>
           <Route exact path="/myOverdueMedia" component={Dashboard}></Route>
           <Route exact path="/allMedia" component={Dashboard}></Route>
           <Route exact path="/myCheckedOutMedia" component={Dashboard}></Route>
           <Route exact path="/myMediaOnHold" component={Dashboard}></Route>
-          <Route exact path="/myCheckoutHistory" component={Dashboard}></Route>
+          <Route exact path="/myCheckoutHistory" component={Dashboard}></Route> */}
         </Switch>
       </Router>
     );

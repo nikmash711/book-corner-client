@@ -38,10 +38,10 @@ export default function Dashboard(props) {
         setExceededHolds(true);
       }
       //so that the page refreshes: 
-      else {
+      // else {
         console.log('here');
         changeCategory(category || 'allMedia')
-      }
+      // }
     })
   }
 
@@ -56,11 +56,11 @@ export default function Dashboard(props) {
   }, 
   []);
 
-  useEffect(()=>{
-    const path = props.match.path.slice(1);
-    console.log('PATH', path);
-    changeCategory(path);
-  }, [props.match.path])
+  // useEffect(()=>{
+  //   const path = props.match.path.slice(1);
+  //   console.log('PATH', path);
+  //   changeCategory(path);
+  // }, [props.match.path])
 
   const changeCategory = (category) => { 
     console.log('category received:', category);
@@ -81,7 +81,10 @@ export default function Dashboard(props) {
         setCategory(category);
         setMedia(media);
         console.log('balance is', balance);
-        props.history.push(`/${category}`)
+
+        //this seems to happen more than once:
+        // console.log('HISTORY', props.history);
+        // props.history.push(`/${category}`)
       })
       .catch(error => {
         console.log(error);

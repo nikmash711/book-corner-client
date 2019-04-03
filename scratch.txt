@@ -39,11 +39,13 @@ User Stories:
 
 7) [x] User can see which media they have overdue
 
+8) [x] User can see balance
 
+9) [] Admin can see and search directory of users with their info and if they have an outstanding balance
 
+10) [] Admin can view all overdue media (along with name, balance, and info for the user who has currently checked it out)
 
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available
 
-Bug: renew button should disappear when user clicks renew
 Bug: Balance still shows even after renewing, and shows 0

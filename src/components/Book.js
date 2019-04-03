@@ -140,6 +140,7 @@ export default function Book(props) {
       .then(res => res.json())
       .then(results => {
         updatedMedia = results;
+        console.log('updated media ', updatedMedia);
         return props.refresh()
       })
       .catch(error => {
