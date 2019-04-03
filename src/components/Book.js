@@ -204,7 +204,7 @@ export default function Book(props) {
       <img src={props.media.img} alt="media"/>
       <h2>{props.media.title}</h2>
       {props.category==='allMedia' && <h6 className={availability.toLowerCase()}>{availability}</h6>}
-      {props.category==='myCheckedOutMedia' && <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>}
+      {(props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia') && <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>}
       {
         ableToCheckOut && props.category === "allMedia" &&
         <button

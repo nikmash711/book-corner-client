@@ -15,6 +15,7 @@ export default function Dashboard(props) {
   const [redirect, setRedirect] = useState(false);
   const [category, setCategory] = useState();
   const [media, setMedia] = useState();
+  const [balance, setBalance] = useState();
   const [exceededHolds, setExceededHolds] = useState(false);
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
 
@@ -55,6 +56,12 @@ export default function Dashboard(props) {
   }, 
   []);
 
+  useEffect(()=>{
+    const path = props.match.path.slice(1);
+    console.log('PATH', path);
+    changeCategory(path);
+  }, [props.match.path])
+
   const changeCategory = (category) => { 
     console.log('category received:', category);
     const authToken = loadAuthToken();
@@ -67,9 +74,14 @@ export default function Dashboard(props) {
       .then(res => normalizeResponseErrors(res))
       .then(res => res.json())
       .then(media => {
+        if(category==='myOverdueMedia'){
+          setBalance(media.balance);
+          media = media.overdueMedia;
+        }
         setCategory(category);
         setMedia(media);
-        console.log('category was changed to:', category);
+        console.log('balance is', balance);
+        props.history.push(`/${category}`)
       })
       .catch(error => {
         console.log(error);
@@ -99,6 +111,7 @@ export default function Dashboard(props) {
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
         <main className="dashboard">
+          {balance && <h2>Balance: ${balance}.00</h2>}
           <section className="booklist">
             {generateBooks(media)}
           </section>

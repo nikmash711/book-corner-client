@@ -33,6 +33,7 @@ export default class SidebarNav extends React.Component{
   }
 
  render(){
+   console.log('PROPS', this.props)
    let admin=false;
    if(this.props.user && this.props.user.info.email==='jewishbookcorner@gmail.com'){
     admin=true;
