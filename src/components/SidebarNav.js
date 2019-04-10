@@ -58,8 +58,8 @@ export default class SidebarNav extends React.Component{
                 }>
                 Catalog
               </button>     
-              {!admin && 
-              <React.Fragment>
+            {!admin && 
+            <React.Fragment>
             <button 
               onClick={() => {
                 this.onSetSidebarOpen(false)
@@ -96,6 +96,22 @@ export default class SidebarNav extends React.Component{
               }       
               {admin && 
               <React.Fragment>
+                <button 
+                  onClick={() => {
+                    this.onSetSidebarOpen(false)
+                    this.props.changeCategory('addMedia')
+                    }
+                  }>
+                  Add Media
+                </button>
+                <button 
+                  onClick={() => {
+                    this.onSetSidebarOpen(false)
+                    this.props.changeCategory('allUsers')
+                    }
+                  }>
+                  User Directory 
+                </button>
                 <button 
                   onClick={() => {
                     this.onSetSidebarOpen(false)

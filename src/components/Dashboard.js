@@ -8,8 +8,10 @@ import {normalizeResponseErrors} from '../utils';
 import Book from './Book';
 import './dashboard.scss';
 import jwtDecode from 'jwt-decode';
+import moment from 'moment';
 
 export default function Dashboard(props) {
+
   //make sure user is logged in before being able to see this page (context?)
   let user = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
@@ -18,6 +20,17 @@ export default function Dashboard(props) {
   const [balance, setBalance] = useState();
   const [exceededHolds, setExceededHolds] = useState(false);
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
+  const [users, setUsers] = useState();
+  // const [newMediaImg, setNewMediaImg] = useState();
+  // const [showForm, setShowForm] = useState(false);
+
+  let admin=false;
+  if(user.info)
+  {
+    if(user.info.email==='jewishbookcorner@gmail.com'){
+      admin=true;
+    }
+  }
 
   const logOut = () => {
     clearAuthToken();
@@ -64,35 +77,54 @@ export default function Dashboard(props) {
 
   const changeCategory = (category) => { 
     console.log('category received:', category);
-    const authToken = loadAuthToken();
-    fetch(`${API_BASE_URL}/media/${category}`, {
-      method: 'GET',
-      headers: {
-          Authorization: `Bearer ${authToken}`
-      },
-  })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(media => {
-        if(category==='myOverdueMedia'){
-          setBalance(media.balance);
-          media = media.overdueMedia;
-        }
-        setCategory(category);
-        setMedia(media);
-        console.log('balance is', balance);
-
-        //this seems to happen more than once:
-        // console.log('HISTORY', props.history);
-        // props.history.push(`/${category}`)
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if(category==='allUsers'){
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/users`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        },
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(users => {
+          setCategory(category);
+          setUsers(users);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    else{
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/media/${category}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        },
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(media => {
+          if(category==='myOverdueMedia'){
+            setBalance(media.balance);
+            media = media.overdueMedia;
+          }
+          setCategory(category);
+          setMedia(media);
+          console.log('balance is', balance);
+  
+          //this seems to happen more than once:
+          // console.log('HISTORY', props.history);
+          // props.history.push(`/${category}`)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 
   const generateBooks = (media) => {
-    console.log('generating books with media', media)
     return media.map((media, index)=>{
       return <Book 
         user={user.info}
@@ -105,9 +137,93 @@ export default function Dashboard(props) {
     })
   }
 
+  const dayNow =  
+  moment().calendar(null, {
+    sameDay: 'MM/DD/YYYY',
+    nextDay: 'MM/DD/YYYY',
+    nextWeek: 'MM/DD/YYYY',
+    lastDay: 'MM/DD/YYYY',
+    lastWeek:'MM/DD/YYYY',
+    sameElse: 'MM/DD/YYYY'
+  });
+
+  const calculateBalance = (overdueMedia) => {
+    let sum = 0;
+
+    for(let media of overdueMedia){
+      let now = moment(dayNow, 'MM/DD/YYYY');
+      let due = moment(media.dueDate, 'MM/DD/YYYY');
+      //Difference in number of days
+      let diff = moment.duration(now.diff(due)).asDays();
+      sum+=diff;
+    }
+    return sum;
+  };
+
+  const generateDirectory = (users) => {
+    console.log('unsorted', users)
+    users.sort(function(a, b){
+      console.log('A.firstname', a.firstName)
+      console.log('b.firstname', b.firstName);
+      if(a.firstName < b.firstName) { 
+        console.log('Less than')
+        return -1; 
+      }
+      else if(a.firstName > b.firstName) {
+        console.log('Greater than') 
+        return 1; 
+      }
+      else{
+        return 0;
+      }
+    })
+    console.log('SORTED', users)
+    return users.map((user, index)=>{
+      let userBalance = calculateBalance(user.currentlyCheckedOut);
+      return (
+        <article key={index} className='user'>
+          <h3>{user.firstName + ' ' + user.lastName}</h3>
+          <p>{user.email}</p>
+          <p>{user.cell}</p>
+          {
+            userBalance>0 &&
+            <p>Balance: ${userBalance}.00</p>
+          }
+        </article>
+      )
+    })
+  }
+
   if(!user.loggedIn || redirect){
     return <Redirect to="/" />;
   }
+
+  else if(category==='addMedia'){
+    return (
+      <React.Fragment>
+        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+        <main className="dashboard">
+          <section className="add-media">
+          {/* <MediaForm/> */}
+          </section>
+        </main>
+      </React.Fragment>
+    );
+  }
+
+  else if (category==='allUsers' && users && user.info){
+    return (
+      <React.Fragment>
+        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+        <main className="dashboard">
+          <section className="user-directory">
+            {generateDirectory(users)}
+          </section>
+        </main>
+      </React.Fragment>
+    );
+  }
+
 
   else if (media && user.info){
     return (
