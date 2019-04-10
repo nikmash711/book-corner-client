@@ -56,6 +56,12 @@ User Stories:
 [] Admin can delete media
 
 [] Users can sign up (form)
+- first name
+- last name
+- email
+- cell phone
+- password
+- confirm password
 
 
 
@@ -65,3 +71,8 @@ Edge cases:
 Bug: Balance still shows even after renewing, and shows 0
 
 Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
+
+Need To Look Into: 
+- Texting Sharon when book is checked out (https://www.nexmo.com/pricing)
+- Node Mailer for resetting password (https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0)
+- Deploying

@@ -11,6 +11,14 @@ export default function LandingPage(props) {
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [cell, setCell] = useState("");
+
+
   let user = useContext(UserContext);
 
   //when the component mounts, check if the user is logged in (based on local storage) - if they are, hydrate the token from local storage 
@@ -71,23 +79,98 @@ export default function LandingPage(props) {
     loginUser(username, password);
   };
 
+  const handleSignUp = e => {
+    e.preventDefault();
+    fetch(`${API_BASE_URL}/users`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          email,
+          firstName,
+          lastName,
+          cell,
+          password: newPassword
+      })
+    })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then((user) => {
+      loginUser(email, newPassword);
+    })
+    .catch(err => {
+      setAuthError(err.message);
+  })
+  };
+
   if(user.loggedIn){
     return <Redirect to="/dashboard" />;
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        onChange={e => setUsername(e.target.value)}
-        placeholder="username"
-      />
-      <input
-        type="password"
-        onChange={e => setPassword(e.target.value)}
-        placeholder="password"
-      />
-      <input type="submit" />
-    </form>
+    <React.Fragment>
+      <form onSubmit={handleSubmit}>
+        <h2>Log In</h2>
+        <input
+          required
+          type="text"
+          onChange={e => setUsername(e.target.value)}
+          placeholder="username"
+        />
+        <input
+          required
+          type="password"
+          onChange={e => setPassword(e.target.value)}
+          placeholder="password"
+        />
+        <button type="submit">Log In</button>
+      </form>
+      <form onSubmit={handleSignUp}>
+        <h2>Sign Up</h2>
+        <input
+          required
+          type="text"
+          onChange={e => setFirstName(e.target.value)}
+          placeholder="First Name"
+        />
+        <input
+          required
+          type="text"
+          onChange={e => setLastName(e.target.value)}
+          placeholder="Last Name"
+        />
+        <input
+          required
+          type="email"
+          onChange={e => setEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <input
+          required
+          type="tel"
+          onChange={e => setCell(e.target.value)}
+          placeholder="Cell Phone Number"
+        />
+        <input
+          required
+          type="password"
+          onChange={e => setNewPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <input
+          required
+          type="password"
+          onChange={e => setConfirmPassword(e.target.value)}
+          placeholder="Confirm Password"
+        />
+        <button 
+          disabled={newPassword===confirmPassword ? false : true}
+          type="submit">
+          Sign Up
+        </button>
+      </form>
+      {authError && <span>{authError}</span>}
+    </React.Fragment>
   );
 }
