@@ -128,6 +128,14 @@ export default class SidebarNav extends React.Component{
                   }>
                   Checked Out
                 </button>
+                <button 
+                  onClick={() => {
+                    this.onSetSidebarOpen(false)
+                    this.props.changeCategory('allOverdueMedia')
+                    }
+                  }>
+                  Overdue
+                </button>
               </React.Fragment>
             }
               <button 

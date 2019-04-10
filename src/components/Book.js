@@ -203,8 +203,18 @@ export default function Book(props) {
       <img src={props.media.img} alt="media"/>
       <h2>{props.media.title}</h2>
       <h6>{props.media.type}</h6>
-      {props.category==='allMedia' && <h6 className={availability.toLowerCase()}>{availability}</h6>}
-      {(props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia') && <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>}
+      {
+        props.category==='allMedia' && 
+        <h6 className={availability.toLowerCase()}>{availability}</h6>
+      }
+      {
+        props.category==='allOverdueMedia' && 
+        <h6>Checked Out By: {props.media.checkedOutBy && props.media.checkedOutBy.firstName + " " + props.media.checkedOutBy.lastName}</h6>
+      }
+      {
+        (props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia' || props.category==='allOverdueMedia') && 
+        <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>
+      }
       {
         ableToCheckOut && props.category === "allMedia" &&
         <button
