@@ -198,12 +198,11 @@ export default function Book(props) {
       });
   }
 
-
-  console.log('the media is', props.media)
   return (
     <article className="book">
       <img src={props.media.img} alt="media"/>
       <h2>{props.media.title}</h2>
+      <h6>{props.media.type}</h6>
       {props.category==='allMedia' && <h6 className={availability.toLowerCase()}>{availability}</h6>}
       {(props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia') && <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>}
       {

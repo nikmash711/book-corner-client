@@ -22,6 +22,8 @@ export default function Dashboard(props) {
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
   const [users, setUsers] = useState();
   const [userFilter, setUserFilter] = useState('');
+  const [mediaFilter, setMediaFilter] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
   // const [newMediaImg, setNewMediaImg] = useState();
   // const [showForm, setShowForm] = useState(false);
 
@@ -77,7 +79,9 @@ export default function Dashboard(props) {
   // }, [props.match.path])
 
   const changeCategory = (category) => { 
-    console.log('category received:', category);
+    setMediaFilter('');
+    setUserFilter('');
+    setTypeFilter('');
     if(category==='allUsers'){
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/users`, {
@@ -125,8 +129,24 @@ export default function Dashboard(props) {
     }
   }
 
-  const generateBooks = (media) => {
-    return media.map((media, index)=>{
+  const generateBooks = (medias) => {
+    console.log('IN GENERATE BOOKS', medias);
+    let filteredMedia = medias;
+    if(category==='allMedia'){
+      filteredMedia = medias.filter(media=>media.title.toLowerCase().includes(mediaFilter) && media.type.includes(typeFilter))
+    }
+    return filteredMedia.sort(function(a, b){
+      if(a.title < b.title) { 
+        return -1; 
+      }
+      else if(a.title > b.title) {
+        return 1; 
+      }
+      else{
+        return 0;
+      }
+    })
+    .map((media, index)=>{
       return <Book 
         user={user.info}
         key={index}
@@ -162,7 +182,8 @@ export default function Dashboard(props) {
   };
 
   const generateDirectory = (users) => {
-    return users.filter(user=>user.firstName.toLowerCase().includes(userFilter) || user.lastName.toLowerCase().includes(userFilter))
+    return users
+    .filter(user=>user.firstName.toLowerCase().includes(userFilter) || user.lastName.toLowerCase().includes(userFilter))
     .sort(function(a, b){
       if(a.firstName < b.firstName) { 
         return -1; 
@@ -215,7 +236,6 @@ export default function Dashboard(props) {
           <section className="user-directory">
             <input
               type="search"
-              // value={userFilter}
               onChange={(e)=>setUserFilter(e.target.value)}
             />
             {generateDirectory(users)}
@@ -233,6 +253,19 @@ export default function Dashboard(props) {
         <main className="dashboard">
           {balance && <h2>Balance: ${balance}.00</h2>}
           <section className="booklist">
+            { category==='allMedia' && 
+            <React.Fragment>
+              <input
+                type="search"
+                onChange={(e)=>setMediaFilter(e.target.value)}
+              />
+              <select onChange={(e)=>setTypeFilter(e.target.value)}>
+                <option defaultValue value="">All Media</option>
+                <option value="book">Books</option>
+                <option value="dvd">DVDs</option>
+              </select>
+            </React.Fragment>
+            }
             {generateBooks(media)}
           </section>
         </main>
