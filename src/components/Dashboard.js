@@ -21,6 +21,7 @@ export default function Dashboard(props) {
   const [exceededHolds, setExceededHolds] = useState(false);
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
   const [users, setUsers] = useState();
+  const [userFilter, setUserFilter] = useState('');
   // const [newMediaImg, setNewMediaImg] = useState();
   // const [showForm, setShowForm] = useState(false);
 
@@ -161,24 +162,19 @@ export default function Dashboard(props) {
   };
 
   const generateDirectory = (users) => {
-    console.log('unsorted', users)
-    users.sort(function(a, b){
-      console.log('A.firstname', a.firstName)
-      console.log('b.firstname', b.firstName);
+    return users.filter(user=>user.firstName.toLowerCase().includes(userFilter) || user.lastName.toLowerCase().includes(userFilter))
+    .sort(function(a, b){
       if(a.firstName < b.firstName) { 
-        console.log('Less than')
         return -1; 
       }
       else if(a.firstName > b.firstName) {
-        console.log('Greater than') 
         return 1; 
       }
       else{
         return 0;
       }
     })
-    console.log('SORTED', users)
-    return users.map((user, index)=>{
+    .map((user, index)=>{
       let userBalance = calculateBalance(user.currentlyCheckedOut);
       return (
         <article key={index} className='user'>
@@ -217,6 +213,11 @@ export default function Dashboard(props) {
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
         <main className="dashboard">
           <section className="user-directory">
+            <input
+              type="search"
+              // value={userFilter}
+              onChange={(e)=>setUserFilter(e.target.value)}
+            />
             {generateDirectory(users)}
           </section>
         </main>
