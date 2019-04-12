@@ -18,6 +18,8 @@ export default function Book(props) {
    admin=true;
   }
 
+  let icon = props.media.type === "book" ? <i className="fas fa-book"></i> : <i className="fas fa-compact-disc"></i>;
+
   let dueDate = moment().add(14, 'days').calendar(null, {
     sameDay: 'MM/DD/YYYY',
     nextDay: 'MM/DD/YYYY',
@@ -199,25 +201,32 @@ export default function Book(props) {
   }
 
   return (
-    <article className="book">
-      <img src={props.media.img} alt="media"/>
-      <h2>{props.media.title}</h2>
-      <h6>{props.media.type}</h6>
+    <article className="media">
+      <section className="media-image-section">
+        <img className="media-image" src={props.media.img} alt="media"/>
+      </section>
+      <section className="media-info">
+      <section>
+        <h2 className="media-title">{props.media.title}</h2>
+        <span className="media-icon">{icon}</span>
+        <h4 className= "media-author">By: {props.media.author}</h4>
+      </section>
       {
         props.category==='allMedia' && 
-        <h6 className={availability.toLowerCase()}>{availability}</h6>
+        <h6 className={`media-subcontent ${availability.toLowerCase()}`}>{availability}</h6>
       }
       {
         props.category==='allOverdueMedia' && 
-        <h6>Checked Out By: {props.media.checkedOutBy && props.media.checkedOutBy.firstName + " " + props.media.checkedOutBy.lastName}</h6>
+        <h6 className="media-subcontent">Checked Out By: {props.media.checkedOutBy && props.media.checkedOutBy.firstName + " " + props.media.checkedOutBy.lastName}</h6>
       }
       {
         (props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia' || props.category==='allOverdueMedia') && 
-        <h6 className="unavailable">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>
+        <h6 className="unavailable media-subcontent">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>
       }
       {
         ableToCheckOut && props.category === "allMedia" &&
         <button
+          className="action-button-skin media-button"
           onClick={()=>checkOut(props.media.id)}
         >
           Check Out
@@ -226,6 +235,7 @@ export default function Book(props) {
       {
         ableToPlaceHold && props.category === "allMedia" &&
         <button
+          className="action-button-skin media-button"
           onClick={()=>placeHold(props.media.id, 'place')}
         >
           Place Hold
@@ -234,6 +244,7 @@ export default function Book(props) {
       {
         ableToCancelHold && 
         <button
+          className="action-button-skin media-button"
           onClick={()=>placeHold(props.media.id, 'cancel')}
         >
           Cancel Hold
@@ -241,17 +252,17 @@ export default function Book(props) {
       }
       {
         admin && props.category==='allRequests' && props.media.checkedOutBy &&
-        
         <a
-        href={`mailto:${props.media.checkedOutBy.email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
-        onClick={()=>readyForPickup(props.media.id, 'pickup')}
-        >
+          className="action-button-skin media-button"
+          href={`mailto:${props.media.checkedOutBy.email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
+          onClick={()=>readyForPickup(props.media.id, 'pickup')}>
           Ready For Pickup
         </a>
       }
       {
         admin && props.category==='allCheckedOutMedia' && props.media.checkedOutBy &&
         <a
+          className="action-button-skin media-button"
           href= {props.media.holdQueue.length ? `mailto:${props.media.holdQueue[0].email}?subject=${props.media.title} Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}` : "#"}
           onClick={()=>returnMedia(props.media.id, props.media.checkedOutBy.id)}
         >
@@ -259,14 +270,16 @@ export default function Book(props) {
         </a>
       }
       {
-        !admin && props.category==='myCheckedOutMedia' && !props.media.renewals && props.media.dueDate &&
+        !admin && (props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia') && !props.media.renewals && props.media.dueDate &&
         <button
           onClick={()=>renew(props.media.id)}
+          className="action-button-skin media-button"
         >
           Renew
         </button>
       }
       
+      </section>
     </article>
   );
 }

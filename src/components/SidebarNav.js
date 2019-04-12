@@ -51,7 +51,7 @@ export default class SidebarNav extends React.Component{
           {
             <nav className="sidebar" style={{display: `${!this.state.sidebarOpen && !this.state.sidebarDocked ? 'none' : 'inherit'}`}}>
               <button 
-                className='sidebar-button'
+                className='action-button-skin sidebar-button'
                 onClick={() => {
                   this.onSetSidebarOpen(false)
                   this.props.changeCategory('allMedia')
@@ -62,7 +62,7 @@ export default class SidebarNav extends React.Component{
             {!admin && 
             <React.Fragment>
             <button 
-              className='sidebar-button'
+              className='action-button-skin sidebar-button'
               onClick={() => {
                 this.onSetSidebarOpen(false)
                 this.props.changeCategory('myCheckedOutMedia')
@@ -71,7 +71,7 @@ export default class SidebarNav extends React.Component{
               Checked Out
             </button>
             <button 
-              className='sidebar-button'
+              className='action-button-skin sidebar-button'
               onClick={() => {
                 this.onSetSidebarOpen(false)
                 this.props.changeCategory('myCheckoutHistory')
@@ -80,7 +80,7 @@ export default class SidebarNav extends React.Component{
               Checkout History
             </button>
             <button 
-              className='sidebar-button'
+              className='action-button-skin sidebar-button'
               onClick={() => {
                 this.onSetSidebarOpen(false)
                 this.props.changeCategory('myMediaOnHold')
@@ -89,7 +89,7 @@ export default class SidebarNav extends React.Component{
               On Hold
             </button>
             <button 
-              className='sidebar-button'
+              className='action-button-skin sidebar-button'
               onClick={() => {
                 this.onSetSidebarOpen(false)
                 this.props.changeCategory('myOverdueMedia')
@@ -102,7 +102,7 @@ export default class SidebarNav extends React.Component{
               {admin && 
               <React.Fragment>
                 <button 
-                  className='sidebar-button'
+                  className='action-button-skin sidebar-button'
                   onClick={() => {
                     this.onSetSidebarOpen(false)
                     this.props.changeCategory('addMedia')
@@ -111,7 +111,7 @@ export default class SidebarNav extends React.Component{
                   Add Media
                 </button>
                 <button 
-                  className='sidebar-button'
+                  className='action-button-skin sidebar-button'
                   onClick={() => {
                     this.onSetSidebarOpen(false)
                     this.props.changeCategory('allUsers')
@@ -120,7 +120,7 @@ export default class SidebarNav extends React.Component{
                   User Directory 
                 </button>
                 <button 
-                  className='sidebar-button'
+                  className='action-button-skin sidebar-button'
                   onClick={() => {
                     this.onSetSidebarOpen(false)
                     this.props.changeCategory('allRequests')
@@ -129,7 +129,7 @@ export default class SidebarNav extends React.Component{
                   Requests
                 </button>
                 <button 
-                  className='sidebar-button'
+                  className='action-button-skin sidebar-button'
                   onClick={() => {
                     this.onSetSidebarOpen(false)
                     this.props.changeCategory('allCheckedOutMedia')
@@ -138,7 +138,7 @@ export default class SidebarNav extends React.Component{
                   Checked Out
                 </button>
                 <button 
-                  className='sidebar-button'
+                  className='action-button-skin sidebar-button'
                   onClick={() => {
                     this.onSetSidebarOpen(false)
                     this.props.changeCategory('allOverdueMedia')
@@ -149,7 +149,7 @@ export default class SidebarNav extends React.Component{
               </React.Fragment>
             }
               <button 
-                className='sidebar-button'
+                className='action-button-skin sidebar-button'
                 onClick={() => {
                   this.onSetSidebarOpen(false)
                   this.props.logOut()

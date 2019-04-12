@@ -80,3 +80,6 @@ Need To Look Into:
 - Texting Sharon when book is checked out (https://www.nexmo.com/pricing)
 - Node Mailer for resetting password (https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0)
 - Deploying
+
+In the future: 
+- User can rate books? 

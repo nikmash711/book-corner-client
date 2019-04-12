@@ -1,10 +1,60 @@
-.book{
-  padding: 0px 10px;
+@import "~./constants.scss";
+
+.media{
+  border-bottom: 1px solid $darkBlue;
+  display: flex;
+  font-family: $mainFont;
+  margin: 20px;
+  padding: 30px;
   text-align: center;
 }
 
-.book img{
-  width: 200px;
+.media-image-section{
+  width: 250px;
+}
+
+.media-image{
+  height: 250px;
+}
+
+.media-info{
+  // display:flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.media-title{
+  color: $darkBlue;
+  display: inline-block;
+  font-size: 2rem;
+}
+
+.media-icon{
+  font-size: 1.2rem;
+  padding-left: 5px;
+}
+
+.media-subcontent{
+  color: $darkBlue;
+  font-size: 1.3rem;
+  margin-top: 40px;
+}
+
+.media-button{
+  border-radius: 10px;
+  font-size: 1.2rem;
+  margin-top: 50px;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 150px;
+}
+
+.media-author{
+  color: $darkBlue;
+  padding-top: 5px;
 }
 
 .unavailable{
