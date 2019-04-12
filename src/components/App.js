@@ -9,6 +9,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
+          
           <Route exact path="/" component={LandingPage}></Route>
           <Route exact path="/dashboard" component={Dashboard}></Route>
           {/* <Route exact path="/catalog" component={Dashboard}></Route>

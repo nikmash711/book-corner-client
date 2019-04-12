@@ -1,5 +1,8 @@
+@import "~./constants.scss";
+
 .dashboard{
   margin-top: 55px;
+  background: $beige;
 }
 
 .booklist{
@@ -10,6 +13,6 @@
 
 @media(min-width: 900px){
   .dashboard{
-    margin-left: 200px;
+    margin-left: 250px;
   }
 }

@@ -49,19 +49,23 @@ User Stories:
 [x] Admin can view all overdue media
 - Displays media info along with due date and user who has it currently checked out 
 
-[] Admin can add new media (title, type, and image)
-
-[] Admin can edit existing media
-
-[] Admin can delete media
-
-[] Users can sign up (form)
+[x] Users can sign up (form)
 - first name
 - last name
 - email
 - cell phone
 - password
 - confirm password
+[x] - error shows if something is wrong with registration
+
+[x] User can log in 
+- error shows if something is wrong with logging in
+
+[] Admin can add new media (title, type, and image)
+
+[] Admin can edit existing media
+
+[] Admin can delete media
 
 
 
