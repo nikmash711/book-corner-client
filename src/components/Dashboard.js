@@ -9,6 +9,7 @@ import Book from './Book';
 import './dashboard.scss';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import Navbar from './Navbar';
 
 export default function Dashboard(props) {
 
@@ -239,23 +240,24 @@ export default function Dashboard(props) {
     return <Redirect to="/" />;
   }
 
-  else if(category==='addMedia'){
-    return (
-      <React.Fragment>
-        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-        <main className="dashboard">
-          <section className="add-media">
-          {/* <MediaForm/> */}
-          </section>
-        </main>
-      </React.Fragment>
-    );
-  }
+  // else if(category==='addMedia'){
+  //   return (
+  //     <React.Fragment>
+  //       <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+  //       <main className="dashboard">
+  //         <section className="add-media">
+  //         {/* <MediaForm/> */}
+  //         </section>
+  //       </main>
+  //     </React.Fragment>
+  //   );
+  // }
 
   else if (category==='allUsers' && users && user.info){
     return (
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+        <Navbar/>
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           <section className="user-directory">
@@ -276,6 +278,7 @@ export default function Dashboard(props) {
     return (
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+        <Navbar/>
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           {balance && <h2>Balance: ${balance}.00</h2>}

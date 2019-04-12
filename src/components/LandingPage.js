@@ -5,6 +5,7 @@ import {API_BASE_URL} from '../config';
 import {loadAuthToken, refreshAuthToken, storeAuthInfo} from '../local-storage';
 import {normalizeResponseErrors} from '../utils';
 import {UserContext} from "../context";
+import Navbar from './Navbar';
 
 export default function LandingPage(props) {
   const [username, setUsername] = useState("");
@@ -17,7 +18,6 @@ export default function LandingPage(props) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [cell, setCell] = useState("");
-
 
   let user = useContext(UserContext);
 
@@ -110,6 +110,8 @@ export default function LandingPage(props) {
 
   return (
     <React.Fragment>
+    <Navbar/>
+    <main>
       <form onSubmit={handleSubmit}>
         <h2>Log In</h2>
         <input
@@ -171,6 +173,7 @@ export default function LandingPage(props) {
         </button>
       </form>
       {authError && <span>{authError}</span>}
+    </main>
     </React.Fragment>
   );
 }

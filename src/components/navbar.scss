@@ -1,0 +1,20 @@
+@import "~./constants.scss";
+
+.navbar{
+  background: $darkBlue;
+  border-bottom: 5px solid $beige;
+  color: $beige;
+  height: 72px;
+}
+
+.navbar a {
+  color: $beige;
+  display: block;
+  font-size: 2.5rem;
+  padding: 8px 0px 0px 20px;
+  text-decoration: none;
+}
+
+.navbar .fa-book-open {
+  margin-right: 15px;
+}
