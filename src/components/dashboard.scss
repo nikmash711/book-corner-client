@@ -5,10 +5,17 @@
   background: $beige;
 }
 
-.booklist{
-  // display: flex;
-  // justify-content: space-around;
-  // flex-wrap: wrap;
+.page-title{
+  color: $darkBlue;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.nothing-here{
+  color: $darkBlue;
+  font-size: 2rem;
+  padding-top: 50px;
+  text-align: center;
 }
 
 @media(min-width: 900px){

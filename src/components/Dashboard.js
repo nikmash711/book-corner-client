@@ -35,6 +35,20 @@ export default function Dashboard(props) {
     }
   }
 
+  let titleKey = {
+    'allMedia': 'Catalog',
+    'myCheckedOutMedia': 'Checked Out', 
+    'myCheckoutHistory': 'Checkout History',
+    'myMediaOnHold': 'On Hold',
+    'myOverdueMedia': 'Overdue',
+    'allUsers': 'User Directory',
+    'allRequests': 'Requests',
+    'allCheckedOutMedia': 'Currently Checked Out Media',
+    'allOverdueMedia': 'All Overdue Media',
+  }
+
+  let eyes = <i className="fas fa-eye"></i>;
+
   const logOut = () => {
     clearAuthToken();
     user.loggedIn=false;
@@ -112,8 +126,11 @@ export default function Dashboard(props) {
         .then(res => res.json())
         .then(media => {
           if(category==='myOverdueMedia'){
-            setBalance(media.balance);
+            setBalance(media.balance!==0 ? media.balance : null);
             media = media.overdueMedia;
+          }
+          else{
+            setBalance(null);
           }
           setCategory(category);
           setMedia(media);
@@ -130,7 +147,6 @@ export default function Dashboard(props) {
   }
 
   const generateBooks = (medias) => {
-    console.log('IN GENERATE BOOKS', medias);
     let filteredMedia = medias;
     if(category==='allMedia'){
       filteredMedia = medias.filter(media=>media.title.toLowerCase().includes(mediaFilter) && media.type.includes(typeFilter))
@@ -233,6 +249,7 @@ export default function Dashboard(props) {
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
         <main className="dashboard">
+          {category && <h1 className="page-title">{titleKey[category]}</h1>}
           <section className="user-directory">
             <input
               type="search"
@@ -245,12 +262,12 @@ export default function Dashboard(props) {
     );
   }
 
-
   else if (media && user.info){
     return (
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
         <main className="dashboard">
+          {category && <h1 className="page-title">{titleKey[category]}</h1>}
           {balance && <h2>Balance: ${balance}.00</h2>}
           <section className="booklist">
             { category==='allMedia' && 
@@ -266,7 +283,8 @@ export default function Dashboard(props) {
               </select>
             </React.Fragment>
             }
-            {generateBooks(media)}
+            {media.length ? generateBooks(media) : 
+            <p className="nothing-here">{eyes}{eyes} Nothing To See Here For Now {eyes}{eyes}</p>}
           </section>
         </main>
       </React.Fragment>
