@@ -214,13 +214,13 @@ export default function Dashboard(props) {
     .map((user, index)=>{
       let userBalance = calculateBalance(user.currentlyCheckedOut);
       return (
-        <article key={index} className='user'>
-          <h3>{user.firstName + ' ' + user.lastName}</h3>
-          <p>{user.email}</p>
-          <p>{user.cell}</p>
+        <article key={index} className='user-card'>
+          <h2>{user.firstName + ' ' + user.lastName}</h2>
+          <h4>{user.email}</h4>
+          <h4>{user.cell}</h4>
           {
             userBalance>0 &&
-            <p>Balance: ${userBalance}.00</p>
+            <h4 className="unavailable">Balance: ${userBalance}.00</h4>
           }
         </article>
       )
@@ -253,7 +253,9 @@ export default function Dashboard(props) {
           <section className="user-directory">
             <input
               type="search"
-              onChange={(e)=>setUserFilter(e.target.value)}
+              placeholder="Search Here"
+              className="search"
+              onChange={(e)=>setUserFilter(e.target.value.toLowerCase())}
             />
             {generateDirectory(users)}
           </section>
@@ -273,10 +275,10 @@ export default function Dashboard(props) {
             { category==='allMedia' && 
             <div className="filter-options">
               <input
-                className="search-media"
+                className="search"
                 type="search"
                 placeholder="Search Here"
-                onChange={(e)=>setMediaFilter(e.target.value)}
+                onChange={(e)=>setMediaFilter(e.target.value.toLowerCase())}
               />
               <select 
                 className="select-media"

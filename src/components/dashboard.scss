@@ -23,7 +23,7 @@
   width: 300px;
 }
 
-.search-media{
+.search{
   border:1px solid $darkBlue;
   color: $darkBlue;
   font-size: 16px;
@@ -32,7 +32,7 @@
   width:200px;
 }
 
-.search-media::placeholder{
+.search::placeholder{
   font-style: italic;
   font-size: 16px;
 }
@@ -42,6 +42,27 @@
   font-size: 16px;
   margin-left: 6px;
   height:30px;
+}
+
+.user-directory{
+  margin: 20px auto;
+  width: 300px;
+  text-align: center;
+}
+
+.user-card{
+  border: 3px solid $darkBlue;
+  color: $darkBlue;
+  margin: 30px auto;
+  padding: 10px;
+}
+
+.user-card h4{
+  padding-top: 8px;
+}
+
+.user-directory .search{
+  width: 300px;
 }
 
 @media(min-width: 900px){

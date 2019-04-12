@@ -221,7 +221,7 @@ export default function Book(props) {
       }
       {
         (props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia' || props.category==='allOverdueMedia') && 
-        <h6 className="unavailable media-subcontent">{`Due: ${props.media.dueDate || 'Not Ready For Pickup'}`}</h6>
+        <h6 className="unavailable media-subcontent">{props.media.dueDate ? `Due: ${props.media.dueDate}` : 'Not Ready For Pickup'}</h6>
       }
       {
         ableToCheckOut && props.category === "allMedia" &&
