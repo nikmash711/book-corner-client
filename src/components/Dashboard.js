@@ -271,17 +271,21 @@ export default function Dashboard(props) {
           {balance && <h2>Balance: ${balance}.00</h2>}
           <section className="booklist">
             { category==='allMedia' && 
-            <React.Fragment>
+            <div className="filter-options">
               <input
+                className="search-media"
                 type="search"
+                placeholder="Search Here"
                 onChange={(e)=>setMediaFilter(e.target.value)}
               />
-              <select onChange={(e)=>setTypeFilter(e.target.value)}>
+              <select 
+                className="select-media"
+                onChange={(e)=>setTypeFilter(e.target.value)}>
                 <option defaultValue value="">All Media</option>
                 <option value="book">Books</option>
                 <option value="dvd">DVDs</option>
               </select>
-            </React.Fragment>
+            </div>
             }
             {media.length ? generateBooks(media) : 
             <p className="nothing-here">{eyes}{eyes} Nothing To See Here For Now {eyes}{eyes}</p>}

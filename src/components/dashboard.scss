@@ -18,6 +18,32 @@
   text-align: center;
 }
 
+.filter-options{
+  margin:20px auto;
+  width: 300px;
+}
+
+.search-media{
+  border:1px solid $darkBlue;
+  color: $darkBlue;
+  font-size: 16px;
+  height:30px;
+  padding-left: 10px;
+  width:200px;
+}
+
+.search-media::placeholder{
+  font-style: italic;
+  font-size: 16px;
+}
+
+.select-media{
+  border:1px solid $darkBlue;
+  font-size: 16px;
+  margin-left: 6px;
+  height:30px;
+}
+
 @media(min-width: 900px){
   .dashboard{
     margin-left: 250px;
