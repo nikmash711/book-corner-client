@@ -5,7 +5,7 @@ import './navbar.scss';
 export default function Navbar(props){
   return(
     <nav className= 'navbar'>
-      <Link to="/"><i className="fas fa-book-open"></i>JewishBookCorner</Link>
+      <Link to="/">JewishBookCorner<i className="fas fa-book-open"></i></Link>
     </nav>
   )
 }

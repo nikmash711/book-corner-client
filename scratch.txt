@@ -67,7 +67,8 @@ User Stories:
 
 [] Admin can delete media
 
-
+[] Design is mobile friendly
+- Work on sidebar collapse and navbar font
 
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available

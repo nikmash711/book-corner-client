@@ -5,16 +5,18 @@
   border-bottom: 5px solid $beige;
   color: $beige;
   height: 72px;
+  position: fixed;
+  width: 100%;
 }
 
 .navbar a {
   color: $beige;
   display: block;
   font-size: 2.5rem;
-  padding: 8px 0px 0px 20px;
+  padding: 8px 0px 0px 60px;
   text-decoration: none;
 }
 
 .navbar .fa-book-open {
-  margin-right: 15px;
+  margin-left: 15px;
 }
