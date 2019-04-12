@@ -281,7 +281,7 @@ export default function Dashboard(props) {
         <Navbar/>
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
-          {balance && <h2>Balance: ${balance}.00</h2>}
+          {balance && <h2 className="unavailable total-balance">Total Balance: ${balance}.00</h2>}
           <section className="booklist">
             { category==='allMedia' && 
             <div className="filter-options">
