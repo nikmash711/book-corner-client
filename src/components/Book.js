@@ -18,6 +18,21 @@ export default function Book(props) {
    admin=true;
   }
 
+  const dayNow =  
+  moment().calendar(null, {
+    sameDay: 'MM/DD/YYYY',
+    nextDay: 'MM/DD/YYYY',
+    nextWeek: 'MM/DD/YYYY',
+    lastDay: 'MM/DD/YYYY',
+    lastWeek:'MM/DD/YYYY',
+    sameElse: 'MM/DD/YYYY'
+  });
+
+  let now = moment(dayNow, 'MM/DD/YYYY');
+  let due = moment(props.media.dueDate, 'MM/DD/YYYY');
+
+  let tense = moment.duration(now.diff(due)).asDays()> 0 ? 'Was Due' : 'Due'; 
+
   let icon = props.media.type === "book" ? <i className="fas fa-book"></i> : <i className="fas fa-compact-disc"></i>;
 
   let dueDate = moment().add(14, 'days').calendar(null, {
@@ -216,12 +231,19 @@ export default function Book(props) {
         <h6 className={`media-subcontent ${availability.toLowerCase()}`}>{availability}</h6>
       }
       {
-        props.category==='allOverdueMedia' && 
+        (props.category==='allOverdueMedia' || props.category==='allCheckedOutMedia') && 
+        <React.Fragment>
         <h6 className="media-subcontent">Checked Out By: {props.media.checkedOutBy && props.media.checkedOutBy.firstName + " " + props.media.checkedOutBy.lastName}</h6>
+        <h6 className="unavailable media-subcontent">{`${tense}: ${props.media.dueDate}`}</h6>
+        </React.Fragment>
       }
       {
-        (props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia' || props.category==='allOverdueMedia') && 
-        <h6 className="unavailable media-subcontent">{props.media.dueDate ? `Due: ${props.media.dueDate}` : 'Not Ready For Pickup'}</h6>
+        admin && props.category==='allRequests' && 
+        <h6 className="media-subcontent">Requested By: {props.media.checkedOutBy && props.media.checkedOutBy.firstName + " " + props.media.checkedOutBy.lastName}</h6>
+      }
+      {
+        (props.category==='myCheckedOutMedia' || props.category==='myOverdueMedia') && 
+        <h6 className="unavailable media-subcontent">{props.media.dueDate ? `${tense}: ${props.media.dueDate}` : 'Not Ready For Pickup'}</h6>
       }
       {
         ableToCheckOut && props.category === "allMedia" &&

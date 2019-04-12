@@ -184,15 +184,23 @@ export default function Dashboard(props) {
     sameElse: 'MM/DD/YYYY'
   });
 
-  const calculateBalance = (overdueMedia) => {
+  const calculateBalance = (currentlyCheckedOut) => {
     let sum = 0;
 
-    for(let media of overdueMedia){
+    for(let media of currentlyCheckedOut){
       let now = moment(dayNow, 'MM/DD/YYYY');
-      let due = moment(media.dueDate, 'MM/DD/YYYY');
-      //Difference in number of days
-      let diff = moment.duration(now.diff(due)).asDays();
-      sum+=diff;
+      let due = null;
+      if(media.dueDate){
+        due = moment(media.dueDate, 'MM/DD/YYYY');
+        console.log('NOw', now, 'DUE', due)
+        //Difference in number of days
+        let diff = moment.duration(now.diff(due)).asDays();
+        //might not be overdue
+        if(diff>0){
+          sum+=diff;
+        }
+        
+      }
     }
     return sum;
   };
