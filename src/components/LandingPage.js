@@ -6,6 +6,8 @@ import {loadAuthToken, refreshAuthToken, storeAuthInfo} from '../local-storage';
 import {normalizeResponseErrors} from '../utils';
 import {UserContext} from "../context";
 import Navbar from './Navbar';
+import About from './About';
+import './landing-page.scss';
 
 export default function LandingPage(props) {
   const [username, setUsername] = useState("");
@@ -111,68 +113,100 @@ export default function LandingPage(props) {
   return (
     <React.Fragment>
     <Navbar/>
-    <main>
-      <form onSubmit={handleSubmit}>
-        <h2>Log In</h2>
-        <input
-          required
-          type="text"
-          onChange={e => setUsername(e.target.value)}
-          placeholder="username"
-        />
-        <input
-          required
-          type="password"
-          onChange={e => setPassword(e.target.value)}
-          placeholder="password"
-        />
-        <button type="submit">Log In</button>
+    <main className="onboarding-page">
+      <form className="onboarding-form" onSubmit={handleSubmit}>
+        <h1 className="onboarding-form-title">Log In</h1>
+        <section className="field">
+          <label htmlFor="email">Email</label>
+          <input
+            required
+            id="email"
+            type="text"
+            onChange={e => setUsername(e.target.value)}
+            placeholder="Email"
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="password">Password</label>
+          <input
+            required
+            id="password"
+            type="password"
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </section>
+        <button className="onboarding-form-button" type="submit">Log In</button>
       </form>
-      <form onSubmit={handleSignUp}>
-        <h2>Sign Up</h2>
-        <input
+      <form className="onboarding-form" onSubmit={handleSignUp}>
+        <h1 className="onboarding-form-title">Sign Up</h1>
+        <section className="field">
+          <label htmlFor="first">First</label>
+          <input
           required
           type="text"
           onChange={e => setFirstName(e.target.value)}
           placeholder="First Name"
-        />
-        <input
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="last">Last</label>
+          <input
           required
           type="text"
+          id="last"
           onChange={e => setLastName(e.target.value)}
           placeholder="Last Name"
-        />
-        <input
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="new-email">Email</label>
+          <input
           required
+          id="new-email"
           type="email"
           onChange={e => setEmail(e.target.value)}
           placeholder="Email"
-        />
-        <input
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="tel">Cell</label>
+          <input
           required
+          id="tel"
           type="tel"
           onChange={e => setCell(e.target.value)}
           placeholder="Cell Phone Number"
-        />
-        <input
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="new-password">Password</label>
+          <input
           required
+          id="new-password"
           type="password"
           onChange={e => setNewPassword(e.target.value)}
           placeholder="Password"
-        />
-        <input
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="confirm">Confirm</label>
+          <input
           required
+          id="confirm"
           type="password"
           onChange={e => setConfirmPassword(e.target.value)}
           placeholder="Confirm Password"
-        />
-        <button 
+          />
+        </section>
+        <button           
+          className="onboarding-form-button"
           disabled={newPassword===confirmPassword ? false : true}
           type="submit">
-          Sign Up
-        </button>
+          Sign Up</button> 
       </form>
       {authError && <span>{authError}</span>}
+      <About/>
     </main>
     </React.Fragment>
   );

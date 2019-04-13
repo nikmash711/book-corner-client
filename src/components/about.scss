@@ -1,0 +1,43 @@
+@import "~./constants.scss";
+
+.about-title{
+  color: $darkBlue;
+  font-size: 3rem;
+  text-align: center;
+  padding: 20px 0px;
+}
+
+.intro {
+  color: $darkBlue;
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 40px;
+}
+
+.rules-title{
+  color: $darkBlue;
+  font-size: 2rem;
+  text-align: center;
+  padding: 20px 0px;
+  text-decoration: underline;
+}
+
+.rule{
+  color: $darkBlue;
+  font-size: 1.5rem;
+  line-height: 40px;
+}
+
+@media(min-width: 700px){
+  .about{
+    width: 650px;
+    margin: auto;
+  }
+}
+
+@media(min-width: 900px){
+  .about{
+    width: 850px;
+    margin: auto;
+  }
+}

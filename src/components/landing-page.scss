@@ -1,0 +1,44 @@
+@import "~./constants.scss";
+
+.onboarding-page{
+  padding-top: 80px;
+}
+
+.onboarding-form{
+  background: $darkBlue;
+  color: $beige;
+  margin: 30px auto;
+  padding: 10px;
+  width: 310px;
+}
+
+.onboarding-form input{ 
+  background: $beige;
+  font-size: 16px;
+}
+
+.field{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.onboarding-form-title{
+  text-align: center;
+  padding: 10px 0px;
+}
+
+.field label{
+  font-size: 18px;
+}
+
+.onboarding-form-button{
+  background: $beige;
+  border-radius: 10px;
+  display: block;
+  font-size: 1.2rem;
+  margin: 10px auto;
+  padding: 10px;
+  text-align: center;
+  width: 100px;
+}
