@@ -10,7 +10,8 @@ import './onboarding.scss';
 export default function Onboarding(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [authError, setAuthError] = useState(null);
+  const [loginError, setLoginError] = useState(null);
+  const [signupError, setSignupError] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -61,7 +62,7 @@ export default function Onboarding(props) {
       user.loggedIn = true;
       const decodedToken = jwtDecode(authToken);
       user.info = (decodedToken.user);
-      setAuthError(null);
+      setLoginError(null);
       setRedirect(true);
     })
     .catch(err => {
@@ -69,8 +70,8 @@ export default function Onboarding(props) {
       const message =
           status === 401
               ? 'Incorrect username or password'
-              : 'Unable to login at this time, please try again soon';
-      setAuthError(message);
+              : 'Unable to login, please try again soon!';
+      setLoginError(message);
   })
   };
 
@@ -98,20 +99,22 @@ export default function Onboarding(props) {
     .then(res => res.json())
     .then((user) => {
       loginUser(email, newPassword);
+      setSignupError(null);
     })
     .catch(err => {
-      setAuthError(err.message);
+      setSignupError(err.message);
   })
   };
 
   if(user.loggedIn){
     return <Redirect to="/dashboard" />;
   }
-
+  
+  if(props.form==='login'){
   return (
-    <main className="onboarding-page">
       <form className="onboarding-form" onSubmit={handleSubmit}>
         <h1 className="onboarding-form-title">Log In</h1>
+        {loginError && <h5 className="onboarding-error">{loginError}</h5>}
         <section className="field">
           <label htmlFor="email">Email</label>
           <input
@@ -134,74 +137,78 @@ export default function Onboarding(props) {
         </section>
         <button className="onboarding-form-button" type="submit">Log In</button>
       </form>
-      <form className="onboarding-form" onSubmit={handleSignUp}>
-        <h1 className="onboarding-form-title">Sign Up</h1>
-        <section className="field">
-          <label htmlFor="first">First</label>
-          <input
-          required
-          type="text"
-          onChange={e => setFirstName(e.target.value)}
-          placeholder="First Name"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="last">Last</label>
-          <input
-          required
-          type="text"
-          id="last"
-          onChange={e => setLastName(e.target.value)}
-          placeholder="Last Name"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="new-email">Email</label>
-          <input
-          required
-          id="new-email"
-          type="email"
-          onChange={e => setEmail(e.target.value)}
-          placeholder="Email"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="tel">Cell</label>
-          <input
-          required
-          id="tel"
-          type="tel"
-          onChange={e => setCell(e.target.value)}
-          placeholder="Cell Phone Number"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="new-password">Password</label>
-          <input
-          required
-          id="new-password"
-          type="password"
-          onChange={e => setNewPassword(e.target.value)}
-          placeholder="Password"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="confirm">Confirm</label>
-          <input
-          required
-          id="confirm"
-          type="password"
-          onChange={e => setConfirmPassword(e.target.value)}
-          placeholder="Confirm Password"
-          />
-        </section>
-        <button           
-          className="onboarding-form-button"
-          disabled={newPassword===confirmPassword ? false : true}
-          type="submit">
-          Sign Up</button> 
-      </form>
-      {authError && <span>{authError}</span>}
-    </main>
   );
+  }
+  else{
+    return(
+      <form className="onboarding-form" onSubmit={handleSignUp}>
+      <h1 className="onboarding-form-title">Sign Up</h1>
+      {signupError && <h5 className="onboarding-error">{signupError}</h5>}
+      <section className="field">
+        <label htmlFor="first">First</label>
+        <input
+        required
+        type="text"
+        onChange={e => setFirstName(e.target.value)}
+        placeholder="First Name"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="last">Last</label>
+        <input
+        required
+        type="text"
+        id="last"
+        onChange={e => setLastName(e.target.value)}
+        placeholder="Last Name"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="new-email">Email</label>
+        <input
+        required
+        id="new-email"
+        type="email"
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Email"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="tel">Cell</label>
+        <input
+        required
+        id="tel"
+        type="tel"
+        onChange={e => setCell(e.target.value)}
+        placeholder="Cell Phone Number"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="new-password">Password</label>
+        <input
+        required
+        id="new-password"
+        type="password"
+        onChange={e => setNewPassword(e.target.value)}
+        placeholder="Password"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="confirm">Confirm</label>
+        <input
+        required
+        id="confirm"
+        type="password"
+        onChange={e => setConfirmPassword(e.target.value)}
+        placeholder="Confirm Password"
+        />
+      </section>
+      <button           
+        className="onboarding-form-button"
+        disabled={newPassword===confirmPassword ? false : true}
+        type="submit">
+        Sign Up</button> 
+    </form>
+    )
+  }
 }

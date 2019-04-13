@@ -1,9 +1,9 @@
 @import "~./constants.scss";
 
-
 .onboarding-form{
   background: $darkBlue;
   color: $beige;
+  height: fit-content;
   margin: 30px auto;
   padding: 10px;
   width: 310px;
@@ -12,6 +12,7 @@
 .onboarding-form input{ 
   background: $beige;
   font-size: 16px;
+  padding: 5px;
 }
 
 .field{
@@ -38,4 +39,11 @@
   padding: 10px;
   text-align: center;
   width: 100px;
+}
+
+.onboarding-error{
+  padding: 3px;
+  color: red;
+  background: $beige;
+  text-align: center;
 }

@@ -18,11 +18,15 @@
   line-height: 40px;
 }
 
+.rules-section{
+  border-top:4px solid $darkBlue;
+  padding: 40px 10px;
+}
+
 .rules-title{
   color: $darkBlue;
   font-size: 2rem;
   text-align: center;
-  padding: 20px 0px;
   text-decoration: underline;
 }
 
