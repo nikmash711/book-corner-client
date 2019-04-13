@@ -10,6 +10,7 @@ import './dashboard.scss';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import Navbar from './Navbar';
+import About from './About';
 
 export default function Dashboard(props) {
 
@@ -97,7 +98,11 @@ export default function Dashboard(props) {
     setMediaFilter('');
     setUserFilter('');
     setTypeFilter('');
-    if(category==='allUsers'){
+    if(category==='About'){
+      setCategory('About')
+      return null;
+    }
+    else if(category==='allUsers'){
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/users`, {
         method: 'GET',
@@ -269,6 +274,18 @@ export default function Dashboard(props) {
             />
             {generateDirectory(users)}
           </section>
+        </main>
+      </React.Fragment>
+    );
+  }
+
+  else if (category==='About'){
+    return (
+      <React.Fragment>
+        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+        <Navbar/>
+        <main className="dashboard">
+          <About/>
         </main>
       </React.Fragment>
     );

@@ -152,6 +152,15 @@ export default class SidebarNav extends React.Component{
                 className='action-button-skin sidebar-button'
                 onClick={() => {
                   this.onSetSidebarOpen(false)
+                  this.props.changeCategory('About')
+                  }
+                }>
+                About
+              </button>
+              <button 
+                className='action-button-skin sidebar-button'
+                onClick={() => {
+                  this.onSetSidebarOpen(false)
                   this.props.logOut()
                   }
                 }>

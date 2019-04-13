@@ -5,11 +5,9 @@ import {API_BASE_URL} from '../config';
 import {loadAuthToken, refreshAuthToken, storeAuthInfo} from '../local-storage';
 import {normalizeResponseErrors} from '../utils';
 import {UserContext} from "../context";
-import Navbar from './Navbar';
-import About from './About';
-import './landing-page.scss';
+import './onboarding.scss';
 
-export default function LandingPage(props) {
+export default function Onboarding(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState(null);
@@ -111,8 +109,6 @@ export default function LandingPage(props) {
   }
 
   return (
-    <React.Fragment>
-    <Navbar/>
     <main className="onboarding-page">
       <form className="onboarding-form" onSubmit={handleSubmit}>
         <h1 className="onboarding-form-title">Log In</h1>
@@ -206,8 +202,6 @@ export default function LandingPage(props) {
           Sign Up</button> 
       </form>
       {authError && <span>{authError}</span>}
-      <About/>
     </main>
-    </React.Fragment>
   );
 }
