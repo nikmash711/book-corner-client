@@ -23,24 +23,24 @@ User Stories:
 - User can see which books they have on hold under "on hold" 
 - User can cancel hold if they want to
 
-[x] User can see a history of checked out books 
+[x] User can see a history of their checked out books 
 
 [x]Admin can see and manage requests, returns, holds 
-[x] "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup" (which will then email the user that their book is ready)
-[x] "Checked Out": Media with a due date. Admin can change status of media (if user returns it) here. 
-[x] Check if media being returned has a hold queue, make a request to '/availability/:mediaId/:userId' to return, and in the same async call, make a request to '/pickup/:mediaId' for the next user on the hold queue to get the book (and this will also consequently send an email to that user that their book is ready for pickup)
-[x] Balance is cleared when book is returned (is this problematic?)
+- [x] "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup" (which will then email the user that their book is ready)
+- [x] "Checked Out": Media with a due date. Admin can change status of media (if user returns it) here. 
+- [x] Check if media being returned has a hold queue, make a request to '/availability/:mediaId/:userId' to return, and in the same async call, make a request to '/pickup/:mediaId' for the next user on the hold queue to get the book (and this will also consequently send an email to that user that their book is ready for pickup)
+- [x] Balance is cleared when book is returned (is this problematic?)
 
 [x] User can renew a media
 - If they currently checked it out 
 - It has a due date
 - Cannot renew a given media more than once
-- They can still renew it once if its overdue (?)
+- They can still renew it once if its overdue (is this problematic?)
 - Renews for 2 weeks
 
 [x] User can see which media they have overdue
 
-[x] User can see balance
+[x] User can see their balance
 
 [x] Admin can see directory of users with their info and if they have an outstanding balance
 - Search functionality 
@@ -56,19 +56,27 @@ User Stories:
 - cell phone
 - password
 - confirm password
-[x] - error shows if something is wrong with registration
+- error shows if something is wrong with registration
 
 [x] User can log in 
 - error shows if something is wrong with logging in
 
-[] Admin can add new media (title, type, and image)
+STILL NEED TO DO: 
+
+[] Admin can add new media (title, type, and image link)
 
 [] Admin can edit existing media
 
 [] Admin can delete media
 
 [] Design is mobile friendly
-- Work on sidebar collapse and navbar font
+- Work on sidebar collapse and font everywhere
+
+[] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
+
+[] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in
+
+[] User can edit their account info 
 
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available
@@ -78,8 +86,6 @@ Bug: Balance still shows even after renewing, and shows 0
 Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
 
 Need To Look Into: 
-- Texting Sharon when book is checked out (https://www.nexmo.com/pricing)
-- Node Mailer for resetting password (https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0)
 - Deploying
 
 In the future: 

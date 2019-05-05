@@ -11,6 +11,7 @@ import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import Navbar from './Navbar';
 import About from './About';
+import MediaForm from './MediaForm';
 
 export default function Dashboard(props) {
 
@@ -26,6 +27,7 @@ export default function Dashboard(props) {
   const [userFilter, setUserFilter] = useState('');
   const [mediaFilter, setMediaFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
+  const [showMediaForm, setShowMediaForm] = useState(false);
   // const [newMediaImg, setNewMediaImg] = useState();
   // const [showForm, setShowForm] = useState(false);
 
@@ -241,22 +243,14 @@ export default function Dashboard(props) {
     })
   }
 
+  const saveMedia = () => {
+    setShowMediaForm(false);
+    changeCategory('allMedia');
+  }
+
   if(!user.loggedIn || redirect){
     return <Redirect to="/" />;
   }
-
-  // else if(category==='addMedia'){
-  //   return (
-  //     <React.Fragment>
-  //       <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-  //       <main className="dashboard">
-  //         <section className="add-media">
-  //         {/* <MediaForm/> */}
-  //         </section>
-  //       </main>
-  //     </React.Fragment>
-  //   );
-  // }
 
   else if (category==='allUsers' && users && user.info){
     return (
@@ -292,6 +286,7 @@ export default function Dashboard(props) {
   }
 
   else if (media && user.info){
+    const authToken = loadAuthToken();
     return (
       <React.Fragment>
         <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
@@ -299,6 +294,14 @@ export default function Dashboard(props) {
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           {balance && <h2 className="unavailable total-balance">Total Balance: ${balance}.00</h2>}
+          <button onClick={()=>setShowMediaForm(true)}>Add New Media</button>
+          <MediaForm 
+            show={showMediaForm} 
+            authToken={authToken}
+            saveMedia={()=>saveMedia()} 
+            cancelMedia={()=>setShowMediaForm(false)} 
+          />
+
           <section className="booklist">
             { category==='allMedia' && 
             <div className="filter-options">
