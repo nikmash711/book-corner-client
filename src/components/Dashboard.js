@@ -28,8 +28,7 @@ export default function Dashboard(props) {
   const [mediaFilter, setMediaFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [showMediaForm, setShowMediaForm] = useState(false);
-  // const [newMediaImg, setNewMediaImg] = useState();
-  // const [showForm, setShowForm] = useState(false);
+  const [currentMedia, setCurrentMedia] = useState("");
 
   let admin=false;
   if(user.info)
@@ -172,6 +171,8 @@ export default function Dashboard(props) {
     })
     .map((media, index)=>{
       return <Book 
+        setShowMediaForm={e=>setShowMediaForm(true)}
+        setCurrentMedia={e=>setCurrentMedia(media)}
         user={user.info}
         key={index}
         exceededCheckOuts={exceededCheckOuts} 
@@ -294,10 +295,11 @@ export default function Dashboard(props) {
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           {balance && <h2 className="unavailable total-balance">Total Balance: ${balance}.00</h2>}
-          <button onClick={()=>setShowMediaForm(true)}>Add New Media</button>
+          {admin && <button onClick={()=>setShowMediaForm(true)}>Add New Media</button>}
           <MediaForm 
             show={showMediaForm} 
             authToken={authToken}
+            currentMedia={currentMedia}
             saveMedia={()=>saveMedia()} 
             cancelMedia={()=>setShowMediaForm(false)} 
           />

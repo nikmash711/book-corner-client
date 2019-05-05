@@ -61,9 +61,10 @@ User Stories:
 [x] User can log in 
 - error shows if something is wrong with logging in
 
-STILL NEED TO DO: 
+[x] Admin can add new media (title, type, and image link)
+- Catalog refreshes when new media is added
 
-[] Admin can add new media (title, type, and image link)
+STILL NEED TO DO: 
 
 [] Admin can edit existing media
 

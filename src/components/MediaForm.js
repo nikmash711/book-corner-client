@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from '../utils';
 
 export default function MediaForm(props) {
+  console.log('IN MEDIA FORM, PROPS ARE', props);
+
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [img, setImage] = useState("");
   const [type, setType] = useState("book");
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    if(props.show){
+      setTitle(props.currentMedia.title || "");
+      setAuthor(props.currentMedia.author || "");
+      setImage(props.currentMedia.img || "");
+      setType(props.currentMedia.type || "book");
+    }
+  }, [props.show]);
+
   const handleSubmit = e => {
-    console.log('IN SUBMIT')
+    let method = props.currentMedia ? "PUT" : "POST";
+    let params = props.currentMedia ? props.currentMedia.id : "";
+
     e.preventDefault();
-    fetch(`${API_BASE_URL}/media`, {
-      method: 'POST',
+    fetch(`${API_BASE_URL}/media/${params}`, {
+      method,
       headers: {
         'Accept': 'application/json',
         Authorization: `Bearer ${props.authToken}`,
@@ -37,6 +50,8 @@ export default function MediaForm(props) {
   })
   };
 
+  console.log('type is', type);
+  
   return (
     <Modal
       show={props.show}
@@ -57,6 +72,7 @@ export default function MediaForm(props) {
               type="text"
               onChange={e => setTitle(e.target.value)}
               placeholder="Title"
+              value={title}
             />
           </section>
           <section className="field">
@@ -67,6 +83,7 @@ export default function MediaForm(props) {
               type="text"
               onChange={e => setAuthor(e.target.value)}
               placeholder="Author"
+              value={author}
             />
           </section>
           <section className="field">
@@ -77,14 +94,16 @@ export default function MediaForm(props) {
               type="text"
               onChange={e => setImage(e.target.value)}
               placeholder="Image"
+              value={img}
             />
           </section>
           <section className="field">
             <label htmlFor="type">Type</label>
             <select
+              value={type}
               className="select-media"
               onChange={(e) => setType(e.target.value)}>
-              <option defaultValue value="book">Book</option>
+              <option value="book">Book</option>
               <option value="dvd">DVD</option>
             </select>
           </section>

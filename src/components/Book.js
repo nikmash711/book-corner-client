@@ -215,6 +215,11 @@ export default function Book(props) {
       });
   }
 
+  const handleEdit = () => {
+    props.setShowMediaForm();
+    props.setCurrentMedia();
+  }
+
   return (
     <article className="media">
       <section className="media-image-section">
@@ -223,6 +228,7 @@ export default function Book(props) {
       <section className="media-info">
       <section>
         <h2 className="media-title">{props.media.title}</h2>
+        {admin && <button onClick={handleEdit}><i className="fas fa-edit"></i></button>}
         <span className="media-icon">{icon}</span>
         <h4 className= "media-author">By: {props.media.author}</h4>
       </section>
