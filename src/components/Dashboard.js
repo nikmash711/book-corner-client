@@ -249,6 +249,11 @@ export default function Dashboard(props) {
     changeCategory('allMedia');
   }
 
+  const addNewMedia = () => {
+    setCurrentMedia(null);
+    setShowMediaForm(true);
+  }
+
   if(!user.loggedIn || redirect){
     return <Redirect to="/" />;
   }
@@ -295,7 +300,7 @@ export default function Dashboard(props) {
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           {balance && <h2 className="unavailable total-balance">Total Balance: ${balance}.00</h2>}
-          {admin && <button onClick={()=>setShowMediaForm(true)}>Add New Media</button>}
+          {admin && <button onClick={()=>addNewMedia()}>Add New Media</button>}
           <MediaForm 
             show={showMediaForm} 
             authToken={authToken}

@@ -64,9 +64,9 @@ User Stories:
 [x] Admin can add new media (title, type, and image link)
 - Catalog refreshes when new media is added
 
-STILL NEED TO DO: 
+[x] Admin can edit existing media
 
-[] Admin can edit existing media
+STILL NEED TO DO: 
 
 [] Admin can delete media
 

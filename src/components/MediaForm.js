@@ -13,11 +13,17 @@ export default function MediaForm(props) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if(props.show){
-      setTitle(props.currentMedia.title || "");
-      setAuthor(props.currentMedia.author || "");
-      setImage(props.currentMedia.img || "");
-      setType(props.currentMedia.type || "book");
+    if(props.show && props.currentMedia){
+      setTitle(props.currentMedia.title);
+      setAuthor(props.currentMedia.author);
+      setImage(props.currentMedia.img);
+      setType(props.currentMedia.type );
+    }
+    else {
+      setTitle("");
+      setAuthor("");
+      setImage("");
+      setType("book");      
     }
   }, [props.show]);
 
