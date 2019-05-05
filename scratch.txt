@@ -69,6 +69,12 @@ User Stories:
 [x] Admin can delete media
 - Asks to confirm before deleting
 
+[x] User can edit their account info 
+- Their basics
+- Their password
+- Show a green signal that it updated successfully (NEED TO DO)
+- Clear values for password after submitted (NEED TO DO)
+
 STILL NEED TO DO: 
 
 [] Design is mobile friendly
@@ -79,7 +85,6 @@ STILL NEED TO DO:
 
 [] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in
 
-[] User can edit their account info 
 
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available

@@ -20,7 +20,7 @@ export default function Onboarding(props) {
   const handleUpdateAccount = e => {
     e.preventDefault();
     const authToken = loadAuthToken();
-    fetch(`${API_BASE_URL}/users/${props.user.info.id}`, {
+    fetch(`${API_BASE_URL}/users/account/${props.user.info.id}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -45,7 +45,34 @@ export default function Onboarding(props) {
       })
   };
 
+  const handleUpdatePassword = e => {
+    e.preventDefault();
+    const authToken = loadAuthToken();
+    fetch(`${API_BASE_URL}/users/password/${props.user.info.id}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`
+      },
+      body: JSON.stringify({
+        oldPassword,
+        newPassword
+      })
+    })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then((user) => {
+        setUpdatePasswordError(null);
+        props.refresh();
+      })
+      .catch(err => {
+        setUpdatePasswordError(err.message);
+      })
+  };
+
   return (
+    <>
     <form className="onboarding-form" onSubmit={handleUpdateAccount}>
       <h1 className="onboarding-form-title">Update Account</h1>
       {updateAccountError && <h5 className="onboarding-error">{updateAccountError}</h5>}
@@ -98,5 +125,46 @@ export default function Onboarding(props) {
         Update
       </button>
     </form>
+    
+    <form className="onboarding-form" onSubmit={handleUpdatePassword}>
+      <h1 className="onboarding-form-title">Update Password</h1>
+      {updatePasswordError && <h5 className="onboarding-error">{updatePasswordError}</h5>}
+      <section className="field">
+        <label htmlFor="oldPassword">Old Password</label>
+        <input
+          required
+          type="password"
+          onChange={e => setOldPassword(e.target.value)}
+          placeholder="Old Password"
+          id="oldPassword"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="newPassword">New Password</label>
+        <input
+          required
+          type="password"
+          id="newPassword"
+          onChange={e => setNewPassword(e.target.value)}
+          placeholder="New Password"
+        />
+      </section>
+      <section className="field">
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          required
+          id="confirmPassword"
+          type="password"
+          onChange={e => setConfirmPassword(e.target.value)}
+          placeholder="Confirm Password"
+        />
+      </section>
+      <button
+        className="onboarding-form-button"
+        type="submit">
+        Update Password
+      </button>
+    </form>
+    </>
   )
 }
