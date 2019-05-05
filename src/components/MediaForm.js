@@ -52,11 +52,31 @@ export default function MediaForm(props) {
       props.saveMedia();
     })
     .catch(err => {
+      console.log("ERROR", err)
       setError(err.message);
   })
   };
 
-  console.log('type is', type);
+  const handleDeleteMedia = e => {
+    e.preventDefault();
+    fetch(`${API_BASE_URL}/media/${props.currentMedia.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        Authorization: `Bearer ${props.authToken}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => normalizeResponseErrors(res))
+    // .then(res => res.json())
+    .then((media) => {
+      props.cancelMedia();
+    })
+    .catch(err => {
+      console.log("ERROR", err)
+      setError(err.message);
+  })
+  };
   
   return (
     <Modal
@@ -122,6 +142,11 @@ export default function MediaForm(props) {
         <Button variant="primary" onClick={handleSubmit}>
           Save
         </Button>
+        { props.currentMedia &&
+          <Button variant="danger" onClick={handleDeleteMedia}>
+            Delete
+          </Button>
+        }
       </Modal.Footer>
     </Modal>
   );

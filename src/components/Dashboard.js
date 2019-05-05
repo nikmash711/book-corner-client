@@ -249,6 +249,11 @@ export default function Dashboard(props) {
     changeCategory('allMedia');
   }
 
+  const cancelMedia = () => {
+    setShowMediaForm(false);
+    changeCategory('allMedia'); 
+  }
+
   const addNewMedia = () => {
     setCurrentMedia(null);
     setShowMediaForm(true);
@@ -306,7 +311,7 @@ export default function Dashboard(props) {
             authToken={authToken}
             currentMedia={currentMedia}
             saveMedia={()=>saveMedia()} 
-            cancelMedia={()=>setShowMediaForm(false)} 
+            cancelMedia={()=>cancelMedia()} 
           />
 
           <section className="booklist">
