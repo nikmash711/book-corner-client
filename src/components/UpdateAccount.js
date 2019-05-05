@@ -3,19 +3,23 @@ import jwtDecode from 'jwt-decode';
 import { API_BASE_URL } from '../config';
 import { loadAuthToken, refreshAuthToken, storeAuthInfo } from '../local-storage';
 import { normalizeResponseErrors } from '../utils';
-import { UserContext } from "../context";
 import './onboarding.scss';
 
 export default function Onboarding(props) {
-  const [updateAccountError, setUpdateAccountError] = useState(null);
-  const [updatePasswordError, setUpdatePasswordError] = useState(null);
   const [firstName, setFirstName] = useState(props.user.info.firstName);
   const [lastName, setLastName] = useState(props.user.info.lastName);
+  const [email, setEmail] = useState(props.user.info.email);
+  const [cell, setCell] = useState(props.user.info.cell);
+
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState(props.user.info.email);
-  const [cell, setCell] = useState(props.user.info.cell);
+
+  const [updateAccountError, setUpdateAccountError] = useState(null);
+  const [updatePasswordError, setUpdatePasswordError] = useState(null);
+  const [successfulAccountUpdate, setSuccessfulAccountUpdate] = useState(false);
+  const [successfulPasswordUpdate, setSuccessfulPasswordUpdate] = useState(false);
+
 
   const handleUpdateAccount = e => {
     e.preventDefault();
@@ -37,10 +41,12 @@ export default function Onboarding(props) {
       .then(res => normalizeResponseErrors(res))
       .then(res => res.json())
       .then((user) => {
+        setSuccessfulAccountUpdate(true);
         setUpdateAccountError(null);
         props.refresh();
       })
       .catch(err => {
+        setSuccessfulAccountUpdate(false);
         setUpdateAccountError(err.message);
       })
   };
@@ -63,10 +69,15 @@ export default function Onboarding(props) {
       .then(res => normalizeResponseErrors(res))
       .then(res => res.json())
       .then((user) => {
+        setSuccessfulPasswordUpdate(true);
         setUpdatePasswordError(null);
+        setConfirmPassword("");
+        setNewPassword("");
+        setOldPassword("");
         props.refresh();
       })
       .catch(err => {
+        setSuccessfulPasswordUpdate(false);
         setUpdatePasswordError(err.message);
       })
   };
@@ -122,7 +133,8 @@ export default function Onboarding(props) {
       <button
         className="onboarding-form-button"
         type="submit">
-        Update
+        {successfulAccountUpdate && <i class="fas fa-check"></i>}
+        Update Account
       </button>
     </form>
     
@@ -137,6 +149,7 @@ export default function Onboarding(props) {
           onChange={e => setOldPassword(e.target.value)}
           placeholder="Old Password"
           id="oldPassword"
+          value={oldPassword}
         />
       </section>
       <section className="field">
@@ -147,6 +160,7 @@ export default function Onboarding(props) {
           id="newPassword"
           onChange={e => setNewPassword(e.target.value)}
           placeholder="New Password"
+          value={newPassword}
         />
       </section>
       <section className="field">
@@ -157,11 +171,14 @@ export default function Onboarding(props) {
           type="password"
           onChange={e => setConfirmPassword(e.target.value)}
           placeholder="Confirm Password"
+          value={confirmPassword}
         />
       </section>
       <button
+        disabled={newPassword===confirmPassword ? false : true}
         className="onboarding-form-button"
         type="submit">
+        {successfulPasswordUpdate && <i className="fas fa-check"></i>}
         Update Password
       </button>
     </form>

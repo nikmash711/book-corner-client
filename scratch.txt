@@ -72,8 +72,8 @@ User Stories:
 [x] User can edit their account info 
 - Their basics
 - Their password
-- Show a green signal that it updated successfully (NEED TO DO)
-- Clear values for password after submitted (NEED TO DO)
+- Show a green signal that it updated successfully
+- Clear values for password after submitted
 
 STILL NEED TO DO: 
 
