@@ -72,7 +72,8 @@ User Stories:
 STILL NEED TO DO: 
 
 [] Design is mobile friendly
-- Work on sidebar collapse and font everywhere
+- Work on sidebar collapse
+-  font everywhere
 
 [] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
 

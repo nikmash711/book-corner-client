@@ -12,6 +12,7 @@ import moment from 'moment';
 import Navbar from './Navbar';
 import About from './About';
 import MediaForm from './MediaForm';
+import UpdateAccount from './UpdateAccount';
 
 export default function Dashboard(props) {
 
@@ -89,18 +90,12 @@ export default function Dashboard(props) {
   }, 
   []);
 
-  // useEffect(()=>{
-  //   const path = props.match.path.slice(1);
-  //   console.log('PATH', path);
-  //   changeCategory(path);
-  // }, [props.match.path])
-
   const changeCategory = (category) => { 
     setMediaFilter('');
     setUserFilter('');
     setTypeFilter('');
-    if(category==='About'){
-      setCategory('About')
+    if(category==='About' || category==='Account'){
+      setCategory(category);
       return null;
     }
     else if(category==='allUsers'){
@@ -296,6 +291,18 @@ export default function Dashboard(props) {
     );
   }
 
+  else if (category==='Account'){
+    return (
+      <React.Fragment>
+        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
+        <Navbar/>
+        <main className="dashboard">
+          <UpdateAccount refresh={refresh} user={user}/>
+        </main>
+      </React.Fragment>
+    );
+  }
+
   else if (media && user.info){
     const authToken = loadAuthToken();
     return (
@@ -313,7 +320,6 @@ export default function Dashboard(props) {
             saveMedia={()=>saveMedia()} 
             cancelMedia={()=>cancelMedia()} 
           />
-
           <section className="booklist">
             { category==='allMedia' && 
             <div className="filter-options">

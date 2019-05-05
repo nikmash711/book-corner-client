@@ -105,15 +105,6 @@ export default class SidebarNav extends React.Component{
                   className='action-button-skin sidebar-button'
                   onClick={() => {
                     this.onSetSidebarOpen(false)
-                    this.props.changeCategory('addMedia')
-                    }
-                  }>
-                  Add Media
-                </button>
-                <button 
-                  className='action-button-skin sidebar-button'
-                  onClick={() => {
-                    this.onSetSidebarOpen(false)
                     this.props.changeCategory('allUsers')
                     }
                   }>
@@ -156,6 +147,15 @@ export default class SidebarNav extends React.Component{
                   }
                 }>
                 About
+              </button>
+              <button 
+                className='action-button-skin sidebar-button'
+                onClick={() => {
+                  this.onSetSidebarOpen(false)
+                  this.props.changeCategory('Account')
+                  }
+                }>
+                Account
               </button>
               <button 
                 className='action-button-skin sidebar-button'
