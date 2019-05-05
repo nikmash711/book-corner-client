@@ -66,9 +66,10 @@ User Stories:
 
 [x] Admin can edit existing media
 
-STILL NEED TO DO: 
+[x] Admin can delete media
+- Asks to confirm before deleting
 
-[] Admin can delete media
+STILL NEED TO DO: 
 
 [] Design is mobile friendly
 - Work on sidebar collapse and font everywhere
