@@ -27,7 +27,7 @@ export default function About(props){
         <p className="rule">{arrow} You will be charged $1 a day for each day the media is overdue. Please note that you will not be reminded when your media is due, but you can always check this information on your account.</p>
         <p className="rule">{arrow} Please be respectful and careful with the media you check out. <strong>You will owe $25 for any lost or damaged media.</strong></p>
         <p className="rule">{arrow} We do not operate on Shabbats or Yom Tovim. Plan accordingly!</p>
-        <p className="rule">{arrow} If you have any questions, or any Jewish books or DVDs you'd like to donate to the Jewish Book Corner, please contact us <a href="mailto:jewishbookcorner@gmail.com">via email - we'd love to hear from you!</a> </p>
+        <p className="rule">{arrow} If you have any questions, or any Jewish books or DVDs you'd like to donate to the Jewish Book Corner, please contact us <a href="mailto:jewishbookcorner@gmail.com">via email</a> - we'd love to hear from you!</p>
         {!user.loggedIn && <Onboarding form="signup"/>}
       </section>
     </section>
