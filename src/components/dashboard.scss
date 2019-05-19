@@ -1,7 +1,7 @@
 @import "~./constants.scss";
 
 .dashboard{
-  margin-top: 75px;
+  margin-top: 90px;
   background: $beige;
 }
 
@@ -19,6 +19,7 @@
 }
 
 .filter-options{
+  display: flex;
   margin:20px auto;
   width: 300px;
 }
@@ -67,6 +68,11 @@
 
 .total-balance{
   text-align: center;
+}
+
+.add-new-media-btn {
+  display: block;
+  margin: 20px auto;
 }
 
 @media(min-width: 900px){

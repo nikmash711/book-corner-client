@@ -133,7 +133,7 @@ export default function Onboarding(props) {
       <button
         className="onboarding-form-button"
         type="submit">
-        {successfulAccountUpdate && <i class="fas fa-check"></i>}
+        {successfulAccountUpdate && <i className="fas fa-check"></i>}
         Update Account
       </button>
     </form>

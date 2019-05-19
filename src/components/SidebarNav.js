@@ -172,7 +172,7 @@ export default class SidebarNav extends React.Component{
           open={this.state.sidebarOpen}
           docked={this.state.sidebarDocked}
           onSetOpen={this.onSetSidebarOpen}
-          styles={{ sidebar: { position: 'fixed', top: 75, background: '#030A43', width: 250, }, root: {position: 'relative', boxShadow: 0}, }}
+          styles={{ sidebar: { position: 'fixed', top: 90, background: '#030A43', width: 250, }, root: {position: 'relative', boxShadow: 0}, }}
         >
         </Sidebar>
         </React.Fragment>

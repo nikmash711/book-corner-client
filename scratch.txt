@@ -75,7 +75,7 @@ User Stories:
 - Show a green signal that it updated successfully
 - Clear values for password after submitted
 
-STILL NEED TO DO: 
+NEED TO DO: 
 
 [] Design is mobile friendly
 - Work on sidebar collapse
@@ -83,7 +83,9 @@ STILL NEED TO DO:
 
 [] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
 
-[] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in
+[] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in (check that this works in prod)
+
+[] Set up database in prod and deploy 
 
 
 Edge cases: 
@@ -92,9 +94,6 @@ Edge cases:
 Bug: Balance still shows even after renewing, and shows 0
 
 Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
-
-Need To Look Into: 
-- Deploying
 
 In the future: 
 - User can rate books? 

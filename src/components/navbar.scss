@@ -4,25 +4,29 @@
   background: $darkBlue;
   border-bottom: 5px solid $beige;
   color: $beige;
-  height: 72px;
+  height: 90px;
   position: fixed;
   width: 100%;
 }
 
 .navbar a {
   color: $beige;
-  display: block;
-  font-size: 2.5rem;
-  padding: 8px 0px 0px 70px;
+  display: block;  
+  font-size: 2rem;
+  padding: 0px 0px 0px 50px;
   text-decoration: none;
+
+  @media(min-width: 900px) {
+    font-size: 2.5rem;
+    padding: 8px 0px 0px 20px;
+  }
 }
 
 .navbar .fa-book-open {
+  display: none;
   margin-left: 15px;
-}
 
-@media(min-width:900px){
-  .navbar a {
-    padding: 8px 0px 0px 20px;
+  @media(min-width:900px){
+    display: inline-block;
   }
 }
