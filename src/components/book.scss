@@ -35,12 +35,12 @@
 
 .media-subcontent{
   color: $darkBlue;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .media-button{
   border-radius: 10px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-top: 10px;
   padding: 10px;
   text-align: center;
@@ -85,9 +85,11 @@
 
   .media-subcontent {
     margin-top: 40px;
+    font-size: 1.3rem;
   }
 
   .media-button {
+    font-size: 1.2rem;
     margin-top: 50px;
     width: 180px;
   }
