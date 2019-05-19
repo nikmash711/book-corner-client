@@ -47,8 +47,12 @@
 
 .user-directory{
   margin: 20px auto;
-  width: 300px;
+  width: 90%;
   text-align: center;
+
+  @media(min-width: 600px){
+    width: 500px;
+  }
 }
 
 .user-card{

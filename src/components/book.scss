@@ -36,17 +36,16 @@
 .media-subcontent{
   color: $darkBlue;
   font-size: 1.3rem;
-  margin-top: 40px;
 }
 
 .media-button{
   border-radius: 10px;
   font-size: 1.2rem;
-  margin-top: 50px;
+  margin-top: 10px;
   padding: 10px;
   text-align: center;
   text-decoration: none;
-  width: 160px;
+  width: 150px;
 }
 
 .media-author{
@@ -82,5 +81,14 @@
 
   .media-author {
     font-size: 1.5rem;
+  }
+
+  .media-subcontent {
+    margin-top: 40px;
+  }
+
+  .media-button {
+    margin-top: 50px;
+    width: 180px;
   }
 }

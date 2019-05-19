@@ -312,7 +312,7 @@ export default function Dashboard(props) {
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           {balance && <h2 className="unavailable total-balance">Total Balance: ${balance}.00</h2>}
-          {admin && <button className="add-new-media-btn" onClick={()=>addNewMedia()}>Add New Media</button>}
+          {admin && category==='allMedia' && <button className="add-new-media-btn" onClick={()=>addNewMedia()}>Add New Media</button>}
           <MediaForm 
             show={showMediaForm} 
             authToken={authToken}
