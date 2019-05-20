@@ -339,7 +339,7 @@ export default function Dashboard(props) {
             </div>
             }
             {media.length ? generateBooks(media) : 
-            <p className="nothing-here">{eyes}{eyes} Nothing To See Here For Now {eyes}{eyes}</p>}
+            <h4 className="nothing-here">{eyes}{eyes} Nothing To See Here For Now {eyes}{eyes}</h4>}
           </section>
         </main>
       </React.Fragment>

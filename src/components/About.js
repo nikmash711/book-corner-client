@@ -12,7 +12,7 @@ export default function About(props){
   return(
     <React.Fragment>
     {!user.loggedIn && <Navbar/>}
-    <section className='about'>
+    <section className={`about ${user.loggedIn ? 'about-loggedin' :''}`}>
       <h1 className="about-title">Welcome To The Jewish Book Corner!</h1>
       <p className="intro">If you live in the Encino/Tarzana/Reseda Jewish community and are looking for great Jewish books to read, you've come to the right place! Jewish Book Corner is designed to operate very similarly to a classic library. Read the the rules below!</p>
       {!user.loggedIn && <Onboarding form="login"/>}

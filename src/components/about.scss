@@ -4,16 +4,22 @@
   padding: 90px 20px 20px 20px;
 }
 
+.about-loggedin {
+  padding: 20px;
+
+  @media(max-width: 1200px){
+    max-width: 600px;
+  }
+}
+
 .about-title{
   color: $darkBlue;
-  font-size: 3rem;
   text-align: center;
   padding: 20px 0px;
 }
 
 .intro {
   color: $darkBlue;
-  font-size: 1.5rem;
   text-align: center;
   line-height: 40px;
 }
@@ -25,14 +31,12 @@
 
 .rules-title{
   color: $darkBlue;
-  font-size: 2rem;
   text-align: center;
   text-decoration: underline;
 }
 
 .rule{
   color: $darkBlue;
-  font-size: 1.5rem;
   line-height: 40px;
 }
 

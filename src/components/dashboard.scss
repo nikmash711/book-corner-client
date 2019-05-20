@@ -7,19 +7,12 @@
 
 .page-title{
   color: $darkBlue;
-  font-size: 2.5rem;
   padding: 20px;
   text-align: center;
-
-  @media(min-width: 600px){
-    font-size: 3rem;
-  }
 }
 
 .nothing-here{
   color: $darkBlue;
-  font-size: 2rem;
-  padding-top: 50px;
   text-align: center;
 }
 
