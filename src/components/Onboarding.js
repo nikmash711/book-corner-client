@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import jwtDecode from 'jwt-decode';
-import {Redirect} from 'react-router-dom';
-import {API_BASE_URL} from '../config';
-import {loadAuthToken, refreshAuthToken, storeAuthInfo} from '../local-storage';
-import {normalizeResponseErrors} from '../utils';
-import {UserContext} from "../context";
-import './onboarding.scss';
+import jwtDecode from "jwt-decode";
+import { Redirect } from "react-router-dom";
+import { API_BASE_URL } from "../config";
+import {
+  loadAuthToken,
+  refreshAuthToken,
+  storeAuthInfo
+} from "../local-storage";
+import { normalizeResponseErrors } from "../utils";
+import { UserContext } from "../context";
+import "./onboarding.scss";
 
 export default function Onboarding(props) {
   const [username, setUsername] = useState("");
@@ -22,57 +26,56 @@ export default function Onboarding(props) {
 
   let user = useContext(UserContext);
 
-  //when the component mounts, check if the user is logged in (based on local storage) - if they are, hydrate the token from local storage 
+  //when the component mounts, check if the user is logged in (based on local storage) - if they are, hydrate the token from local storage
   useEffect(() => {
     const authToken = loadAuthToken();
-    console.log(authToken)
+    console.log(authToken);
     if (authToken) {
-        user.loggedIn = true;
-        refreshAuthToken()
-        .then(token=>{
-          console.log('hereeee')
-          const decodedToken = jwtDecode(token);
-          user.info = decodedToken.user;
-          console.log('hereeee', decodedToken.user)
-        })
-        setRedirect(true);
-    }}, 
-  []);
+      user.loggedIn = true;
+      refreshAuthToken().then(token => {
+        console.log("hereeee");
+        const decodedToken = jwtDecode(token);
+        user.info = decodedToken.user;
+        console.log("hereeee", decodedToken.user);
+      });
+      setRedirect(true);
+    }
+  }, []);
 
   /*Logs in user*/
   const loginUser = (email, password) => {
-    console.log('logging in')
+    console.log("logging in");
     fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-          'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-          email,
-          password
+        email,
+        password
       })
     })
-    .then(res => normalizeResponseErrors(res))
-    .then(res => res.json())
-    .then(({authToken}) => {
-      storeAuthInfo(authToken);
-      return authToken;
-    })
-    .then((authToken)=>{
-      user.loggedIn = true;
-      const decodedToken = jwtDecode(authToken);
-      user.info = (decodedToken.user);
-      setLoginError(null);
-      setRedirect(true);
-    })
-    .catch(err => {
-      const {status} = err;
-      const message =
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(({ authToken }) => {
+        storeAuthInfo(authToken);
+        return authToken;
+      })
+      .then(authToken => {
+        user.loggedIn = true;
+        const decodedToken = jwtDecode(authToken);
+        user.info = decodedToken.user;
+        setLoginError(null);
+        setRedirect(true);
+      })
+      .catch(err => {
+        const { status } = err;
+        const message =
           status === 401
-              ? 'Incorrect username or password'
-              : 'Unable to login, please try again soon!';
-      setLoginError(message);
-  })
+            ? "Incorrect username or password"
+            : "Unable to login, please try again soon!";
+        setLoginError(message);
+      });
   };
 
   const handleSubmit = e => {
@@ -83,35 +86,35 @@ export default function Onboarding(props) {
   const handleSignUp = e => {
     e.preventDefault();
     fetch(`${API_BASE_URL}/users`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-          'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-          email,
-          firstName,
-          lastName,
-          cell,
-          password: newPassword
+        email,
+        firstName,
+        lastName,
+        cell,
+        password: newPassword
       })
     })
-    .then(res => normalizeResponseErrors(res))
-    .then(res => res.json())
-    .then((user) => {
-      loginUser(email, newPassword);
-      setSignupError(null);
-    })
-    .catch(err => {
-      setSignupError(err.message);
-  })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(user => {
+        loginUser(email, newPassword);
+        setSignupError(null);
+      })
+      .catch(err => {
+        setSignupError(err.message);
+      });
   };
 
-  if(user.loggedIn){
+  if (user.loggedIn) {
     return <Redirect to="/dashboard" />;
   }
-  
-  if(props.form==='login'){
-  return (
+
+  if (props.form === "login") {
+    return (
       <form className="onboarding-form" onSubmit={handleSubmit}>
         <h1 className="onboarding-form-title">Log In</h1>
         {loginError && <h5 className="onboarding-error">{loginError}</h5>}
@@ -135,80 +138,91 @@ export default function Onboarding(props) {
             placeholder="Password"
           />
         </section>
-        <button className="onboarding-form-button" type="submit">Log In</button>
+        <a
+          className="login-trouble"
+          href="mailto:jewishbookcorner@gmail.com?subject=Unable%20To%20Login&body=~Please%20include%20your%20name%20and%20cellphone%20number.%20Thank%20you!~"
+          target="_blank"
+        >
+          Trouble logging in?
+        </a>
+
+        <button className="onboarding-form-button" type="submit">
+          Log In
+        </button>
       </form>
-  );
-  }
-  else{
-    return(
+    );
+  } else {
+    return (
       <form className="onboarding-form" onSubmit={handleSignUp}>
-      <h1 className="onboarding-form-title">Sign Up</h1>
-      {signupError && <h5 className="onboarding-error">{signupError}</h5>}
-      <section className="field">
-        <label htmlFor="first">First</label>
-        <input
-        required
-        type="text"
-        onChange={e => setFirstName(e.target.value)}
-        placeholder="First Name"
-        />
-      </section>
-      <section className="field">
-        <label htmlFor="last">Last</label>
-        <input
-        required
-        type="text"
-        id="last"
-        onChange={e => setLastName(e.target.value)}
-        placeholder="Last Name"
-        />
-      </section>
-      <section className="field">
-        <label htmlFor="new-email">Email</label>
-        <input
-        required
-        id="new-email"
-        type="email"
-        onChange={e => setEmail(e.target.value)}
-        placeholder="Email"
-        />
-      </section>
-      <section className="field">
-        <label htmlFor="tel">Cell</label>
-        <input
-        required
-        id="tel"
-        type="tel"
-        onChange={e => setCell(e.target.value)}
-        placeholder="Cell Phone Number"
-        />
-      </section>
-      <section className="field">
-        <label htmlFor="new-password">Password</label>
-        <input
-        required
-        id="new-password"
-        type="password"
-        onChange={e => setNewPassword(e.target.value)}
-        placeholder="Password"
-        />
-      </section>
-      <section className="field">
-        <label htmlFor="confirm">Confirm</label>
-        <input
-        required
-        id="confirm"
-        type="password"
-        onChange={e => setConfirmPassword(e.target.value)}
-        placeholder="Confirm Password"
-        />
-      </section>
-      <button           
-        className="onboarding-form-button"
-        disabled={newPassword===confirmPassword ? false : true}
-        type="submit">
-        Sign Up</button> 
-    </form>
-    )
+        <h1 className="onboarding-form-title">Sign Up</h1>
+        {signupError && <h5 className="onboarding-error">{signupError}</h5>}
+        <section className="field">
+          <label htmlFor="first">First</label>
+          <input
+            required
+            type="text"
+            onChange={e => setFirstName(e.target.value)}
+            placeholder="First Name"
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="last">Last</label>
+          <input
+            required
+            type="text"
+            id="last"
+            onChange={e => setLastName(e.target.value)}
+            placeholder="Last Name"
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="new-email">Email</label>
+          <input
+            required
+            id="new-email"
+            type="email"
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="tel">Cell</label>
+          <input
+            required
+            id="tel"
+            type="tel"
+            onChange={e => setCell(e.target.value)}
+            placeholder="Cell Phone Number"
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="new-password">Password</label>
+          <input
+            required
+            id="new-password"
+            type="password"
+            onChange={e => setNewPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </section>
+        <section className="field">
+          <label htmlFor="confirm">Confirm</label>
+          <input
+            required
+            id="confirm"
+            type="password"
+            onChange={e => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
+          />
+        </section>
+        <button
+          className="onboarding-form-button"
+          disabled={newPassword === confirmPassword ? false : true}
+          type="submit"
+        >
+          Sign Up
+        </button>
+      </form>
+    );
   }
 }

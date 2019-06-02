@@ -72,6 +72,8 @@ User Stories:
 
 [x] Design is mobile friendly
 
+[x] Add a footer for contact and my info
+
 NEED TO DO: 
 
 [] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
@@ -79,8 +81,6 @@ NEED TO DO:
 [] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in (check that this works in prod)
 
 [] Set up database in prod and deploy 
-
-[] Add a footer for contact and my info
 
 [] Add anchor to log in form with cant log in
 

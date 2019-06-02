@@ -58,3 +58,14 @@
   background: $beige;
   text-align: center;
 }
+
+a.login-trouble {
+  color: $beige;
+  display: block;
+  text-align: center;
+
+  a.login-trouble:hover,
+  a.login-trouble:focus {
+    color: $beige;
+  }
+}
