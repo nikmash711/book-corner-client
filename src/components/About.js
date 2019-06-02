@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import Onboarding from "./Onboarding";
-import { UserContext } from "../context";
-import Navbar from "./Navbar";
+import React, { useContext } from 'react';
+import Onboarding from './Onboarding';
+import { UserContext } from '../context';
+import Navbar from './Navbar';
 
-import "./about.scss";
+import './about.scss';
 
 export default function About(props) {
   let arrow = <i className="fas fa-arrow-right" />;
@@ -16,7 +16,7 @@ export default function About(props) {
           <Navbar />
         </div>
       )}
-      <section className={`about ${user.loggedIn ? "about-loggedin" : ""}`}>
+      <section className={`about ${user.loggedIn ? 'about-loggedin' : ''}`}>
         <h1 className="about-title">Welcome To Jewish Book Corner!</h1>
         <p className="intro">
           If you live in the Encino/Tarzana/Reseda Jewish community and are
@@ -32,14 +32,14 @@ export default function About(props) {
             two books, two DVDs, or one of each.
           </p>
           <p className="rule">
-            {arrow} After clicking "check out", the media will{" "}
+            {arrow} After clicking "check out", the media will{' '}
             <strong>not</strong> be immedietely ready for pickup. Please wait
             until you receive an official email stating that the book is ready
-            for pickup. This will typically happen within 24 hours.{" "}
+            for pickup. This will typically happen within 24 hours.{' '}
             <strong>
               Please note that if you check out anything after 2:00pm on a
               Thursday, your media will not be ready until the following Monday.
-            </strong>{" "}
+            </strong>{' '}
           </p>
           <p className="rule">
             {arrow} After you have received an email that it is ready for pick
@@ -66,7 +66,7 @@ export default function About(props) {
           </p>
           <p className="rule">
             {arrow} Please be respectful and careful with the media you check
-            out.{" "}
+            out.{' '}
             <strong>You will owe $25 for any lost or damaged media.</strong>
           </p>
           <p className="rule">
@@ -75,7 +75,7 @@ export default function About(props) {
           </p>
           <p className="rule">
             {arrow} If you have any questions, or any Jewish books or DVDs you'd
-            like to donate to the Jewish Book Corner, please contact us{" "}
+            like to donate to the Jewish Book Corner, please contact us{' '}
             <a href="mailto:jewishbookcorner@gmail.com">via email</a> - we'd
             love to hear from you!
           </p>
@@ -90,7 +90,7 @@ export default function About(props) {
           href="mailto:jewishbookcorner@gmail.com?subject=Jewish%20Book%20Corner%20Inquiry"
           target="_blank"
         >
-          <i class="fas fa-envelope" /> Questions? Contact Us
+          <i className="fas fa-envelope" /> Questions? Contact Us
         </a>
       </footer>
     </React.Fragment>

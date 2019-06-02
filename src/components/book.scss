@@ -1,4 +1,4 @@
-@import "~./constants.scss";
+@import '~./constants.scss';
 
 .media {
   border-bottom: 1px solid $darkBlue;
@@ -14,11 +14,11 @@
 }
 
 .media-image-section {
-  width: auto;
+  width: 100px;
 }
 
 .media-image {
-  height: 150px;
+  width: inherit;
 }
 
 .media-info {
@@ -73,11 +73,7 @@
   }
 
   .media-image-section {
-    width: 250px;
-  }
-
-  .media-image {
-    height: 250px;
+    width: 200px;
   }
 
   .media-subcontent {
