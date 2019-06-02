@@ -70,23 +70,12 @@ User Stories:
 - Show a green signal that it updated successfully
 - Clear values for password after submitted
 
-[x] Design is mobile friendly
-
-[x] Add a footer for contact and my info
-
-[x] Add anchor to log in form with cant log in
-
 NEED TO DO: 
-[] Make a README
+[] Search by author
 
 Edge cases: 
-- User puts book on hold, and then checks out 2 books, and then 3rd book becomes available
-
 Bug: Balance still shows even after renewing, and shows 0
 
 Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
 
-In the future: 
-[] User can rate books
-[] Work on better password failed attempts
-[] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
+Check that whole process works in prod
