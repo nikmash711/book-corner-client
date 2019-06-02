@@ -70,9 +70,6 @@ User Stories:
 - Show a green signal that it updated successfully
 - Clear values for password after submitted
 
-NEED TO DO: 
-[] Search by author
-
 Edge cases: 
 Bug: Balance still shows even after renewing, and shows 0
 
