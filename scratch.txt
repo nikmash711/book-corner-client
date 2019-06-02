@@ -77,7 +77,7 @@ User Stories:
 [x] Add anchor to log in form with cant log in
 
 NEED TO DO: 
-[] Set up Heroku account to not sleep (need CC)
+[] Set up Heroku account to not sleep
 
 [] Make a ReadME
 

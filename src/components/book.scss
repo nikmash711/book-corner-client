@@ -14,7 +14,7 @@
 }
 
 .media-image-section {
-  width: 150px;
+  width: auto;
 }
 
 .media-image {
@@ -34,6 +34,10 @@
 .media-icon {
   font-size: 1.2rem;
   padding-left: 5px;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 
 .media-subcontent {
@@ -47,7 +51,7 @@
   padding: 10px;
   text-align: center;
   text-decoration: none;
-  width: 130px;
+  width: 150px;
 }
 
 .media-author {

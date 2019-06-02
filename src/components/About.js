@@ -82,9 +82,9 @@ export default function About(props) {
           {!user.loggedIn && <Onboarding form="signup" />}
         </section>
       </section>
-      <footer className="footer">
+      <footer className="footer no-margin-left">
         <a href="https://nikmash.com" target="_blank">
-          <i class="fas fa-paint-brush" /> Website by NikMash Creations
+          <i className="fas fa-paint-brush" /> Website by NikMash Creations
         </a>
         <a
           href="mailto:jewishbookcorner@gmail.com?subject=Jewish%20Book%20Corner%20Inquiry"
