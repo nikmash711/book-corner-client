@@ -8,7 +8,7 @@ import moment from 'moment';
 
 export default function Book(props) {
   let user = useContext(UserContext);
-  let [ableToPlaceHold, setAbleToPlaceHold] = useState(true);
+  let [ableToPlaceHold, setAbleToPlaceHold] = useState(false);
   let [ableToCheckOut, setAbleToCheckOut] = useState(true);
   let [ableToCancelHold, setAbleToCancelHold] = useState(true);
   let [availability, setAvailability] = useState(
@@ -313,6 +313,7 @@ export default function Book(props) {
         {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
           <a
             className="action-button-skin media-button"
+            target="_blank"
             href={`mailto:${props.media.checkedOutBy.email}?subject=${
               props.media.title
             } Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
