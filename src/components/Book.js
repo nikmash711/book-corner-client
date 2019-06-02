@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import { loadAuthToken } from "../local-storage";
-import { API_BASE_URL } from "../config";
-import { normalizeResponseErrors } from "../utils";
-import "./book.scss";
-import { UserContext } from "../context";
-import moment from "moment";
+import React, { useState, useEffect, useContext } from 'react';
+import { loadAuthToken } from '../local-storage';
+import { API_BASE_URL } from '../config';
+import { normalizeResponseErrors } from '../utils';
+import './book.scss';
+import { UserContext } from '../context';
+import moment from 'moment';
 
 export default function Book(props) {
   let user = useContext(UserContext);
@@ -12,44 +12,44 @@ export default function Book(props) {
   let [ableToCheckOut, setAbleToCheckOut] = useState(true);
   let [ableToCancelHold, setAbleToCancelHold] = useState(true);
   let [availability, setAvailability] = useState(
-    props.media.available ? "Available" : "Unavailable"
+    props.media.available ? 'Available' : 'Unavailable'
   );
 
   let admin = false;
-  if (user && user.info.email === "jewishbookcorner@gmail.com") {
+  if (user && user.info.email === 'jewishbookcorner@gmail.com') {
     admin = true;
   }
 
   const dayNow = moment().calendar(null, {
-    sameDay: "MM/DD/YYYY",
-    nextDay: "MM/DD/YYYY",
-    nextWeek: "MM/DD/YYYY",
-    lastDay: "MM/DD/YYYY",
-    lastWeek: "MM/DD/YYYY",
-    sameElse: "MM/DD/YYYY"
+    sameDay: 'MM/DD/YYYY',
+    nextDay: 'MM/DD/YYYY',
+    nextWeek: 'MM/DD/YYYY',
+    lastDay: 'MM/DD/YYYY',
+    lastWeek: 'MM/DD/YYYY',
+    sameElse: 'MM/DD/YYYY'
   });
 
-  let now = moment(dayNow, "MM/DD/YYYY");
-  let due = moment(props.media.dueDate, "MM/DD/YYYY");
+  let now = moment(dayNow, 'MM/DD/YYYY');
+  let due = moment(props.media.dueDate, 'MM/DD/YYYY');
 
-  let tense = moment.duration(now.diff(due)).asDays() > 0 ? "Was Due" : "Due";
+  let tense = moment.duration(now.diff(due)).asDays() > 0 ? 'Was Due' : 'Due';
 
   let icon =
-    props.media.type === "book" ? (
+    props.media.type === 'book' ? (
       <i className="fas fa-book" />
     ) : (
       <i className="fas fa-compact-disc" />
     );
 
   let dueDate = moment()
-    .add(14, "days")
+    .add(14, 'days')
     .calendar(null, {
-      sameDay: "MM/DD/YYYY",
-      nextDay: "MM/DD/YYYY",
-      nextWeek: "MM/DD/YYYY",
-      lastDay: "MM/DD/YYYY",
-      lastWeek: "MM/DD/YYYY",
-      sameElse: "MM/DD/YYYY"
+      sameDay: 'MM/DD/YYYY',
+      nextDay: 'MM/DD/YYYY',
+      nextWeek: 'MM/DD/YYYY',
+      lastDay: 'MM/DD/YYYY',
+      lastWeek: 'MM/DD/YYYY',
+      sameElse: 'MM/DD/YYYY'
     });
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function Book(props) {
       ? setAbleToPlaceHold(false)
       : props.user.mediaOnHold.includes(props.media.id)
       ? setAbleToPlaceHold(false)
-      : availability === "Available"
+      : availability === 'Available'
       ? setAbleToPlaceHold(false)
       : admin
       ? setAbleToPlaceHold(false)
@@ -71,7 +71,7 @@ export default function Book(props) {
       ? setAbleToCheckOut(false)
       : props.user.currentlyCheckedOut.includes(props.media.id)
       ? setAbleToCheckOut(false)
-      : availability === "Unavailable"
+      : availability === 'Unavailable'
       ? setAbleToCheckOut(false)
       : admin
       ? setAbleToCheckOut(false)
@@ -86,10 +86,10 @@ export default function Book(props) {
     const authToken = loadAuthToken();
     let userId = props.user.id;
     fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
       body: JSON.stringify({
@@ -100,7 +100,7 @@ export default function Book(props) {
       .then(res => res.json())
       .then(updatedMedia => {
         setAbleToCheckOut(false);
-        setAvailability("Unavailable");
+        setAvailability('Unavailable');
         return props.refresh();
       })
       .catch(error => {
@@ -112,10 +112,10 @@ export default function Book(props) {
     let updatedMedia;
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/media/hold/${mediaId}/${action}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       }
     })
@@ -123,7 +123,7 @@ export default function Book(props) {
       .then(res => res.json())
       .then(results => {
         updatedMedia = results;
-        if (action === "place") {
+        if (action === 'place') {
           setAbleToPlaceHold(false);
           setAbleToCancelHold(true);
         } else {
@@ -141,10 +141,10 @@ export default function Book(props) {
     let updatedMedia;
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       }
     })
@@ -163,10 +163,10 @@ export default function Book(props) {
     let updatedMedia;
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/media/renew/${mediaId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       }
     })
@@ -185,10 +185,10 @@ export default function Book(props) {
     let updatedMedia;
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
       body: JSON.stringify({
@@ -202,10 +202,10 @@ export default function Book(props) {
         //if theres a hold queue:
         if (props.media.holdQueue.length) {
           return fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
-            method: "PUT",
+            method: 'PUT',
             headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${authToken}`
             },
             body: JSON.stringify({
@@ -241,27 +241,27 @@ export default function Book(props) {
       <section className="media-info">
         <section>
           <h2 className="media-title">{props.media.title}</h2>
+          <span className="media-icon">{icon}</span>
           {admin && (
-            <button onClick={handleEdit}>
+            <button className="edit-media-button" onClick={handleEdit}>
               <i className="fas fa-edit" />
             </button>
           )}
-          <span className="media-icon">{icon}</span>
           <h4 className="media-author">By: {props.media.author}</h4>
         </section>
-        {props.category === "allMedia" && (
+        {props.category === 'allMedia' && (
           <h6 className={`media-subcontent ${availability.toLowerCase()}`}>
             {availability}
           </h6>
         )}
-        {(props.category === "allOverdueMedia" ||
-          props.category === "allCheckedOutMedia") && (
+        {(props.category === 'allOverdueMedia' ||
+          props.category === 'allCheckedOutMedia') && (
           <React.Fragment>
             <h6 className="media-subcontent">
-              Checked Out By:{" "}
+              Checked Out By:{' '}
               {props.media.checkedOutBy &&
                 props.media.checkedOutBy.firstName +
-                  " " +
+                  ' ' +
                   props.media.checkedOutBy.lastName}
             </h6>
             <h6 className="unavailable media-subcontent">{`${tense}: ${
@@ -269,24 +269,24 @@ export default function Book(props) {
             }`}</h6>
           </React.Fragment>
         )}
-        {admin && props.category === "allRequests" && (
+        {admin && props.category === 'allRequests' && (
           <h6 className="media-subcontent">
-            Requested By:{" "}
+            Requested By:{' '}
             {props.media.checkedOutBy &&
               props.media.checkedOutBy.firstName +
-                " " +
+                ' ' +
                 props.media.checkedOutBy.lastName}
           </h6>
         )}
-        {(props.category === "myCheckedOutMedia" ||
-          props.category === "myOverdueMedia") && (
+        {(props.category === 'myCheckedOutMedia' ||
+          props.category === 'myOverdueMedia') && (
           <h6 className="unavailable media-subcontent">
             {props.media.dueDate
               ? `${tense}: ${props.media.dueDate}`
-              : "Not Ready For Pickup"}
+              : 'Not Ready For Pickup'}
           </h6>
         )}
-        {ableToCheckOut && props.category === "allMedia" && (
+        {ableToCheckOut && props.category === 'allMedia' && (
           <button
             className="action-button-skin media-button"
             onClick={() => checkOut(props.media.id)}
@@ -294,10 +294,10 @@ export default function Book(props) {
             Check Out
           </button>
         )}
-        {ableToPlaceHold && props.category === "allMedia" && (
+        {ableToPlaceHold && props.category === 'allMedia' && (
           <button
             className="action-button-skin media-button"
-            onClick={() => placeHold(props.media.id, "place")}
+            onClick={() => placeHold(props.media.id, 'place')}
           >
             Place Hold
           </button>
@@ -305,24 +305,24 @@ export default function Book(props) {
         {ableToCancelHold && (
           <button
             className="action-button-skin media-button"
-            onClick={() => placeHold(props.media.id, "cancel")}
+            onClick={() => placeHold(props.media.id, 'cancel')}
           >
             Cancel Hold
           </button>
         )}
-        {admin && props.category === "allRequests" && props.media.checkedOutBy && (
+        {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
           <a
             className="action-button-skin media-button"
             href={`mailto:${props.media.checkedOutBy.email}?subject=${
               props.media.title
             } Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
-            onClick={() => readyForPickup(props.media.id, "pickup")}
+            onClick={() => readyForPickup(props.media.id, 'pickup')}
           >
             Ready For Pickup
           </a>
         )}
         {admin &&
-          props.category === "allCheckedOutMedia" &&
+          props.category === 'allCheckedOutMedia' &&
           props.media.checkedOutBy && (
             <a
               className="action-button-skin media-button"
@@ -331,7 +331,7 @@ export default function Book(props) {
                   ? `mailto:${props.media.holdQueue[0].email}?subject=${
                       props.media.title
                     } Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`
-                  : "#"
+                  : '#'
               }
               onClick={() =>
                 returnMedia(props.media.id, props.media.checkedOutBy.id)
@@ -341,8 +341,8 @@ export default function Book(props) {
             </a>
           )}
         {!admin &&
-          (props.category === "myCheckedOutMedia" ||
-            props.category === "myOverdueMedia") &&
+          (props.category === 'myCheckedOutMedia' ||
+            props.category === 'myOverdueMedia') &&
           !props.media.renewals &&
           props.media.dueDate && (
             <button
