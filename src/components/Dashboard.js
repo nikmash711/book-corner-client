@@ -369,7 +369,10 @@ export default function Dashboard(props) {
             <a href="https://nikmash.com" target="_blank">
               <i class="fas fa-paint-brush" /> Website by NikMash Creations
             </a>
-            <a href="mailto:jewishbookcorner@gmail.com" target="_blank">
+            <a
+              href="mailto:jewishbookcorner@gmail.com?subject=Jewish%20Book%20Corner%20Inquiry"
+              target="_blank"
+            >
               <i class="fas fa-envelope" /> Questions? Contact Us
             </a>
           </footer>

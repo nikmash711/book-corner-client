@@ -77,13 +77,11 @@ User Stories:
 [x] Add anchor to log in form with cant log in
 
 NEED TO DO: 
-[] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in (check that this works in prod)
-
-[] Set up database in prod and deploy 
-
-[] Set up Heroku account to not sleep
+[] Set up Heroku account to not sleep (need CC)
 
 [] Make a ReadME
+
+[] get rid of console logs
 
 
 Edge cases: 
