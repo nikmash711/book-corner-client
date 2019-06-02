@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../context";
-import { Redirect } from "react-router-dom";
-import SidebarNav from "./SidebarNav";
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../context';
+import { Redirect } from 'react-router-dom';
+import SidebarNav from './SidebarNav';
 import {
   clearAuthToken,
   loadAuthToken,
   refreshAuthToken
-} from "../local-storage";
-import { API_BASE_URL } from "../config";
-import { normalizeResponseErrors } from "../utils";
-import Book from "./Book";
-import "./dashboard.scss";
-import jwtDecode from "jwt-decode";
-import moment from "moment";
-import Navbar from "./Navbar";
-import About from "./About";
-import MediaForm from "./MediaForm";
-import UpdateAccount from "./UpdateAccount";
+} from '../local-storage';
+import { API_BASE_URL } from '../config';
+import { normalizeResponseErrors } from '../utils';
+import Book from './Book';
+import './dashboard.scss';
+import jwtDecode from 'jwt-decode';
+import moment from 'moment';
+import Navbar from './Navbar';
+import About from './About';
+import MediaForm from './MediaForm';
+import UpdateAccount from './UpdateAccount';
 
 export default function Dashboard(props) {
   //make sure user is logged in before being able to see this page (context?)
@@ -28,29 +28,29 @@ export default function Dashboard(props) {
   const [exceededHolds, setExceededHolds] = useState(false);
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
   const [users, setUsers] = useState();
-  const [userFilter, setUserFilter] = useState("");
-  const [mediaFilter, setMediaFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
+  const [userFilter, setUserFilter] = useState('');
+  const [mediaFilter, setMediaFilter] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
   const [showMediaForm, setShowMediaForm] = useState(false);
-  const [currentMedia, setCurrentMedia] = useState("");
+  const [currentMedia, setCurrentMedia] = useState('');
 
   let admin = false;
   if (user.info) {
-    if (user.info.email === "jewishbookcorner@gmail.com") {
+    if (user.info.email === 'jewishbookcorner@gmail.com') {
       admin = true;
     }
   }
 
   let titleKey = {
-    allMedia: "Catalog",
-    myCheckedOutMedia: "Checked Out",
-    myCheckoutHistory: "Checkout History",
-    myMediaOnHold: "On Hold",
-    myOverdueMedia: "Overdue",
-    allUsers: "User Directory",
-    allRequests: "Requests",
-    allCheckedOutMedia: "Currently Checked Out Media",
-    allOverdueMedia: "All Overdue Media"
+    allMedia: 'Catalog',
+    myCheckedOutMedia: 'Checked Out',
+    myCheckoutHistory: 'Checkout History',
+    myMediaOnHold: 'On Hold',
+    myOverdueMedia: 'Overdue',
+    allUsers: 'User Directory',
+    allRequests: 'Requests',
+    allCheckedOutMedia: 'Currently Checked Out Media',
+    allOverdueMedia: 'All Overdue Media'
   };
 
   let eyes = <i className="fas fa-eye" />;
@@ -72,7 +72,7 @@ export default function Dashboard(props) {
         setExceededHolds(true);
       }
       //so that the page refreshes:
-      changeCategory(category || "allMedia");
+      changeCategory(category || 'allMedia');
     });
   };
 
@@ -81,21 +81,21 @@ export default function Dashboard(props) {
       setRedirect(true);
     } else {
       refresh();
-      changeCategory("allMedia");
+      changeCategory('allMedia');
     }
   }, []);
 
   const changeCategory = category => {
-    setMediaFilter("");
-    setUserFilter("");
-    setTypeFilter("");
-    if (category === "About" || category === "Account") {
+    setMediaFilter('');
+    setUserFilter('');
+    setTypeFilter('');
+    if (category === 'About' || category === 'Account') {
       setCategory(category);
       return null;
-    } else if (category === "allUsers") {
+    } else if (category === 'allUsers') {
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/users`, {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -112,7 +112,7 @@ export default function Dashboard(props) {
     } else {
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/media/${category}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -120,7 +120,7 @@ export default function Dashboard(props) {
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
         .then(media => {
-          if (category === "myOverdueMedia") {
+          if (category === 'myOverdueMedia') {
             setBalance(media.balance !== 0 ? media.balance : null);
             media = media.overdueMedia;
           } else {
@@ -137,10 +137,11 @@ export default function Dashboard(props) {
 
   const generateBooks = medias => {
     let filteredMedia = medias;
-    if (category === "allMedia") {
+    if (category === 'allMedia') {
       filteredMedia = medias.filter(
         media =>
-          media.title.toLowerCase().includes(mediaFilter) &&
+          (media.title.toLowerCase().includes(mediaFilter) ||
+            media.author.toLowerCase().includes(mediaFilter)) &&
           media.type.includes(typeFilter)
       );
     }
@@ -172,22 +173,22 @@ export default function Dashboard(props) {
   };
 
   const dayNow = moment().calendar(null, {
-    sameDay: "MM/DD/YYYY",
-    nextDay: "MM/DD/YYYY",
-    nextWeek: "MM/DD/YYYY",
-    lastDay: "MM/DD/YYYY",
-    lastWeek: "MM/DD/YYYY",
-    sameElse: "MM/DD/YYYY"
+    sameDay: 'MM/DD/YYYY',
+    nextDay: 'MM/DD/YYYY',
+    nextWeek: 'MM/DD/YYYY',
+    lastDay: 'MM/DD/YYYY',
+    lastWeek: 'MM/DD/YYYY',
+    sameElse: 'MM/DD/YYYY'
   });
 
   const calculateBalance = currentlyCheckedOut => {
     let sum = 0;
 
     for (let media of currentlyCheckedOut) {
-      let now = moment(dayNow, "MM/DD/YYYY");
+      let now = moment(dayNow, 'MM/DD/YYYY');
       let due = null;
       if (media.dueDate) {
-        due = moment(media.dueDate, "MM/DD/YYYY");
+        due = moment(media.dueDate, 'MM/DD/YYYY');
         //Difference in number of days
         let diff = moment.duration(now.diff(due)).asDays();
         //might not be overdue
@@ -219,7 +220,7 @@ export default function Dashboard(props) {
         let userBalance = calculateBalance(user.currentlyCheckedOut);
         return (
           <article key={index} className="user-card">
-            <h2>{user.firstName + " " + user.lastName}</h2>
+            <h2>{user.firstName + ' ' + user.lastName}</h2>
             <h4>{user.email}</h4>
             <h4>{user.cell}</h4>
             {userBalance > 0 && (
@@ -232,12 +233,12 @@ export default function Dashboard(props) {
 
   const saveMedia = () => {
     setShowMediaForm(false);
-    changeCategory("allMedia");
+    changeCategory('allMedia');
   };
 
   const cancelMedia = () => {
     setShowMediaForm(false);
-    changeCategory("allMedia");
+    changeCategory('allMedia');
   };
 
   const addNewMedia = () => {
@@ -247,7 +248,7 @@ export default function Dashboard(props) {
 
   if (!user.loggedIn || redirect) {
     return <Redirect to="/" />;
-  } else if (category === "allUsers" && users && user.info) {
+  } else if (category === 'allUsers' && users && user.info) {
     return (
       <React.Fragment>
         <SidebarNav
@@ -270,7 +271,7 @@ export default function Dashboard(props) {
         </main>
       </React.Fragment>
     );
-  } else if (category === "About") {
+  } else if (category === 'About') {
     return (
       <React.Fragment>
         <SidebarNav
@@ -284,7 +285,7 @@ export default function Dashboard(props) {
         </main>
       </React.Fragment>
     );
-  } else if (category === "Account") {
+  } else if (category === 'Account') {
     return (
       <React.Fragment>
         <SidebarNav
@@ -315,7 +316,7 @@ export default function Dashboard(props) {
               Total Balance: ${balance}.00
             </h2>
           )}
-          {admin && category === "allMedia" && (
+          {admin && category === 'allMedia' && (
             <button className="add-new-media-btn" onClick={() => addNewMedia()}>
               Add New Media
             </button>
@@ -328,7 +329,7 @@ export default function Dashboard(props) {
             cancelMedia={() => cancelMedia()}
           />
           <section className="booklist">
-            {category === "allMedia" && (
+            {category === 'allMedia' && (
               <div className="filter-options">
                 <input
                   className="search"
