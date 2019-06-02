@@ -1,21 +1,24 @@
-import React, { useState, useEffect, useContext }  from 'react';
-import {UserContext} from "../context";
-import {Redirect} from 'react-router-dom';
-import SidebarNav from './SidebarNav';
-import { clearAuthToken, loadAuthToken, refreshAuthToken } from '../local-storage';
-import {API_BASE_URL} from '../config';
-import {normalizeResponseErrors} from '../utils';
-import Book from './Book';
-import './dashboard.scss';
-import jwtDecode from 'jwt-decode';
-import moment from 'moment';
-import Navbar from './Navbar';
-import About from './About';
-import MediaForm from './MediaForm';
-import UpdateAccount from './UpdateAccount';
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../context";
+import { Redirect } from "react-router-dom";
+import SidebarNav from "./SidebarNav";
+import {
+  clearAuthToken,
+  loadAuthToken,
+  refreshAuthToken
+} from "../local-storage";
+import { API_BASE_URL } from "../config";
+import { normalizeResponseErrors } from "../utils";
+import Book from "./Book";
+import "./dashboard.scss";
+import jwtDecode from "jwt-decode";
+import moment from "moment";
+import Navbar from "./Navbar";
+import About from "./About";
+import MediaForm from "./MediaForm";
+import UpdateAccount from "./UpdateAccount";
 
 export default function Dashboard(props) {
-
   //make sure user is logged in before being able to see this page (context?)
   let user = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
@@ -25,87 +28,81 @@ export default function Dashboard(props) {
   const [exceededHolds, setExceededHolds] = useState(false);
   const [exceededCheckOuts, setExceededCheckOuts] = useState(false);
   const [users, setUsers] = useState();
-  const [userFilter, setUserFilter] = useState('');
-  const [mediaFilter, setMediaFilter] = useState('');
-  const [typeFilter, setTypeFilter] = useState('');
+  const [userFilter, setUserFilter] = useState("");
+  const [mediaFilter, setMediaFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentMedia, setCurrentMedia] = useState("");
 
-  let admin=false;
-  if(user.info)
-  {
-    if(user.info.email==='jewishbookcorner@gmail.com'){
-      admin=true;
+  let admin = false;
+  if (user.info) {
+    if (user.info.email === "jewishbookcorner@gmail.com") {
+      admin = true;
     }
   }
 
   let titleKey = {
-    'allMedia': 'Catalog',
-    'myCheckedOutMedia': 'Checked Out', 
-    'myCheckoutHistory': 'Checkout History',
-    'myMediaOnHold': 'On Hold',
-    'myOverdueMedia': 'Overdue',
-    'allUsers': 'User Directory',
-    'allRequests': 'Requests',
-    'allCheckedOutMedia': 'Currently Checked Out Media',
-    'allOverdueMedia': 'All Overdue Media',
-  }
+    allMedia: "Catalog",
+    myCheckedOutMedia: "Checked Out",
+    myCheckoutHistory: "Checkout History",
+    myMediaOnHold: "On Hold",
+    myOverdueMedia: "Overdue",
+    allUsers: "User Directory",
+    allRequests: "Requests",
+    allCheckedOutMedia: "Currently Checked Out Media",
+    allOverdueMedia: "All Overdue Media"
+  };
 
-  let eyes = <i className="fas fa-eye"></i>;
+  let eyes = <i className="fas fa-eye" />;
 
   const logOut = () => {
     clearAuthToken();
-    user.loggedIn=false;
+    user.loggedIn = false;
     setRedirect(true);
-  }
+  };
 
   const refresh = () => {
-    refreshAuthToken()
-    .then(token=>{
+    refreshAuthToken().then(token => {
       const decodedToken = jwtDecode(token);
       user.info = decodedToken.user;
-      console.log('refreshing'); 
-      if(user.info.currentlyCheckedOut.length===2){
+      console.log("refreshing");
+      if (user.info.currentlyCheckedOut.length === 2) {
         setExceededCheckOuts(true);
-      }
-      else if(user.info.mediaOnHold.length===2){
+      } else if (user.info.mediaOnHold.length === 2) {
         setExceededHolds(true);
       }
-      //so that the page refreshes: 
+      //so that the page refreshes:
       // else {
-        console.log('here');
-        changeCategory(category || 'allMedia')
+      console.log("here");
+      changeCategory(category || "allMedia");
       // }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    if(!user.loggedIn || redirect){
+    if (!user.loggedIn || redirect) {
       setRedirect(true);
-    }
-    else{
+    } else {
       refresh();
-      changeCategory('allMedia')
+      changeCategory("allMedia");
     }
-  }, 
-  []);
+  }, []);
 
-  const changeCategory = (category) => { 
-    setMediaFilter('');
-    setUserFilter('');
-    setTypeFilter('');
-    if(category==='About' || category==='Account'){
+  const changeCategory = category => {
+    setMediaFilter("");
+    setUserFilter("");
+    setTypeFilter("");
+    if (category === "About" || category === "Account") {
       setCategory(category);
       return null;
-    }
-    else if(category==='allUsers'){
+    } else if (category === "allUsers") {
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/users`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-            Authorization: `Bearer ${authToken}`
-        },
-    })
+          Authorization: `Bearer ${authToken}`
+        }
+      })
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
         .then(users => {
@@ -115,29 +112,27 @@ export default function Dashboard(props) {
         .catch(error => {
           console.log(error);
         });
-    }
-    else{
+    } else {
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/media/${category}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-            Authorization: `Bearer ${authToken}`
-        },
-    })
+          Authorization: `Bearer ${authToken}`
+        }
+      })
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
         .then(media => {
-          if(category==='myOverdueMedia'){
-            setBalance(media.balance!==0 ? media.balance : null);
+          if (category === "myOverdueMedia") {
+            setBalance(media.balance !== 0 ? media.balance : null);
             media = media.overdueMedia;
-          }
-          else{
+          } else {
             setBalance(null);
           }
           setCategory(category);
           setMedia(media);
-          console.log('balance is', balance);
-  
+          console.log("balance is", balance);
+
           //this seems to happen more than once:
           // console.log('HISTORY', props.history);
           // props.history.push(`/${category}`)
@@ -146,123 +141,130 @@ export default function Dashboard(props) {
           console.log(error);
         });
     }
-  }
+  };
 
-  const generateBooks = (medias) => {
+  const generateBooks = medias => {
     let filteredMedia = medias;
-    if(category==='allMedia'){
-      filteredMedia = medias.filter(media=>media.title.toLowerCase().includes(mediaFilter) && media.type.includes(typeFilter))
+    if (category === "allMedia") {
+      filteredMedia = medias.filter(
+        media =>
+          media.title.toLowerCase().includes(mediaFilter) &&
+          media.type.includes(typeFilter)
+      );
     }
-    return filteredMedia.sort(function(a, b){
-      if(a.title < b.title) { 
-        return -1; 
-      }
-      else if(a.title > b.title) {
-        return 1; 
-      }
-      else{
-        return 0;
-      }
-    })
-    .map((media, index)=>{
-      return <Book 
-        setShowMediaForm={e=>setShowMediaForm(true)}
-        setCurrentMedia={e=>setCurrentMedia(media)}
-        user={user.info}
-        key={index}
-        exceededCheckOuts={exceededCheckOuts} 
-        exceededHolds={exceededHolds}
-        media={media} 
-        category={category} 
-        refresh={refresh}/>
-    })
-  }
+    return filteredMedia
+      .sort(function(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .map((media, index) => {
+        return (
+          <Book
+            setShowMediaForm={e => setShowMediaForm(true)}
+            setCurrentMedia={e => setCurrentMedia(media)}
+            user={user.info}
+            key={index}
+            exceededCheckOuts={exceededCheckOuts}
+            exceededHolds={exceededHolds}
+            media={media}
+            category={category}
+            refresh={refresh}
+          />
+        );
+      });
+  };
 
-  const dayNow =  
-  moment().calendar(null, {
-    sameDay: 'MM/DD/YYYY',
-    nextDay: 'MM/DD/YYYY',
-    nextWeek: 'MM/DD/YYYY',
-    lastDay: 'MM/DD/YYYY',
-    lastWeek:'MM/DD/YYYY',
-    sameElse: 'MM/DD/YYYY'
+  const dayNow = moment().calendar(null, {
+    sameDay: "MM/DD/YYYY",
+    nextDay: "MM/DD/YYYY",
+    nextWeek: "MM/DD/YYYY",
+    lastDay: "MM/DD/YYYY",
+    lastWeek: "MM/DD/YYYY",
+    sameElse: "MM/DD/YYYY"
   });
 
-  const calculateBalance = (currentlyCheckedOut) => {
+  const calculateBalance = currentlyCheckedOut => {
     let sum = 0;
 
-    for(let media of currentlyCheckedOut){
-      let now = moment(dayNow, 'MM/DD/YYYY');
+    for (let media of currentlyCheckedOut) {
+      let now = moment(dayNow, "MM/DD/YYYY");
       let due = null;
-      if(media.dueDate){
-        due = moment(media.dueDate, 'MM/DD/YYYY');
-        console.log('NOw', now, 'DUE', due)
+      if (media.dueDate) {
+        due = moment(media.dueDate, "MM/DD/YYYY");
+        console.log("NOw", now, "DUE", due);
         //Difference in number of days
         let diff = moment.duration(now.diff(due)).asDays();
         //might not be overdue
-        if(diff>0){
-          sum+=diff;
+        if (diff > 0) {
+          sum += diff;
         }
-        
       }
     }
     return sum;
   };
 
-  const generateDirectory = (users) => {
+  const generateDirectory = users => {
     return users
-    .filter(user=>user.firstName.toLowerCase().includes(userFilter) || user.lastName.toLowerCase().includes(userFilter))
-    .sort(function(a, b){
-      if(a.firstName < b.firstName) { 
-        return -1; 
-      }
-      else if(a.firstName > b.firstName) {
-        return 1; 
-      }
-      else{
-        return 0;
-      }
-    })
-    .map((user, index)=>{
-      let userBalance = calculateBalance(user.currentlyCheckedOut);
-      return (
-        <article key={index} className='user-card'>
-          <h2>{user.firstName + ' ' + user.lastName}</h2>
-          <h4>{user.email}</h4>
-          <h4>{user.cell}</h4>
-          {
-            userBalance>0 &&
-            <h4 className="unavailable">Balance: ${userBalance}.00</h4>
-          }
-        </article>
+      .filter(
+        user =>
+          user.firstName.toLowerCase().includes(userFilter) ||
+          user.lastName.toLowerCase().includes(userFilter)
       )
-    })
-  }
+      .sort(function(a, b) {
+        if (a.firstName < b.firstName) {
+          return -1;
+        } else if (a.firstName > b.firstName) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .map((user, index) => {
+        let userBalance = calculateBalance(user.currentlyCheckedOut);
+        return (
+          <article key={index} className="user-card">
+            <h2>{user.firstName + " " + user.lastName}</h2>
+            <h4>{user.email}</h4>
+            <h4>{user.cell}</h4>
+            {userBalance > 0 && (
+              <h4 className="unavailable">Balance: ${userBalance}.00</h4>
+            )}
+          </article>
+        );
+      });
+  };
 
   const saveMedia = () => {
     setShowMediaForm(false);
-    changeCategory('allMedia');
-  }
+    changeCategory("allMedia");
+  };
 
   const cancelMedia = () => {
     setShowMediaForm(false);
-    changeCategory('allMedia'); 
-  }
+    changeCategory("allMedia");
+  };
 
   const addNewMedia = () => {
     setCurrentMedia(null);
     setShowMediaForm(true);
-  }
+  };
 
-  if(!user.loggedIn || redirect){
+  if (!user.loggedIn || redirect) {
     return <Redirect to="/" />;
-  }
-
-  else if (category==='allUsers' && users && user.info){
+  } else if (category === "allUsers" && users && user.info) {
     return (
       <React.Fragment>
-        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-        <Navbar/>
+        <SidebarNav
+          user={user}
+          logOut={logOut}
+          changeCategory={changeCategory}
+        />
+        <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
           <section className="user-directory">
@@ -270,83 +272,111 @@ export default function Dashboard(props) {
               type="search"
               placeholder="Search Here"
               className="search"
-              onChange={(e)=>setUserFilter(e.target.value.toLowerCase())}
+              onChange={e => setUserFilter(e.target.value.toLowerCase())}
             />
             {generateDirectory(users)}
           </section>
         </main>
       </React.Fragment>
     );
-  }
-
-  else if (category==='About'){
+  } else if (category === "About") {
     return (
       <React.Fragment>
-        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-        <Navbar/>
+        <SidebarNav
+          user={user}
+          logOut={logOut}
+          changeCategory={changeCategory}
+        />
+        <Navbar />
         <main className="dashboard">
-          <About/>
+          <About />
         </main>
       </React.Fragment>
     );
-  }
-
-  else if (category==='Account'){
+  } else if (category === "Account") {
     return (
       <React.Fragment>
-        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-        <Navbar/>
+        <SidebarNav
+          user={user}
+          logOut={logOut}
+          changeCategory={changeCategory}
+        />
+        <Navbar />
         <main className="dashboard">
-          <UpdateAccount refresh={refresh} user={user}/>
+          <UpdateAccount refresh={refresh} user={user} />
         </main>
       </React.Fragment>
     );
-  }
-
-  else if (media && user.info){
+  } else if (media && user.info) {
     const authToken = loadAuthToken();
     return (
       <React.Fragment>
-        <SidebarNav user={user} logOut={logOut} changeCategory={changeCategory}/>
-        <Navbar/>
+        <SidebarNav
+          user={user}
+          logOut={logOut}
+          changeCategory={changeCategory}
+        />
+        <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
-          {balance && <h2 className="unavailable total-balance">Total Balance: ${balance}.00</h2>}
-          {admin && category==='allMedia' && <button className="add-new-media-btn" onClick={()=>addNewMedia()}>Add New Media</button>}
-          <MediaForm 
-            show={showMediaForm} 
+          {balance && (
+            <h2 className="unavailable total-balance">
+              Total Balance: ${balance}.00
+            </h2>
+          )}
+          {admin && category === "allMedia" && (
+            <button className="add-new-media-btn" onClick={() => addNewMedia()}>
+              Add New Media
+            </button>
+          )}
+          <MediaForm
+            show={showMediaForm}
             authToken={authToken}
             currentMedia={currentMedia}
-            saveMedia={()=>saveMedia()} 
-            cancelMedia={()=>cancelMedia()} 
+            saveMedia={() => saveMedia()}
+            cancelMedia={() => cancelMedia()}
           />
           <section className="booklist">
-            { category==='allMedia' && 
-            <div className="filter-options">
-              <input
-                className="search"
-                type="search"
-                placeholder="Search Here"
-                onChange={(e)=>setMediaFilter(e.target.value.toLowerCase())}
-              />
-              <select 
-                className="select-media"
-                onChange={(e)=>setTypeFilter(e.target.value)}>
-                <option defaultValue value="">All Media</option>
-                <option value="book">Books</option>
-                <option value="dvd">DVDs</option>
-              </select>
-            </div>
-            }
-            {media.length ? generateBooks(media) : 
-            <h4 className="nothing-here">{eyes}{eyes} Nothing To See Here For Now {eyes}{eyes}</h4>}
+            {category === "allMedia" && (
+              <div className="filter-options">
+                <input
+                  className="search"
+                  type="search"
+                  placeholder="Search Here"
+                  onChange={e => setMediaFilter(e.target.value.toLowerCase())}
+                />
+                <select
+                  className="select-media"
+                  onChange={e => setTypeFilter(e.target.value)}
+                >
+                  <option defaultValue value="">
+                    All Media
+                  </option>
+                  <option value="book">Books</option>
+                  <option value="dvd">DVDs</option>
+                </select>
+              </div>
+            )}
+            {media.length ? (
+              generateBooks(media)
+            ) : (
+              <h4 className="nothing-here">
+                {eyes} Nothing To See Here For Now {eyes}
+              </h4>
+            )}
           </section>
+          <footer className="footer">
+            <a href="https://nikmash.com" target="_blank">
+              <i class="fas fa-paint-brush" /> Website by NikMash Creations
+            </a>
+            <a href="mailto:jewishbookcorner@gmail.com" target="_blank">
+              <i class="fas fa-envelope" /> Questions? Contact Us
+            </a>
+          </footer>
         </main>
       </React.Fragment>
     );
-  }
-
-  else{
+  } else {
     return null;
   }
 }

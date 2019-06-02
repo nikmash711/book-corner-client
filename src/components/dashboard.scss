@@ -1,74 +1,74 @@
 @import "~./constants.scss";
 
-.dashboard{
+.dashboard {
   margin-top: 90px;
   background: $beige;
 }
 
-.page-title{
+.page-title {
   color: $darkBlue;
   padding: 20px;
   text-align: center;
 }
 
-.nothing-here{
+.nothing-here {
   color: $darkBlue;
   text-align: center;
 }
 
-.filter-options{
+.filter-options {
   display: flex;
-  margin:20px auto;
+  margin: 20px auto;
   width: 300px;
 }
 
-.search{
-  border:1px solid $darkBlue;
+.search {
+  border: 1px solid $darkBlue;
   color: $darkBlue;
   font-size: 16px;
-  height:30px;
+  height: 30px;
   padding-left: 10px;
-  width:200px;
+  width: 200px;
 }
 
-.search::placeholder{
+.search::placeholder {
   font-style: italic;
   font-size: 16px;
 }
 
-.select-media{
-  border:1px solid $darkBlue;
+.select-media {
+  border: 1px solid $darkBlue;
   font-size: 16px;
   margin-left: 6px;
-  height:30px;
+  height: 30px;
 }
 
-.user-directory{
+.user-directory {
   margin: 20px auto;
   width: 90%;
   text-align: center;
 
-  @media(min-width: 600px){
+  @media (min-width: 600px) {
     width: 500px;
   }
 }
 
-.user-card{
+.user-card {
   border: 3px solid $darkBlue;
   color: $darkBlue;
   margin: 30px auto;
   padding: 10px;
 }
 
-.user-card h4{
+.user-card h4 {
   padding-top: 8px;
 }
 
-.user-directory .search{
+.user-directory .search {
   width: 300px;
 }
 
-.total-balance{
+.total-balance {
   text-align: center;
 }
 
@@ -76,11 +76,11 @@
   background: $darkBlue;
   color: $beige;
   display: block;
-  margin: 20px auto;
+  margin: 0px auto 20px auto;
 }
 
-@media(min-width: 900px){
-  .dashboard{
+@media (min-width: 900px) {
+  .dashboard {
     margin-left: 250px;
   }
 }

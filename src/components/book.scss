@@ -1,6 +1,6 @@
 @import "~./constants.scss";
 
-.media{
+.media {
   border-bottom: 1px solid $darkBlue;
   display: flex;
   font-family: $mainFont;
@@ -9,34 +9,38 @@
   text-align: center;
 }
 
-.media-image-section{
+.media:last-child {
+  border-bottom: none;
+}
+
+.media-image-section {
   width: 150px;
 }
 
-.media-image{
+.media-image {
   height: 150px;
 }
 
-.media-info{
+.media-info {
   padding-left: 20px;
   text-align: left;
 }
 
-.media-title{
+.media-title {
   color: $darkBlue;
   display: inline-block;
 }
 
-.media-icon{
+.media-icon {
   font-size: 1.2rem;
   padding-left: 5px;
 }
 
-.media-subcontent{
+.media-subcontent {
   color: $darkBlue;
 }
 
-.media-button{
+.media-button {
   border-radius: 10px;
   font-size: 1rem;
   margin-top: 10px;
@@ -46,31 +50,31 @@
   width: 130px;
 }
 
-.media-author{
+.media-author {
   color: $darkBlue;
   padding-top: 5px;
 }
 
-.unavailable{
+.unavailable {
   color: red;
 }
 
-.available{
+.available {
   color: green;
 }
 
-@media(min-width: 600px){
+@media (min-width: 600px) {
   .media {
     padding: 30px;
   }
 
-  .media-image-section{
+  .media-image-section {
     width: 250px;
   }
-  
-  .media-image{
+
+  .media-image {
     height: 250px;
-  }  
+  }
 
   .media-subcontent {
     margin-top: 40px;

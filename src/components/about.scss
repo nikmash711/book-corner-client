@@ -1,18 +1,18 @@
 @import "~./constants.scss";
 
-.about{
+.about {
   padding: 90px 20px 20px 20px;
 }
 
 .about-loggedin {
   padding: 20px;
 
-  @media(max-width: 1200px){
+  @media (max-width: 1200px) {
     max-width: 600px;
   }
 }
 
-.about-title{
+.about-title {
   color: $darkBlue;
   text-align: center;
   padding: 20px 0px;
@@ -24,31 +24,31 @@
   line-height: 40px;
 }
 
-.rules-section{
-  border-top:4px solid $darkBlue;
+.rules-section {
+  border-top: 4px solid $darkBlue;
   padding: 20px 10px;
 }
 
-.rules-title{
+.rules-title {
   color: $darkBlue;
   text-align: center;
   text-decoration: underline;
 }
 
-.rule{
+.rule {
   color: $darkBlue;
   line-height: 40px;
 }
 
-@media(min-width: 700px){
-  .about{
+@media (min-width: 700px) {
+  .about {
     width: 650px;
     margin: auto;
   }
 }
 
-@media(min-width: 900px){
-  .about{
+@media (min-width: 900px) {
+  .about {
     width: 850px;
     margin: auto;
   }

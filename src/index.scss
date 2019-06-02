@@ -12,7 +12,13 @@ code {
     monospace;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
   margin-bottom: 5px;
 }
@@ -54,7 +60,7 @@ p {
   h3 {
     font-size: 1.8rem;
   }
- 
+
   h4 {
     font-size: 1.5rem;
   }
@@ -65,5 +71,33 @@ p {
 
   p {
     font-size: 1.5rem;
+  }
+}
+
+footer {
+  background: $darkBlue;
+  color: $beige;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 20px;
+
+  a {
+    color: $beige;
+    text-align: center;
+  }
+
+  a:hover,
+  a:focus {
+    color: $beige;
+  }
+
+  i {
+    margin-right: 5px;
+  }
+
+  @media (min-width: 500px) {
+    flex-direction: row;
+    padding: 10px 40px;
   }
 }
