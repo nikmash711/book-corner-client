@@ -74,15 +74,16 @@ User Stories:
 
 [x] Add a footer for contact and my info
 
+[x] Add anchor to log in form with cant log in
+
 NEED TO DO: 
-
-[] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
-
 [] If user forgets password, I can change their password to "password" via the database and allow them to change it once they've logged in (check that this works in prod)
 
 [] Set up database in prod and deploy 
 
-[] Add anchor to log in form with cant log in
+[] Set up Heroku account to not sleep
+
+[] Make a ReadME
 
 
 Edge cases: 
@@ -95,3 +96,4 @@ Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError)
 In the future: 
 [] User can rate books
 [] Work on better password retreival
+[] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
