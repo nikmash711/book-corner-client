@@ -65,17 +65,14 @@ export default function Dashboard(props) {
     refreshAuthToken().then(token => {
       const decodedToken = jwtDecode(token);
       user.info = decodedToken.user;
-      console.log("refreshing");
+      // console.log("refreshing");
       if (user.info.currentlyCheckedOut.length === 2) {
         setExceededCheckOuts(true);
       } else if (user.info.mediaOnHold.length === 2) {
         setExceededHolds(true);
       }
       //so that the page refreshes:
-      // else {
-      console.log("here");
       changeCategory(category || "allMedia");
-      // }
     });
   };
 
@@ -110,7 +107,7 @@ export default function Dashboard(props) {
           setUsers(users);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
     } else {
       const authToken = loadAuthToken();
@@ -131,14 +128,9 @@ export default function Dashboard(props) {
           }
           setCategory(category);
           setMedia(media);
-          console.log("balance is", balance);
-
-          //this seems to happen more than once:
-          // console.log('HISTORY', props.history);
-          // props.history.push(`/${category}`)
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
     }
   };
@@ -196,7 +188,6 @@ export default function Dashboard(props) {
       let due = null;
       if (media.dueDate) {
         due = moment(media.dueDate, "MM/DD/YYYY");
-        console.log("NOw", now, "DUE", due);
         //Difference in number of days
         let diff = moment.duration(now.diff(due)).asDays();
         //might not be overdue

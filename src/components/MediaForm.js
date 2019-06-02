@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import {API_BASE_URL} from '../config';
-import {normalizeResponseErrors} from '../utils';
+import React, { useState, useEffect } from "react";
+import { Modal, Button } from "react-bootstrap";
+import { API_BASE_URL } from "../config";
+import { normalizeResponseErrors } from "../utils";
 
 export default function MediaForm(props) {
-  console.log('IN MEDIA FORM, PROPS ARE', props);
-
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [img, setImage] = useState("");
@@ -13,17 +11,16 @@ export default function MediaForm(props) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if(props.show && props.currentMedia){
+    if (props.show && props.currentMedia) {
       setTitle(props.currentMedia.title);
       setAuthor(props.currentMedia.author);
       setImage(props.currentMedia.img);
-      setType(props.currentMedia.type );
-    }
-    else {
+      setType(props.currentMedia.type);
+    } else {
       setTitle("");
       setAuthor("");
       setImage("");
-      setType("book");      
+      setType("book");
     }
   }, [props.show]);
 
@@ -35,54 +32,50 @@ export default function MediaForm(props) {
     fetch(`${API_BASE_URL}/media/${params}`, {
       method,
       headers: {
-        'Accept': 'application/json',
+        Accept: "application/json",
         Authorization: `Bearer ${props.authToken}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-          title,
-          author,
-          img,
-          type,
+        title,
+        author,
+        img,
+        type
       })
     })
-    .then(res => normalizeResponseErrors(res))
-    .then(res => res.json())
-    .then((media) => {
-      props.saveMedia();
-    })
-    .catch(err => {
-      setError(err.message);
-  })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(media => {
+        props.saveMedia();
+      })
+      .catch(err => {
+        setError(err.message);
+      });
   };
 
   const handleDeleteMedia = e => {
     e.preventDefault();
-    if(window.confirm('Are you sure you want to delete this media?')){
+    if (window.confirm("Are you sure you want to delete this media?")) {
       fetch(`${API_BASE_URL}/media/${props.currentMedia.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Accept': 'application/json',
+          Accept: "application/json",
           Authorization: `Bearer ${props.authToken}`,
-          'Content-Type': 'application/json'
-        },
+          "Content-Type": "application/json"
+        }
       })
-      .then(res => normalizeResponseErrors(res))
-      .then((media) => {
-        props.cancelMedia();
-      })
-      .catch(err => {
-        setError(err.message);
-    })
+        .then(res => normalizeResponseErrors(res))
+        .then(media => {
+          props.cancelMedia();
+        })
+        .catch(err => {
+          setError(err.message);
+        });
     }
   };
-  
+
   return (
-    <Modal
-      show={props.show}
-      onHide={props.cancelMedia}
-      backdrop="static"
-    >
+    <Modal show={props.show} onHide={props.cancelMedia} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>Add Media</Modal.Title>
       </Modal.Header>
@@ -127,7 +120,8 @@ export default function MediaForm(props) {
             <select
               value={type}
               className="select-media"
-              onChange={(e) => setType(e.target.value)}>
+              onChange={e => setType(e.target.value)}
+            >
               <option value="book">Book</option>
               <option value="dvd">DVD</option>
             </select>
@@ -141,11 +135,11 @@ export default function MediaForm(props) {
         <Button variant="primary" onClick={handleSubmit}>
           Save
         </Button>
-        { props.currentMedia &&
+        {props.currentMedia && (
           <Button variant="danger" onClick={handleDeleteMedia}>
             Delete
           </Button>
-        }
+        )}
       </Modal.Footer>
     </Modal>
   );

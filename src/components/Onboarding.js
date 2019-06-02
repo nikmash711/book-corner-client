@@ -29,14 +29,11 @@ export default function Onboarding(props) {
   //when the component mounts, check if the user is logged in (based on local storage) - if they are, hydrate the token from local storage
   useEffect(() => {
     const authToken = loadAuthToken();
-    console.log(authToken);
     if (authToken) {
       user.loggedIn = true;
       refreshAuthToken().then(token => {
-        console.log("hereeee");
         const decodedToken = jwtDecode(token);
         user.info = decodedToken.user;
-        console.log("hereeee", decodedToken.user);
       });
       setRedirect(true);
     }
@@ -44,7 +41,6 @@ export default function Onboarding(props) {
 
   /*Logs in user*/
   const loginUser = (email, password) => {
-    console.log("logging in");
     fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
