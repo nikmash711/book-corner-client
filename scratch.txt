@@ -77,12 +77,7 @@ User Stories:
 [x] Add anchor to log in form with cant log in
 
 NEED TO DO: 
-[] Set up Heroku account to not sleep
-
-[] Make a ReadME
-
-[] get rid of console logs
-
+[] Make a README
 
 Edge cases: 
 - User puts book on hold, and then checks out 2 books, and then 3rd book becomes available
@@ -93,5 +88,5 @@ Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError)
 
 In the future: 
 [] User can rate books
-[] Work on better password retreival
+[] Work on better password failed attempts
 [] Set up texting mechanism such that admin is sent a text message each time a book is checked out (https://www.nexmo.com/pricing)
