@@ -8,7 +8,7 @@ import moment from 'moment';
 
 export default function Book(props) {
   let user = useContext(UserContext);
-  let [ableToPlaceHold, setAbleToPlaceHold] = useState(false);
+  let [ableToPlaceHold, setAbleToPlaceHold] = useState(true);
   let [ableToCheckOut, setAbleToCheckOut] = useState(true);
   let [ableToCancelHold, setAbleToCancelHold] = useState(true);
   let [availability, setAvailability] = useState(
