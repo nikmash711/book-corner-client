@@ -75,8 +75,7 @@ export default function Book(props) {
       ? setAbleToPlaceHold(false)
       : admin
       ? setAbleToPlaceHold(false)
-      : // : setAbleToPlaceHold(true);
-        console.log('THIS IS WHERE');
+      : setAbleToPlaceHold(true);
 
     props.user.mediaOnHold.includes(props.media.id)
       ? setAbleToCancelHold(true)
@@ -287,15 +286,31 @@ export default function Book(props) {
               : 'Not Ready For Pickup'}
           </h6>
         )}
-        {ableToCheckOut && props.category === 'allMedia' && (
+        {ableToCheckOut && props.category === 'allMedia' ? (
           <button
             className="action-button-skin media-button"
             onClick={() => checkOut(props.media.id)}
           >
             Check Out
           </button>
+        ) : ableToPlaceHold && props.category === 'allMedia' ? (
+          <button
+            className="action-button-skin media-button"
+            onClick={() => placeHold(props.media.id, 'place')}
+          >
+            Place Hold
+          </button>
+        ) : ableToCancelHold ? (
+          <button
+            className="action-button-skin media-button"
+            onClick={() => placeHold(props.media.id, 'cancel')}
+          >
+            Cancel Hold
+          </button>
+        ) : (
+          ''
         )}
-        {ableToPlaceHold && props.category === 'allMedia' && (
+        {/* {ableToPlaceHold && props.category === 'allMedia' && (
           <button
             className="action-button-skin media-button"
             onClick={() => placeHold(props.media.id, 'place')}
@@ -310,7 +325,7 @@ export default function Book(props) {
           >
             Cancel Hold
           </button>
-        )}
+        )} */}
         {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
           <a
             className="action-button-skin media-button"
