@@ -53,6 +53,17 @@ export default function Book(props) {
     });
 
   useEffect(() => {
+    //user can only check out a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its available
+    props.exceededCheckOuts
+      ? setAbleToCheckOut(false)
+      : props.user.currentlyCheckedOut.includes(props.media.id)
+      ? setAbleToCheckOut(false)
+      : availability === 'Unavailable'
+      ? setAbleToCheckOut(false)
+      : admin
+      ? setAbleToCheckOut(false)
+      : setAbleToCheckOut(true);
+
     //user can only place a hold on a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its unavailable, and not admin
     props.exceededHolds
       ? setAbleToPlaceHold(false)
@@ -64,18 +75,8 @@ export default function Book(props) {
       ? setAbleToPlaceHold(false)
       : admin
       ? setAbleToPlaceHold(false)
-      : setAbleToPlaceHold(true);
-
-    //user can only check out a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its available
-    props.exceededCheckOuts
-      ? setAbleToCheckOut(false)
-      : props.user.currentlyCheckedOut.includes(props.media.id)
-      ? setAbleToCheckOut(false)
-      : availability === 'Unavailable'
-      ? setAbleToCheckOut(false)
-      : admin
-      ? setAbleToCheckOut(false)
-      : setAbleToCheckOut(true);
+      : // : setAbleToPlaceHold(true);
+        console.log('THIS IS WHERE');
 
     props.user.mediaOnHold.includes(props.media.id)
       ? setAbleToCancelHold(true)
@@ -104,7 +105,7 @@ export default function Book(props) {
         return props.refresh();
       })
       .catch(error => {
-        // console.log(error);
+        props.setError(error);
       });
   };
 

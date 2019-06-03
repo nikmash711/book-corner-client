@@ -33,6 +33,7 @@ export default function Dashboard(props) {
   const [typeFilter, setTypeFilter] = useState('');
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentMedia, setCurrentMedia] = useState('');
+  const [error, setError] = useState('');
 
   let admin = false;
   if (user.info) {
@@ -160,6 +161,10 @@ export default function Dashboard(props) {
           <Book
             setShowMediaForm={e => setShowMediaForm(true)}
             setCurrentMedia={e => setCurrentMedia(media)}
+            setError={error => {
+              setError(error.message);
+              window.scrollTo(0, 0);
+            }}
             user={user.info}
             key={index}
             exceededCheckOuts={exceededCheckOuts}
@@ -321,6 +326,7 @@ export default function Dashboard(props) {
               Add New Media
             </button>
           )}
+          {error && <h5 className="onboarding-error">{error}</h5>}
           <MediaForm
             show={showMediaForm}
             authToken={authToken}
@@ -360,13 +366,13 @@ export default function Dashboard(props) {
         </main>
         <footer className="footer">
           <a href="https://nikmash.com" target="_blank">
-            <i class="fas fa-paint-brush" /> Website by NikMash Creations
+            <i className="fas fa-paint-brush" /> Website by NikMash Creations
           </a>
           <a
             href="mailto:jewishbookcorner@gmail.com?subject=Jewish%20Book%20Corner%20Inquiry"
             target="_blank"
           >
-            <i class="fas fa-envelope" /> Questions? Contact Us
+            <i className="fas fa-envelope" /> Questions? Contact Us
           </a>
         </footer>
       </React.Fragment>
