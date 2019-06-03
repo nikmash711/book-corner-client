@@ -1,4 +1,4 @@
-@import "~./constants.scss";
+@import '~./constants.scss';
 
 .navbar {
   background: $darkBlue;
@@ -13,7 +13,7 @@
   color: $beige;
   display: block;
   font-size: 1.8rem;
-  padding: 0px 0px 0px 50px;
+  padding: 0px 0px 0px 80px;
   text-decoration: none;
 
   @media (min-width: 900px) {
