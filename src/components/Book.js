@@ -83,6 +83,7 @@ export default function Book(props) {
   });
 
   const checkOut = mediaId => {
+    setAbleToPlaceHold(false);
     const authToken = loadAuthToken();
     let userId = props.user.id;
     fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
