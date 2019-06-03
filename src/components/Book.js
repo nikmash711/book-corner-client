@@ -65,17 +65,19 @@ export default function Book(props) {
       : setAbleToCheckOut(true);
 
     //user can only place a hold on a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its unavailable, and not admin
-    props.exceededHolds
-      ? setAbleToPlaceHold(false)
-      : props.user.currentlyCheckedOut.includes(props.media.id)
-      ? setAbleToPlaceHold(false)
-      : props.user.mediaOnHold.includes(props.media.id)
-      ? setAbleToPlaceHold(false)
-      : availability === 'Available'
-      ? setAbleToPlaceHold(false)
-      : admin
-      ? setAbleToPlaceHold(false)
-      : setAbleToPlaceHold(true);
+    if (ableToPlaceHold) {
+      props.exceededHolds
+        ? setAbleToPlaceHold(false)
+        : props.user.currentlyCheckedOut.includes(props.media.id)
+        ? setAbleToPlaceHold(false)
+        : props.user.mediaOnHold.includes(props.media.id)
+        ? setAbleToPlaceHold(false)
+        : availability === 'Available'
+        ? setAbleToPlaceHold(false)
+        : admin
+        ? setAbleToPlaceHold(false)
+        : setAbleToPlaceHold(true);
+    }
 
     props.user.mediaOnHold.includes(props.media.id)
       ? setAbleToCancelHold(true)
