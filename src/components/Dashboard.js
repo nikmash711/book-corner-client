@@ -351,8 +351,9 @@ export default function Dashboard(props) {
                   <option defaultValue value="">
                     All Media
                   </option>
-                  <option value="book">Books</option>
-                  <option value="dvd">DVDs</option>
+                  <option value="kid-book">Kid Books</option>
+                  <option value="adult-book">Adult Books</option>
+                  <option value="dvd">DVDs/CDs</option>
                 </select>
               </div>
             )}

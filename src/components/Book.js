@@ -35,7 +35,7 @@ export default function Book(props) {
   let tense = moment.duration(now.diff(due)).asDays() > 0 ? 'Was Due' : 'Due';
 
   let icon =
-    props.media.type === 'book' ? (
+    props.media.type === 'adult-book' || props.media.type === 'kid-book' ? (
       <i className="fas fa-book" />
     ) : (
       <i className="fas fa-compact-disc" />

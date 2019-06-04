@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
-import { API_BASE_URL } from "../config";
-import { normalizeResponseErrors } from "../utils";
+import React, { useState, useEffect } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import { API_BASE_URL } from '../config';
+import { normalizeResponseErrors } from '../utils';
 
 export default function MediaForm(props) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [img, setImage] = useState("");
-  const [type, setType] = useState("book");
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [img, setImage] = useState('');
+  const [type, setType] = useState('book');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -17,24 +17,24 @@ export default function MediaForm(props) {
       setImage(props.currentMedia.img);
       setType(props.currentMedia.type);
     } else {
-      setTitle("");
-      setAuthor("");
-      setImage("");
-      setType("book");
+      setTitle('');
+      setAuthor('');
+      setImage('');
+      setType('book');
     }
   }, [props.show]);
 
   const handleSubmit = e => {
-    let method = props.currentMedia ? "PUT" : "POST";
-    let params = props.currentMedia ? props.currentMedia.id : "";
+    let method = props.currentMedia ? 'PUT' : 'POST';
+    let params = props.currentMedia ? props.currentMedia.id : '';
 
     e.preventDefault();
     fetch(`${API_BASE_URL}/media/${params}`, {
       method,
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${props.authToken}`,
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         title,
@@ -55,13 +55,13 @@ export default function MediaForm(props) {
 
   const handleDeleteMedia = e => {
     e.preventDefault();
-    if (window.confirm("Are you sure you want to delete this media?")) {
+    if (window.confirm('Are you sure you want to delete this media?')) {
       fetch(`${API_BASE_URL}/media/${props.currentMedia.id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          Accept: "application/json",
+          Accept: 'application/json',
           Authorization: `Bearer ${props.authToken}`,
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         }
       })
         .then(res => normalizeResponseErrors(res))
@@ -122,8 +122,9 @@ export default function MediaForm(props) {
               className="select-media"
               onChange={e => setType(e.target.value)}
             >
-              <option value="book">Book</option>
-              <option value="dvd">DVD</option>
+              <option value="kid-book">Kid Books</option>
+              <option value="adult-book">Adult Books</option>
+              <option value="dvd">DVDs/CDs</option>
             </select>
           </section>
         </form>
