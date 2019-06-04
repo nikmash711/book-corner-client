@@ -250,7 +250,7 @@ export default function Book(props) {
               <i className="fas fa-edit" />
             </button>
           )}
-          <h4 className="media-author">By: {props.media.author}</h4>
+          <h6 className="media-author">By: {props.media.author}</h6>
         </section>
         {props.category === 'allMedia' && (
           <h6 className={`media-subcontent ${availability.toLowerCase()}`}>
