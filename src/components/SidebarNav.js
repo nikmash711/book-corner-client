@@ -1,6 +1,7 @@
-import React from "react";
-import Sidebar from "react-sidebar";
-import "./sidebar.scss";
+import React from 'react';
+import Sidebar from 'react-sidebar';
+import './sidebar.scss';
+import { adminEmail } from '../vars';
 
 const mql = window.matchMedia(`(min-width: 900px)`);
 
@@ -36,7 +37,7 @@ export default class SidebarNav extends React.Component {
     let admin = false;
     if (
       this.props.user &&
-      this.props.user.info.email === "jewishbookcorner@gmail.com"
+      this.props.user.info.email.toLowerCase() === adminEmail
     ) {
       admin = true;
     }
@@ -57,8 +58,8 @@ export default class SidebarNav extends React.Component {
               style={{
                 display: `${
                   !this.state.sidebarOpen && !this.state.sidebarDocked
-                    ? "none"
-                    : "inherit"
+                    ? 'none'
+                    : 'inherit'
                 }`
               }}
             >
@@ -66,7 +67,7 @@ export default class SidebarNav extends React.Component {
                 className="action-button-skin sidebar-button"
                 onClick={() => {
                   this.onSetSidebarOpen(false);
-                  this.props.changeCategory("allMedia");
+                  this.props.changeCategory('allMedia');
                 }}
               >
                 Catalog
@@ -77,7 +78,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("myCheckedOutMedia");
+                      this.props.changeCategory('myCheckedOutMedia');
                     }}
                   >
                     Checked Out
@@ -86,7 +87,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("myCheckoutHistory");
+                      this.props.changeCategory('myCheckoutHistory');
                     }}
                   >
                     Checkout History
@@ -95,7 +96,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("myMediaOnHold");
+                      this.props.changeCategory('myMediaOnHold');
                     }}
                   >
                     On Hold
@@ -104,7 +105,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("myOverdueMedia");
+                      this.props.changeCategory('myOverdueMedia');
                     }}
                   >
                     Overdue
@@ -117,7 +118,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("allUsers");
+                      this.props.changeCategory('allUsers');
                     }}
                   >
                     User Directory
@@ -126,7 +127,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("allRequests");
+                      this.props.changeCategory('allRequests');
                     }}
                   >
                     Requests
@@ -135,7 +136,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("allCheckedOutMedia");
+                      this.props.changeCategory('allCheckedOutMedia');
                     }}
                   >
                     Checked Out
@@ -144,7 +145,7 @@ export default class SidebarNav extends React.Component {
                     className="action-button-skin sidebar-button"
                     onClick={() => {
                       this.onSetSidebarOpen(false);
-                      this.props.changeCategory("allOverdueMedia");
+                      this.props.changeCategory('allOverdueMedia');
                     }}
                   >
                     Overdue
@@ -155,7 +156,7 @@ export default class SidebarNav extends React.Component {
                 className="action-button-skin sidebar-button"
                 onClick={() => {
                   this.onSetSidebarOpen(false);
-                  this.props.changeCategory("About");
+                  this.props.changeCategory('About');
                 }}
               >
                 About
@@ -164,7 +165,7 @@ export default class SidebarNav extends React.Component {
                 className="action-button-skin sidebar-button"
                 onClick={() => {
                   this.onSetSidebarOpen(false);
-                  this.props.changeCategory("Account");
+                  this.props.changeCategory('Account');
                 }}
               >
                 Account
@@ -186,12 +187,12 @@ export default class SidebarNav extends React.Component {
           onSetOpen={this.onSetSidebarOpen}
           styles={{
             sidebar: {
-              position: "fixed",
+              position: 'fixed',
               top: 90,
-              background: "#030A43",
+              background: '#030A43',
               width: 250
             },
-            root: { position: "relative", boxShadow: 0 }
+            root: { position: 'relative', boxShadow: 0 }
           }}
         />
       </React.Fragment>

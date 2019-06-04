@@ -5,6 +5,7 @@ import { normalizeResponseErrors } from '../utils';
 import './book.scss';
 import { UserContext } from '../context';
 import moment from 'moment';
+import { adminEmail } from '../vars';
 
 export default function Book(props) {
   let user = useContext(UserContext);
@@ -16,7 +17,7 @@ export default function Book(props) {
   );
 
   let admin = false;
-  if (user && user.info.email === 'jewishbookcorner@gmail.com') {
+  if (user && user.info.email.toLowerCase() === adminEmail) {
     admin = true;
   }
 
