@@ -107,7 +107,6 @@ export default function MediaForm(props) {
           <section className="field">
             <label htmlFor="image">Image</label>
             <input
-              required
               id="image"
               type="text"
               onChange={e => setImage(e.target.value)}
@@ -127,21 +126,33 @@ export default function MediaForm(props) {
               <option value="dvd">DVDs/CDs</option>
             </select>
           </section>
+          <section className="media-form-buttons">
+            <button
+              type="submit"
+              onClick={props.handleSubmit}
+              className="btn btn-primary"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={props.cancelMedia}
+              className="btn btn-secondary"
+            >
+              Cancel
+            </button>
+            {props.currentMedia && (
+              <button
+                type="button"
+                onClick={props.handleDeleteMedia}
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
+            )}
+          </section>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.cancelMedia}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={handleSubmit}>
-          Save
-        </Button>
-        {props.currentMedia && (
-          <Button variant="danger" onClick={handleDeleteMedia}>
-            Delete
-          </Button>
-        )}
-      </Modal.Footer>
     </Modal>
   );
 }
