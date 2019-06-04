@@ -19,10 +19,10 @@ export default function About(props) {
       <section className={`about ${user.loggedIn ? 'about-loggedin' : ''}`}>
         <h1 className="about-title">Welcome To Jewish Book Corner!</h1>
         <p className="intro">
-          If you live in the Encino/Tarzana/Reseda Jewish community and are
-          looking for great Jewish books to read, you've come to the right
-          place! Jewish Book Corner is designed to operate very similarly to a
-          classic library. Read the the rules below!
+          If you live in the valley and are looking for great Jewish books to
+          read, you've come to the right place! Jewish Book Corner is designed
+          to operate very similarly to a classic library. Read the the rules
+          below!
         </p>
         {!user.loggedIn && <Onboarding form="login" />}
         <section className="rules-section">
@@ -43,9 +43,9 @@ export default function About(props) {
           </p>
           <p className="rule">
             {arrow} After you have received an email that it is ready for pick
-            up, you will have two days to pick it up from ___. Please be
-            considerate when checking out media and pick them up in a timely
-            fashion.
+            up, you will have one day to pick it up from a local area in
+            Tarzana. Please be considerate when checking out media and pick them
+            up in a timely fashion.
           </p>
           <p className="rule">
             {arrow} Media can be checked out for a maximum of 14 days.

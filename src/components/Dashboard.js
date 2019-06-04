@@ -148,9 +148,10 @@ export default function Dashboard(props) {
     }
     return filteredMedia
       .sort(function(a, b) {
-        if (a.title < b.title) {
+        console.log(a.author, b.author);
+        if (a.author < b.author) {
           return -1;
-        } else if (a.title > b.title) {
+        } else if (a.author > b.author) {
           return 1;
         } else {
           return 0;
