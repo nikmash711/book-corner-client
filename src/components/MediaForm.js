@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { API_BASE_URL } from '../config';
 import { normalizeResponseErrors } from '../utils';
 
@@ -144,7 +144,7 @@ export default function MediaForm(props) {
             {props.currentMedia && (
               <button
                 type="button"
-                onClick={props.handleDeleteMedia}
+                onClick={handleDeleteMedia}
                 className="btn btn-danger"
               >
                 Delete
