@@ -78,6 +78,12 @@ export default function About(props) {
             <a href="mailto:jewishbookcorner@gmail.com">via email</a> - we'd
             love to hear from you!
           </p>
+          <p className="rule">
+            {arrow} Any type of donation is welcome -- whether it's in honor of
+            someone's birthday, in memory of a loved one, or any other occasion.
+            Please feel free
+            <a href="mailto:jewishbookcorner@gmail.com"> to reach out to us!</a>
+          </p>
           {!user.loggedIn && <Onboarding form="signup" />}
         </section>
       </section>
