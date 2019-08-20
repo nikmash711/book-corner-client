@@ -314,22 +314,6 @@ export default function Book(props) {
         ) : (
           ''
         )}
-        {/* {ableToPlaceHold && props.category === 'allMedia' && (
-          <button
-            className="action-button-skin media-button"
-            onClick={() => placeHold(props.media.id, 'place')}
-          >
-            Place Hold
-          </button>
-        )}
-        {ableToCancelHold && (
-          <button
-            className="action-button-skin media-button"
-            onClick={() => placeHold(props.media.id, 'cancel')}
-          >
-            Cancel Hold
-          </button>
-        )} */}
         {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
           <a
             className="action-button-skin media-button"
@@ -347,6 +331,7 @@ export default function Book(props) {
           props.media.checkedOutBy && (
             <a
               className="action-button-skin media-button"
+              target="_blank"
               href={
                 props.media.holdQueue.length
                   ? `mailto:${props.media.holdQueue[0].email}?subject=${

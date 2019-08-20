@@ -70,6 +70,12 @@ User Stories:
 - Show a green signal that it updated successfully
 - Clear values for password after submitted
 
+[ ] Have a button for cancelling request
+- Admin can do this for media under "Requests" 
+- User can do this for media under "Checked Out" that is NOT yet ready for pickup. Follow steps in checking out process and make sure everything is undone.
+
+[ ] Send users a text when their book is ready for pickup in addition to email? It's cheap anyways
+
 Edge cases: 
 Bug: Balance still shows even after renewing, and shows 0
 
