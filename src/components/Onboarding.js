@@ -164,6 +164,10 @@ export default function Onboarding(props) {
     return (
       <form className="onboarding-form" onSubmit={handleSignUp}>
         <h1 className="onboarding-form-title">Sign Up</h1>
+        <h6 className="onboarding-form-subtitle">
+          ** Please make sure to provide a valid cell phone number as you will
+          be notified via text when your media is ready for pickup! **
+        </h6>
         {signupError && <h5 className="onboarding-error">{signupError}</h5>}
         <section className="field">
           <label htmlFor="first">First</label>

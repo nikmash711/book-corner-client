@@ -80,8 +80,6 @@ Fix/improve:
 
 - Make it clear on the form that their phone number has to be valid because thats how we will inform them when their book is ready.
 
-- Use Twilio or google library to validate and store formatted phone number both when signing up and editing user account 
-
 - If user submits edit form with same email, its an error. Fix this.
 
 - Make variables for scss window sizes so it stays constant 
