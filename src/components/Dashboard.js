@@ -63,18 +63,23 @@ export default function Dashboard(props) {
   };
 
   const refresh = () => {
-    refreshAuthToken().then(token => {
-      const decodedToken = jwtDecode(token);
-      user.info = decodedToken.user;
-      // console.log("refreshing");
-      if (user.info.currentlyCheckedOut.length === 2) {
-        setExceededCheckOuts(true);
-      } else if (user.info.mediaOnHold.length === 2) {
-        setExceededHolds(true);
-      }
-      //so that the page refreshes:
-      changeCategory(category || 'allMedia');
-    });
+    refreshAuthToken()
+      .then(token => {
+        const decodedToken = jwtDecode(token);
+        user.info = decodedToken.user;
+        // console.log("refreshing");
+        if (user.info.currentlyCheckedOut.length === 2) {
+          setExceededCheckOuts(true);
+        } else if (user.info.mediaOnHold.length === 2) {
+          setExceededHolds(true);
+        }
+        //so that the page refreshes:
+        changeCategory(category || 'allMedia');
+      })
+      .catch(error => {
+        // If there's an error, it's most likely an invalid token. This needs a long term solution but for the time being just force refresh the page.
+        window.location.reload();
+      });
   };
 
   useEffect(() => {

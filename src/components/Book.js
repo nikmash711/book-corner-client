@@ -42,17 +42,6 @@ export default function Book(props) {
       <i className="fas fa-compact-disc" />
     );
 
-  let dueDate = moment()
-    .add(14, 'days')
-    .calendar(null, {
-      sameDay: 'MM/DD/YYYY',
-      nextDay: 'MM/DD/YYYY',
-      nextWeek: 'MM/DD/YYYY',
-      lastDay: 'MM/DD/YYYY',
-      lastWeek: 'MM/DD/YYYY',
-      sameElse: 'MM/DD/YYYY'
-    });
-
   useEffect(() => {
     //user can only check out a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its available
     props.exceededCheckOuts
@@ -315,36 +304,34 @@ export default function Book(props) {
           ''
         )}
         {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
-          <a
+          <button
             className="action-button-skin media-button"
-            target="_blank"
-            href={`mailto:${props.media.checkedOutBy.email}?subject=${
-              props.media.title
-            } Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`}
             onClick={() => readyForPickup(props.media.id, 'pickup')}
           >
             Ready For Pickup
-          </a>
+          </button>
+        )}
+        {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
+          <button
+            className="action-button-skin media-button"
+            onClick={() =>
+              returnMedia(props.media.id, props.media.checkedOutBy.id)
+            }
+          >
+            Cancel Request
+          </button>
         )}
         {admin &&
           props.category === 'allCheckedOutMedia' &&
           props.media.checkedOutBy && (
-            <a
+            <button
               className="action-button-skin media-button"
-              target="_blank"
-              href={
-                props.media.holdQueue.length
-                  ? `mailto:${props.media.holdQueue[0].email}?subject=${
-                      props.media.title
-                    } Is Ready For Pickup &body= Please pick up this media within the next two days. It is due back ${dueDate}`
-                  : '#'
-              }
               onClick={() =>
                 returnMedia(props.media.id, props.media.checkedOutBy.id)
               }
             >
               Return Media
-            </a>
+            </button>
           )}
         {!admin &&
           (props.category === 'myCheckedOutMedia' ||

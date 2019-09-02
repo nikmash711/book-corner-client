@@ -21,9 +21,9 @@ User Stories:
 [x] User can see a history of their checked out books 
 
 [x]Admin can see and manage requests, returns, holds 
-- [x] "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup" (which will then email the user that their book is ready)
+- [x] "Requests": Media that is checked out without a due date goes under "requests" so admin can prepare book and click "ready for pickup", which will then text the user that their book is ready. Admin can also cancel a request if need be. 
 - [x] "Checked Out": Media with a due date. Admin can change status of media (if user returns it) here. 
-- [x] Check if media being returned has a hold queue, make a request to '/availability/:mediaId/:userId' to return, and in the same async call, make a request to '/pickup/:mediaId' for the next user on the hold queue to get the book (and this will also consequently send an email to that user that their book is ready for pickup)
+- [x] Check if media being returned has a hold queue, make a request to '/availability/:mediaId/:userId' to return, and in the same async call, make a request to '/pickup/:mediaId' for the next user on the hold queue to get the book (and this will also consequently send a text to that user that their book is ready for pickup)
 - [x] Balance is cleared when book is returned (is this problematic?)
 
 [x] User can renew a media
@@ -70,15 +70,16 @@ User Stories:
 - Show a green signal that it updated successfully
 - Clear values for password after submitted
 
-[ ] Have a button for cancelling request
-- Admin can do this for media under "Requests" 
-- User can do this for media under "Checked Out" that is NOT yet ready for pickup. Follow steps in checking out process and make sure everything is undone.
 
-[ ] Send users a text when their book is ready for pickup in addition to email? It's cheap anyways
+Fix/improve: 
+- Bug: Balance still shows even after renewing, and shows 0
 
-Edge cases: 
-Bug: Balance still shows even after renewing, and shows 0
+- Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
 
-Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
+- Check that whole process works in prod
 
-Check that whole process works in prod
+- Make it clear on the form that their phone number has to be valid because thats how we will inform them when their book is ready.
+
+- Use Twilio or google library to validate and store formatted 
+
+- Make variables for scss window sizes so it stays constant 
