@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import jwtDecode from "jwt-decode";
-import { API_BASE_URL } from "../config";
+import React, { useState, useEffect, useContext } from 'react';
+import jwtDecode from 'jwt-decode';
+import { API_BASE_URL } from '../config';
 import {
   loadAuthToken,
   refreshAuthToken,
   storeAuthInfo
-} from "../local-storage";
-import { normalizeResponseErrors } from "../utils";
-import "./onboarding.scss";
+} from '../local-storage';
+import { normalizeResponseErrors } from '../utils';
+import './onboarding.scss';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 export default function Onboarding(props) {
   const [firstName, setFirstName] = useState(props.user.info.firstName);
@@ -15,9 +16,9 @@ export default function Onboarding(props) {
   const [email, setEmail] = useState(props.user.info.email);
   const [cell, setCell] = useState(props.user.info.cell);
 
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [updateAccountError, setUpdateAccountError] = useState(null);
   const [updatePasswordError, setUpdatePasswordError] = useState(null);
@@ -28,19 +29,30 @@ export default function Onboarding(props) {
 
   const handleUpdateAccount = e => {
     e.preventDefault();
+
+    const formattedNumber = parsePhoneNumberFromString(cell, 'US');
+    if (formattedNumber && formattedNumber.isValid()) {
+      setCell(formattedNumber.number);
+    } else {
+      setUpdateAccountError(
+        'Phone number is invalid. Please make sure you included an area code.'
+      );
+      return;
+    }
+
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/users/account/${props.user.info.id}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
       body: JSON.stringify({
         email,
         firstName,
         lastName,
-        cell
+        cell: formattedNumber.number
       })
     })
       .then(res => normalizeResponseErrors(res))
@@ -60,10 +72,10 @@ export default function Onboarding(props) {
     e.preventDefault();
     const authToken = loadAuthToken();
     fetch(`${API_BASE_URL}/users/password/${props.user.info.id}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
       body: JSON.stringify({
@@ -76,9 +88,9 @@ export default function Onboarding(props) {
       .then(user => {
         setSuccessfulPasswordUpdate(true);
         setUpdatePasswordError(null);
-        setConfirmPassword("");
-        setNewPassword("");
-        setOldPassword("");
+        setConfirmPassword('');
+        setNewPassword('');
+        setOldPassword('');
         props.refresh();
       })
       .catch(err => {

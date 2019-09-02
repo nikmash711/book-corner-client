@@ -1,4 +1,4 @@
-@import "~./constants.scss";
+@import '~./constants.scss';
 
 .onboarding-form {
   background: $darkBlue;
@@ -45,11 +45,11 @@
   background: $beige;
   border-radius: 10px;
   display: block;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 10px auto;
   padding: 10px;
   text-align: center;
-  width: 180px;
+  width: 160px;
 }
 
 .onboarding-error {
@@ -57,6 +57,7 @@
   color: red;
   background: $beige;
   text-align: center;
+  font-size: 1rem;
 }
 
 a.login-trouble {

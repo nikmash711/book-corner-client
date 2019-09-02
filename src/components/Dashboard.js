@@ -153,7 +153,6 @@ export default function Dashboard(props) {
     }
     return filteredMedia
       .sort(function(a, b) {
-        console.log(a.author, b.author);
         if (a.author < b.author) {
           return -1;
         } else if (a.author > b.author) {

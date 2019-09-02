@@ -1,28 +1,30 @@
-import React, { useState, useEffect, useContext } from "react";
-import jwtDecode from "jwt-decode";
-import { Redirect } from "react-router-dom";
-import { API_BASE_URL } from "../config";
+import React, { useState, useEffect, useContext } from 'react';
+import jwtDecode from 'jwt-decode';
+import { Redirect } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 import {
   loadAuthToken,
   refreshAuthToken,
   storeAuthInfo
-} from "../local-storage";
-import { normalizeResponseErrors } from "../utils";
-import { UserContext } from "../context";
-import "./onboarding.scss";
+} from '../local-storage';
+import { normalizeResponseErrors } from '../utils';
+import { UserContext } from '../context';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+
+import './onboarding.scss';
 
 export default function Onboarding(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
   const [signupError, setSignupError] = useState(null);
   const [redirect, setRedirect] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [cell, setCell] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [cell, setCell] = useState('');
 
   let user = useContext(UserContext);
 
@@ -42,9 +44,9 @@ export default function Onboarding(props) {
   /*Logs in user*/
   const loginUser = (email, password) => {
     fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email,
@@ -68,8 +70,8 @@ export default function Onboarding(props) {
         const { status } = err;
         const message =
           status === 401
-            ? "Incorrect username or password"
-            : "Unable to login, please try again soon!";
+            ? 'Incorrect username or password'
+            : 'Unable to login, please try again soon!';
         setLoginError(message);
       });
   };
@@ -81,16 +83,27 @@ export default function Onboarding(props) {
 
   const handleSignUp = e => {
     e.preventDefault();
+
+    const formattedNumber = parsePhoneNumberFromString(cell, 'US');
+    if (formattedNumber && formattedNumber.isValid()) {
+      setCell(formattedNumber.number);
+    } else {
+      setSignupError(
+        'Phone number is invalid. Please make sure you included an area code.'
+      );
+      return;
+    }
+
     fetch(`${API_BASE_URL}/users`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email,
         firstName,
         lastName,
-        cell,
+        cell: formattedNumber.number,
         password: newPassword
       })
     })
@@ -109,7 +122,7 @@ export default function Onboarding(props) {
     return <Redirect to="/dashboard" />;
   }
 
-  if (props.form === "login") {
+  if (props.form === 'login') {
     return (
       <form className="onboarding-form" onSubmit={handleSubmit}>
         <h1 className="onboarding-form-title">Log In</h1>
