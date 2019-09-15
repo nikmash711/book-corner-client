@@ -16,6 +16,10 @@ export default function Book(props) {
     props.media.available ? 'Available' : 'Unavailable'
   );
 
+  if (props.media.title === 'Made in Heaven') {
+    console.log('media', props.media, 'AVAILABILITY', availability);
+  }
+
   let admin = false;
   if (user && user.info.email.toLowerCase() === adminEmail) {
     admin = true;
