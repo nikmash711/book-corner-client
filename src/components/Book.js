@@ -70,15 +70,21 @@ export default function Book(props) {
     props.user.mediaOnHold.includes(props.media.id)
       ? setAbleToCancelHold(true)
       : setAbleToCancelHold(false);
+  });
 
+  useEffect(() => {
+    // code to run on component mount
     props.media.available
       ? setAvailability('Available')
       : setAvailability('Unavailable');
 
-    if (props.media.title === 'Made in Heaven') {
+    if (
+      props.media.title === 'Made in Heaven' ||
+      props.media.title === 'Neshama'
+    ) {
       console.log('media', props.media, 'AVAILABILITY', availability);
     }
-  });
+  }, []);
 
   const checkOut = mediaId => {
     setAbleToPlaceHold(false);
