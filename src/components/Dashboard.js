@@ -162,7 +162,6 @@ export default function Dashboard(props) {
         }
       })
       .map((media, index) => {
-        console.log('MEDIA IN FILTER', media);
         return (
           <Book
             setShowMediaForm={e => setShowMediaForm(true)}

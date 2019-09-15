@@ -53,6 +53,9 @@ export default class Book extends React.Component {
   };
 
   render() {
+    console.log('IN RENDER BOOK:');
+    console.log('MEDIA IS', this.props.media);
+    console.log('AVAILABILITY IS', this.state.availability);
     const dayNow = moment().calendar(null, {
       sameDay: 'MM/DD/YYYY',
       nextDay: 'MM/DD/YYYY',
