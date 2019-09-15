@@ -54,6 +54,44 @@ export default class Book extends React.Component {
     }
   };
 
+  componentDidUpdate = prevProps => {
+    if (prevProps.media !== this.props.media) {
+      const admin = this.props.user.email.toLowerCase() === adminEmail;
+      //User can only check out a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its available
+      if (
+        this.props.exceededCheckOuts ||
+        this.props.user.currentlyCheckedOut.includes(this.props.media.id) ||
+        !this.props.media.available ||
+        admin
+      ) {
+        this.setState({ ableToCheckOut: false });
+      }
+
+      //User can only place a hold on a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its unavailable, and not admin
+      if (
+        this.props.exceededHolds ||
+        this.props.user.currentlyCheckedOut.includes(this.props.media.id) ||
+        this.props.user.mediaOnHold.includes(this.props.media.id) ||
+        this.props.media.available ||
+        admin
+      ) {
+        this.setState({ ableToPlaceHold: false });
+      }
+
+      if (this.props.user.mediaOnHold.includes(this.props.media.id)) {
+        this.setState({ ableToCancelHold: true });
+      }
+
+      if (this.props.media.available) {
+        console.log('SETTING AVAILABILITY TO Available');
+        this.setState({ availability: 'Available' });
+      } else {
+        console.log('SETTING AVAILABILITY TO Unavailable');
+        this.setState({ availability: 'Unavailable' });
+      }
+    }
+  };
+
   render() {
     console.log('IN RENDER BOOK:');
     console.log('MEDIA IS', this.props.media);
