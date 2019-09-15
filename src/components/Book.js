@@ -46,8 +46,10 @@ export default class Book extends React.Component {
     }
 
     if (this.props.media.available) {
+      console.log('SETTING AVAILABILITY TO Available');
       this.setState({ availability: 'Available' });
     } else {
+      console.log('SETTING AVAILABILITY TO Unavailable');
       this.setState({ availability: 'Unavailable' });
     }
   };
