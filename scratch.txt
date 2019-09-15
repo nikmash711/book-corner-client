@@ -71,19 +71,79 @@ User Stories:
 - Clear values for password after submitted
 
 
-Fix/improve: 
+Fix/improve over future: 
 - Bug: Balance still shows even after renewing, and shows 0
 
 - Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
 
 - Check that whole process works in prod
 
-- Make it clear on the form that their phone number has to be valid because thats how we will inform them when their book is ready.
-
 - If user submits edit form with same email, its an error. Fix this.
 
 - Make variables for scss window sizes so it stays constant 
 
+- Fix font sizes
+
 - What happens if book gets deleted. And its on hold? Checked out? etc? 
 
-- Show normal success message when updated in accounts
+- Show normal success message when updated in accounts (weird right now)
+
+- Make tags for the different categories
+Novels
+Hashkafa
+Halacha
+Biographies
+Kids Books
+Kids DVD
+
+- Make it more colorful, use flyer theme, icons, fonts 
+
+- Show loading when communicating to server (buttons, page) — something cute
+
+- Pagination 
+
+- Set up Heroku so it doesnt go to sleep ($7 a month) 
+ 
+- Have a confirm message after clicking ready for pickup or clicking cancel request or clicking return 
+
+- If admin deletes a book and I still see it, handle the error (if the book doesnt exist when checking out) 
+
+- No media matches your search if empty 
+
+- Add a hold queue under the returns so she knows if an email is about to open 
+
+- The icon doesn’t change when I edit the category … 
+
+- Media form — when saving without putting in info, instead of preventing save, it errors
+
+- Clear the error — I still see it when I go back to the book (can’t delete book, currently checked out) 
+
+- Clear search bar if it gets deleted 
+
+- The filter will say one thing, but the results will say another if something changes
+
+- If passwords dont match tell them 
+
+- Let you know its on hold 
+
+- Add a button in the overdue section so Sharon can send a reminder text to the user regarding how overdue it is. Please leave payment in book in mailbox. 
+
+- URGENT: Something is broken: if user places hold, and then sharon returns media, the second user is told that its ready, but for admin it just goes back to requests. Text is being sent when it shouldnt 
+
+- Fix the renewal 
+
+- Add a text for admin to see if the user has renewed the book or not 
+
+- Allow user to cancel request and text admin (in both steps of process - whether its in mailbox or not)
+
+Walk through with Sharon: 
+- Onboarding. 
+- Should I change any text on the home page? 
+- User experience 
+  - Hows the text? Address? Code? 
+  - Hold process 
+- Admin experience
+  - How's the text?
+  - Adding books 
+  - Deleting books 
+- Editing account 
