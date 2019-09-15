@@ -74,17 +74,32 @@ export default function Book(props) {
 
   useEffect(() => {
     // code to run on component mount
-    props.media.available
-      ? setAvailability('Available')
-      : setAvailability('Unavailable');
-
     if (
       props.media.title === 'Made in Heaven' ||
       props.media.title === 'Neshama'
     ) {
-      console.log('media', props.media, 'AVAILABILITY', availability);
+      console.log('BEFORE AVAILABILITY=', availability);
+      console.log('props.media.available=', props.media.available);
     }
+    props.media.available
+      ? setAvailability('Available')
+      : setAvailability('Unavailable');
   }, []);
+
+  useEffect(() => {
+    if (
+      props.media.title === 'Made in Heaven' ||
+      props.media.title === 'Neshama'
+    ) {
+      console.log(
+        'HERE media',
+        props.media,
+        'props.media.available=',
+        props.media.available
+      );
+      console.log('AFTER availability=', availability);
+    }
+  }, [availability]);
 
   const checkOut = mediaId => {
     setAbleToPlaceHold(false);
