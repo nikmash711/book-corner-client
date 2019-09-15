@@ -7,372 +7,362 @@ import { UserContext } from '../context';
 import moment from 'moment';
 import { adminEmail } from '../vars';
 
-export default function Book(props) {
-  let user = useContext(UserContext);
-  let [ableToPlaceHold, setAbleToPlaceHold] = useState(true);
-  let [ableToCheckOut, setAbleToCheckOut] = useState(true);
-  let [ableToCancelHold, setAbleToCancelHold] = useState(true);
-  let [availability, setAvailability] = useState('');
-
-  let admin = false;
-  if (user && user.info.email.toLowerCase() === adminEmail) {
-    admin = true;
+export default class Book extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ableToPlaceHold: true,
+      ableToCheckOut: true,
+      ableToCancelHold: false,
+      availability: ''
+    };
   }
 
-  const dayNow = moment().calendar(null, {
-    sameDay: 'MM/DD/YYYY',
-    nextDay: 'MM/DD/YYYY',
-    nextWeek: 'MM/DD/YYYY',
-    lastDay: 'MM/DD/YYYY',
-    lastWeek: 'MM/DD/YYYY',
-    sameElse: 'MM/DD/YYYY'
-  });
-
-  let now = moment(dayNow, 'MM/DD/YYYY');
-  let due = moment(props.media.dueDate, 'MM/DD/YYYY');
-
-  let tense = moment.duration(now.diff(due)).asDays() > 0 ? 'Was Due' : 'Due';
-
-  let icon =
-    props.media.type === 'adult-book' || props.media.type === 'kid-book' ? (
-      <i className="fas fa-book" />
-    ) : (
-      <i className="fas fa-compact-disc" />
-    );
-
-  useEffect(() => {
-    //user can only check out a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its available
-    props.exceededCheckOuts
-      ? setAbleToCheckOut(false)
-      : props.user.currentlyCheckedOut.includes(props.media.id)
-      ? setAbleToCheckOut(false)
-      : availability === 'Unavailable'
-      ? setAbleToCheckOut(false)
-      : admin
-      ? setAbleToCheckOut(false)
-      : setAbleToCheckOut(true);
-
-    //user can only place a hold on a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its unavailable, and not admin
-    if (ableToPlaceHold) {
-      props.exceededHolds
-        ? setAbleToPlaceHold(false)
-        : props.user.currentlyCheckedOut.includes(props.media.id)
-        ? setAbleToPlaceHold(false)
-        : props.user.mediaOnHold.includes(props.media.id)
-        ? setAbleToPlaceHold(false)
-        : availability === 'Available'
-        ? setAbleToPlaceHold(false)
-        : admin
-        ? setAbleToPlaceHold(false)
-        : setAbleToPlaceHold(true);
+  componentDidMount = () => {
+    const admin = this.props.user.email.toLowerCase() === adminEmail;
+    //User can only check out a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its available
+    if (
+      this.props.exceededCheckOuts ||
+      this.props.user.currentlyCheckedOut.includes(this.props.media.id) ||
+      !this.props.media.available ||
+      admin
+    ) {
+      this.setState({ ableToCheckOut: false });
     }
 
-    props.user.mediaOnHold.includes(props.media.id)
-      ? setAbleToCancelHold(true)
-      : setAbleToCancelHold(false);
-  });
-
-  useEffect(() => {
-    // code to run on component mount
+    //User can only place a hold on a book if they haven't already checked out 2, if this book isnt already in their currently checked out, and if its unavailable, and not admin
     if (
-      props.media.title === 'Made in Heaven' ||
-      props.media.title === 'Neshama'
+      this.props.exceededHolds ||
+      this.props.user.currentlyCheckedOut.includes(this.props.media.id) ||
+      this.props.user.mediaOnHold.includes(this.props.media.id) ||
+      this.props.media.available ||
+      admin
     ) {
-      console.log('BEFORE AVAILABILITY=', availability);
-      console.log('props.media.available=', props.media.available);
+      this.setState({ ableToPlaceHold: false });
     }
-    props.media.available
-      ? setAvailability('Available')
-      : setAvailability('Unavailable');
-  }, []);
 
-  useEffect(() => {
-    if (
-      props.media.title === 'Made in Heaven' ||
-      props.media.title === 'Neshama'
-    ) {
-      console.log(
-        'HERE media',
-        props.media,
-        'props.media.available=',
-        props.media.available
+    if (this.props.user.mediaOnHold.includes(this.props.media.id)) {
+      this.setState({ ableToCancelHold: true });
+    }
+
+    if (this.props.media.available) {
+      this.setState({ availability: 'Available' });
+    } else {
+      this.setState({ availability: 'Unavailable' });
+    }
+  };
+
+  render() {
+    const dayNow = moment().calendar(null, {
+      sameDay: 'MM/DD/YYYY',
+      nextDay: 'MM/DD/YYYY',
+      nextWeek: 'MM/DD/YYYY',
+      lastDay: 'MM/DD/YYYY',
+      lastWeek: 'MM/DD/YYYY',
+      sameElse: 'MM/DD/YYYY'
+    });
+
+    const admin = this.props.user.email.toLowerCase() === adminEmail;
+
+    let now = moment(dayNow, 'MM/DD/YYYY');
+    let due = moment(this.props.media.dueDate, 'MM/DD/YYYY');
+
+    let tense = moment.duration(now.diff(due)).asDays() > 0 ? 'Was Due' : 'Due';
+
+    let icon =
+      this.props.media.type === 'adult-book' ||
+      this.props.media.type === 'kid-book' ? (
+        <i className="fas fa-book" />
+      ) : (
+        <i className="fas fa-compact-disc" />
       );
-      console.log('AFTER availability=', availability);
-    }
-  }, [availability]);
 
-  const checkOut = mediaId => {
-    setAbleToPlaceHold(false);
-    const authToken = loadAuthToken();
-    let userId = props.user.id;
-    fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`
-      },
-      body: JSON.stringify({
-        available: false
+    const checkOut = mediaId => {
+      this.setState({ ableToPlaceHold: false });
+      const authToken = loadAuthToken();
+      let userId = this.props.user.id;
+      fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          available: false
+        })
       })
-    })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(updatedMedia => {
-        setAbleToCheckOut(false);
-        setAvailability('Unavailable');
-        return props.refresh();
-      })
-      .catch(error => {
-        props.setError(error);
-      });
-  };
-
-  const placeHold = (mediaId, action) => {
-    let updatedMedia;
-    const authToken = loadAuthToken();
-    fetch(`${API_BASE_URL}/media/hold/${mediaId}/${action}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`
-      }
-    })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(results => {
-        updatedMedia = results;
-        if (action === 'place') {
-          setAbleToPlaceHold(false);
-          setAbleToCancelHold(true);
-        } else {
-          setAbleToPlaceHold(true);
-          setAbleToCancelHold(false);
-        }
-        return props.refresh();
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
-
-  const readyForPickup = mediaId => {
-    let updatedMedia;
-    const authToken = loadAuthToken();
-    fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`
-      }
-    })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(results => {
-        updatedMedia = results;
-        return props.refresh();
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
-
-  const renew = mediaId => {
-    let updatedMedia;
-    const authToken = loadAuthToken();
-    fetch(`${API_BASE_URL}/media/renew/${mediaId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`
-      }
-    })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(results => {
-        updatedMedia = results;
-        return props.refresh();
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
-
-  const returnMedia = (mediaId, userId) => {
-    let updatedMedia;
-    const authToken = loadAuthToken();
-    fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`
-      },
-      body: JSON.stringify({
-        available: true
-      })
-    })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(results => {
-        updatedMedia = results;
-        //if theres a hold queue:
-        if (props.media.holdQueue.length) {
-          return fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${authToken}`
-            },
-            body: JSON.stringify({
-              holdQueue: props.media.holdQueue
-            })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(updatedMedia => {
+          this.setState({
+            ableToCheckOut: false,
+            availability: 'Unavailable'
           });
-        } else {
-          return Promise.resolve();
+          return this.props.refresh();
+        })
+        .catch(error => {
+          this.props.setError(error);
+        });
+    };
+
+    const placeHold = (mediaId, action) => {
+      let updatedMedia;
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/media/hold/${mediaId}/${action}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
         }
       })
-      .then(results => {
-        if (results) {
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(results => {
           updatedMedia = results;
+          if (action === 'place') {
+            this.setState({ ableToPlaceHold: false, ableToCancelHold: true });
+          } else {
+            this.setState({ ableToPlaceHold: true, ableToCancelHold: false });
+          }
+          return this.props.refresh();
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    };
+
+    const readyForPickup = mediaId => {
+      let updatedMedia;
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
         }
-
-        return props.refresh();
       })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(results => {
+          updatedMedia = results;
+          return this.props.refresh();
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    };
 
-  const handleEdit = () => {
-    props.setShowMediaForm();
-    props.setCurrentMedia();
-  };
+    const renew = mediaId => {
+      let updatedMedia;
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/media/renew/${mediaId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(results => {
+          updatedMedia = results;
+          return this.props.refresh();
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    };
 
-  return (
-    <article className="media">
-      <section className="media-image-section">
-        <img className="media-image" src={props.media.img} alt="media" />
-      </section>
-      <section className="media-info">
-        <section>
-          <h2 className="media-title">{props.media.title}</h2>
-          <span className="media-icon">{icon}</span>
-          {admin && (
-            <button className="edit-media-button" onClick={handleEdit}>
-              <i className="fas fa-edit" />
-            </button>
-          )}
-          <h6 className="media-author">By: {props.media.author}</h6>
+    const returnMedia = (mediaId, userId) => {
+      let updatedMedia;
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/media/availability/${mediaId}/${userId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          available: true
+        })
+      })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(results => {
+          updatedMedia = results;
+          //if theres a hold queue:
+          if (this.props.media.holdQueue.length) {
+            return fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
+              method: 'PUT',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authToken}`
+              },
+              body: JSON.stringify({
+                holdQueue: this.props.media.holdQueue
+              })
+            });
+          } else {
+            return Promise.resolve();
+          }
+        })
+        .then(results => {
+          if (results) {
+            updatedMedia = results;
+          }
+
+          return this.props.refresh();
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    };
+
+    const handleEdit = () => {
+      this.props.setShowMediaForm();
+      this.props.setCurrentMedia();
+    };
+
+    return (
+      <article className="media">
+        <section className="media-image-section">
+          <img className="media-image" src={this.props.media.img} alt="media" />
         </section>
-        {props.category === 'allMedia' && (
-          <h6 className={`media-subcontent ${availability.toLowerCase()}`}>
-            {availability}
-          </h6>
-        )}
-        {(props.category === 'allOverdueMedia' ||
-          props.category === 'allCheckedOutMedia') && (
-          <React.Fragment>
-            <h6 className="media-subcontent">
-              Checked Out By:{' '}
-              {props.media.checkedOutBy &&
-                props.media.checkedOutBy.firstName +
-                  ' ' +
-                  props.media.checkedOutBy.lastName}
+        <section className="media-info">
+          <section>
+            <h2 className="media-title">{this.props.media.title}</h2>
+            <span className="media-icon">{icon}</span>
+            {admin && (
+              <button className="edit-media-button" onClick={handleEdit}>
+                <i className="fas fa-edit" />
+              </button>
+            )}
+            <h6 className="media-author">By: {this.props.media.author}</h6>
+          </section>
+          {this.props.category === 'allMedia' && (
+            <h6
+              className={`media-subcontent ${this.state.availability.toLowerCase()}`}
+            >
+              {this.state.availability}
             </h6>
-            <h6 className="unavailable media-subcontent">{`${tense}: ${
-              props.media.dueDate
-            }`}</h6>
-          </React.Fragment>
-        )}
-        {admin && props.category === 'allRequests' && (
-          <h6 className="media-subcontent">
-            Requested By:{' '}
-            {props.media.checkedOutBy &&
-              props.media.checkedOutBy.firstName +
-                ' ' +
-                props.media.checkedOutBy.lastName}
-          </h6>
-        )}
-        {(props.category === 'myCheckedOutMedia' ||
-          props.category === 'myOverdueMedia') && (
-          <h6 className="unavailable media-subcontent">
-            {props.media.dueDate
-              ? `${tense}: ${props.media.dueDate}`
-              : 'Not Ready For Pickup'}
-          </h6>
-        )}
-        {ableToCheckOut && props.category === 'allMedia' ? (
-          <button
-            className="action-button-skin media-button"
-            onClick={() => checkOut(props.media.id)}
-          >
-            Check Out
-          </button>
-        ) : ableToPlaceHold && props.category === 'allMedia' ? (
-          <button
-            className="action-button-skin media-button"
-            onClick={() => placeHold(props.media.id, 'place')}
-          >
-            Place Hold
-          </button>
-        ) : ableToCancelHold ? (
-          <button
-            className="action-button-skin media-button"
-            onClick={() => placeHold(props.media.id, 'cancel')}
-          >
-            Cancel Hold
-          </button>
-        ) : (
-          ''
-        )}
-        {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
-          <button
-            className="action-button-skin media-button"
-            onClick={() => readyForPickup(props.media.id, 'pickup')}
-          >
-            Ready For Pickup
-          </button>
-        )}
-        {admin && props.category === 'allRequests' && props.media.checkedOutBy && (
-          <button
-            className="action-button-skin media-button"
-            onClick={() =>
-              returnMedia(props.media.id, props.media.checkedOutBy.id)
-            }
-          >
-            Cancel Request
-          </button>
-        )}
-        {admin &&
-          props.category === 'allCheckedOutMedia' &&
-          props.media.checkedOutBy && (
+          )}
+          {(this.props.category === 'allOverdueMedia' ||
+            this.props.category === 'allCheckedOutMedia') && (
+            <React.Fragment>
+              <h6 className="media-subcontent">
+                Checked Out By:{' '}
+                {this.props.media.checkedOutBy &&
+                  this.props.media.checkedOutBy.firstName +
+                    ' ' +
+                    this.props.media.checkedOutBy.lastName}
+              </h6>
+              <h6 className="unavailable media-subcontent">{`${tense}: ${
+                this.props.media.dueDate
+              }`}</h6>
+            </React.Fragment>
+          )}
+          {admin && this.props.category === 'allRequests' && (
+            <h6 className="media-subcontent">
+              Requested By:{' '}
+              {this.props.media.checkedOutBy &&
+                this.props.media.checkedOutBy.firstName +
+                  ' ' +
+                  this.props.media.checkedOutBy.lastName}
+            </h6>
+          )}
+          {(this.props.category === 'myCheckedOutMedia' ||
+            this.props.category === 'myOverdueMedia') && (
+            <h6 className="unavailable media-subcontent">
+              {this.props.media.dueDate
+                ? `${tense}: ${this.props.media.dueDate}`
+                : 'Not Ready For Pickup'}
+            </h6>
+          )}
+          {this.state.ableToCheckOut && this.props.category === 'allMedia' ? (
             <button
               className="action-button-skin media-button"
-              onClick={() =>
-                returnMedia(props.media.id, props.media.checkedOutBy.id)
-              }
+              onClick={() => checkOut(this.props.media.id)}
             >
-              Return Media
+              Check Out
             </button>
-          )}
-        {!admin &&
-          (props.category === 'myCheckedOutMedia' ||
-            props.category === 'myOverdueMedia') &&
-          !props.media.renewals &&
-          props.media.dueDate && (
+          ) : this.state.ableToPlaceHold &&
+            this.props.category === 'allMedia' ? (
             <button
-              onClick={() => renew(props.media.id)}
               className="action-button-skin media-button"
+              onClick={() => placeHold(this.props.media.id, 'place')}
             >
-              Renew
+              Place Hold
             </button>
+          ) : this.state.ableToCancelHold ? (
+            <button
+              className="action-button-skin media-button"
+              onClick={() => placeHold(this.props.media.id, 'cancel')}
+            >
+              Cancel Hold
+            </button>
+          ) : (
+            ''
           )}
-      </section>
-    </article>
-  );
+          {admin &&
+            this.props.category === 'allRequests' &&
+            this.props.media.checkedOutBy && (
+              <button
+                className="action-button-skin media-button"
+                onClick={() => readyForPickup(this.props.media.id, 'pickup')}
+              >
+                Ready For Pickup
+              </button>
+            )}
+          {admin &&
+            this.props.category === 'allRequests' &&
+            this.props.media.checkedOutBy && (
+              <button
+                className="action-button-skin media-button"
+                onClick={() =>
+                  returnMedia(
+                    this.props.media.id,
+                    this.props.media.checkedOutBy.id
+                  )
+                }
+              >
+                Cancel Request
+              </button>
+            )}
+          {admin &&
+            this.props.category === 'allCheckedOutMedia' &&
+            this.props.media.checkedOutBy && (
+              <button
+                className="action-button-skin media-button"
+                onClick={() =>
+                  returnMedia(
+                    this.props.media.id,
+                    this.props.media.checkedOutBy.id
+                  )
+                }
+              >
+                Return Media
+              </button>
+            )}
+          {!admin &&
+            (this.props.category === 'myCheckedOutMedia' ||
+              this.props.category === 'myOverdueMedia') &&
+            !this.props.media.renewals &&
+            this.props.media.dueDate && (
+              <button
+                onClick={() => renew(this.props.media.id)}
+                className="action-button-skin media-button"
+              >
+                Renew
+              </button>
+            )}
+        </section>
+      </article>
+    );
+  }
 }
