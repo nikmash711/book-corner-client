@@ -12,13 +12,7 @@ export default function Book(props) {
   let [ableToPlaceHold, setAbleToPlaceHold] = useState(true);
   let [ableToCheckOut, setAbleToCheckOut] = useState(true);
   let [ableToCancelHold, setAbleToCancelHold] = useState(true);
-  let [availability, setAvailability] = useState(
-    props.media.available ? 'Available' : 'Unavailable'
-  );
-
-  if (props.media.title === 'Made in Heaven') {
-    console.log('media', props.media, 'AVAILABILITY', availability);
-  }
+  let [availability, setAvailability] = useState('');
 
   let admin = false;
   if (user && user.info.email.toLowerCase() === adminEmail) {
@@ -76,6 +70,14 @@ export default function Book(props) {
     props.user.mediaOnHold.includes(props.media.id)
       ? setAbleToCancelHold(true)
       : setAbleToCancelHold(false);
+
+    props.media.available
+      ? setAvailability('Available')
+      : setAvailability('Unavailable');
+
+    if (props.media.title === 'Made in Heaven') {
+      console.log('media', props.media, 'AVAILABILITY', availability);
+    }
   });
 
   const checkOut = mediaId => {
