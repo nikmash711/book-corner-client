@@ -142,6 +142,7 @@ export default function Dashboard(props) {
   };
 
   const generateBooks = medias => {
+    console.log('Generating books');
     let filteredMedia = medias;
     if (category === 'allMedia') {
       filteredMedia = medias.filter(
@@ -161,7 +162,7 @@ export default function Dashboard(props) {
           return 0;
         }
       })
-      .map((media, index) => {
+      .map(media => {
         return (
           <Book
             setShowMediaForm={e => setShowMediaForm(true)}
@@ -171,7 +172,7 @@ export default function Dashboard(props) {
               window.scrollTo(0, 0);
             }}
             user={user.info}
-            key={index}
+            key={media.title}
             exceededCheckOuts={exceededCheckOuts}
             exceededHolds={exceededHolds}
             media={media}
