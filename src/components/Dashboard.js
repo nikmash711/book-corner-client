@@ -148,7 +148,7 @@ export default function Dashboard(props) {
         media =>
           (media.title.toLowerCase().includes(mediaFilter) ||
             media.author.toLowerCase().includes(mediaFilter)) &&
-          media.type.includes(typeFilter)
+          (typeFilter.includes(media.type) || media.type.includes(typeFilter))
       );
     }
     return filteredMedia.length ? (

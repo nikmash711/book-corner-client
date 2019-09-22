@@ -100,8 +100,6 @@ Kids DVD
  
 - If admin deletes a book and I still see it, handle the error (if the book doesnt exist when checking out) 
 
-- No media matches your search if empty 
-
 - The icon doesn’t change when I edit the category … 
 
 - Media form — when saving without putting in info, instead of preventing save, it errors
