@@ -151,35 +151,39 @@ export default function Dashboard(props) {
           media.type.includes(typeFilter)
       );
     }
-    return filteredMedia
-      .sort(function(a, b) {
-        if (a.author < b.author) {
-          return -1;
-        } else if (a.author > b.author) {
-          return 1;
-        } else {
-          return 0;
-        }
-      })
-      .map(media => {
-        return (
-          <Book
-            setShowMediaForm={e => setShowMediaForm(true)}
-            setCurrentMedia={e => setCurrentMedia(media)}
-            setError={error => {
-              setError(error.message);
-              window.scrollTo(0, 0);
-            }}
-            user={user.info}
-            key={media.title}
-            exceededCheckOuts={exceededCheckOuts}
-            exceededHolds={exceededHolds}
-            media={media}
-            category={category}
-            refresh={refresh}
-          />
-        );
-      });
+    return filteredMedia.length ? (
+      filteredMedia
+        .sort(function(a, b) {
+          if (a.author < b.author) {
+            return -1;
+          } else if (a.author > b.author) {
+            return 1;
+          } else {
+            return 0;
+          }
+        })
+        .map(media => {
+          return (
+            <Book
+              setShowMediaForm={e => setShowMediaForm(true)}
+              setCurrentMedia={e => setCurrentMedia(media)}
+              setError={error => {
+                setError(error.message);
+                window.scrollTo(0, 0);
+              }}
+              user={user.info}
+              key={media.title}
+              exceededCheckOuts={exceededCheckOuts}
+              exceededHolds={exceededHolds}
+              media={media}
+              category={category}
+              refresh={refresh}
+            />
+          );
+        })
+    ) : (
+      <h3 className="no-results">Sorry, no media matches your search</h3>
+    );
   };
 
   const generateDirectory = users => {

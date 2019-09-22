@@ -86,8 +86,6 @@ Fix/improve over future:
 
 - What happens if book gets deleted. And its on hold? Checked out? etc? 
 
-- Show normal success message when updated in accounts (weird right now)
-
 - Make tags for the different categories
 Novels
 Hashkafa
@@ -98,12 +96,8 @@ Kids DVD
 
 - Make it more colorful, use flyer theme, icons, fonts 
 
-- Show loading when communicating to server (buttons)
-
-- Pagination 
+- Show loading when communicating to server (buttons) and disable it once its clicked
  
-- Have a confirm message after clicking ready for pickup or clicking cancel request or clicking return 
-
 - If admin deletes a book and I still see it, handle the error (if the book doesnt exist when checking out) 
 
 - No media matches your search if empty 
