@@ -6,6 +6,7 @@ import './book.scss';
 import { UserContext } from '../context';
 import moment from 'moment';
 import { adminEmail } from '../vars';
+import { calculateBalance } from '../helpers';
 
 export default class Book extends React.Component {
   constructor(props) {
@@ -67,6 +68,8 @@ export default class Book extends React.Component {
       lastWeek: 'MM/DD/YYYY',
       sameElse: 'MM/DD/YYYY'
     });
+
+    const overdueBalance = calculateBalance([this.props.media]);
 
     const admin = this.props.user.email.toLowerCase() === adminEmail;
 
@@ -382,21 +385,20 @@ export default class Book extends React.Component {
                 Return Media
               </button>
             )}
-          {admin &&
-            (this.props.category === 'allOverdueMedia' ||
-              this.props.category === 'allCheckedOutMedia') && (
-              <button
-                className="action-button-skin media-button"
-                onClick={() => sendReminder(this.props.media.id)}
-              >
-                Send Reminder
-              </button>
-            )}
+          {admin && this.props.category === 'allOverdueMedia' && (
+            <button
+              className="action-button-skin media-button"
+              onClick={() => sendReminder(this.props.media.id)}
+            >
+              Send Reminder
+            </button>
+          )}
           {!admin &&
             (this.props.category === 'myCheckedOutMedia' ||
               this.props.category === 'myOverdueMedia') &&
             !this.props.media.renewals &&
-            this.props.media.dueDate && (
+            this.props.media.dueDate &&
+            !overdueBalance && (
               <button
                 onClick={() => renew(this.props.media.id)}
                 className="action-button-skin media-button"

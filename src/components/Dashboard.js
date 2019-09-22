@@ -8,11 +8,11 @@ import {
   refreshAuthToken
 } from '../local-storage';
 import { API_BASE_URL } from '../config';
+import { calculateBalance } from '../helpers';
 import { normalizeResponseErrors } from '../utils';
 import Book from './Book';
 import './dashboard.scss';
 import jwtDecode from 'jwt-decode';
-import moment from 'moment';
 import Navbar from './Navbar';
 import About from './About';
 import MediaForm from './MediaForm';
@@ -180,34 +180,6 @@ export default function Dashboard(props) {
           />
         );
       });
-  };
-
-  const dayNow = moment().calendar(null, {
-    sameDay: 'MM/DD/YYYY',
-    nextDay: 'MM/DD/YYYY',
-    nextWeek: 'MM/DD/YYYY',
-    lastDay: 'MM/DD/YYYY',
-    lastWeek: 'MM/DD/YYYY',
-    sameElse: 'MM/DD/YYYY'
-  });
-
-  const calculateBalance = currentlyCheckedOut => {
-    let sum = 0;
-
-    for (let media of currentlyCheckedOut) {
-      let now = moment(dayNow, 'MM/DD/YYYY');
-      let due = null;
-      if (media.dueDate) {
-        due = moment(media.dueDate, 'MM/DD/YYYY');
-        //Difference in number of days
-        let diff = moment.duration(now.diff(due)).asDays();
-        //might not be overdue
-        if (diff > 0) {
-          sum += diff;
-        }
-      }
-    }
-    return sum;
   };
 
   const generateDirectory = users => {
