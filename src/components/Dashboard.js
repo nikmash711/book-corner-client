@@ -385,6 +385,6 @@ export default function Dashboard(props) {
       </React.Fragment>
     );
   } else {
-    return null;
+    return <i class="fas fa-spinner fa-spin loading-spinner" />;
   }
 }
