@@ -142,7 +142,6 @@ export default function Dashboard(props) {
   };
 
   const generateBooks = medias => {
-    console.log('Generating books');
     let filteredMedia = medias;
     if (category === 'allMedia') {
       filteredMedia = medias.filter(
@@ -385,6 +384,6 @@ export default function Dashboard(props) {
       </React.Fragment>
     );
   } else {
-    return <i class="fas fa-spinner fa-spin loading-spinner" />;
+    return <i className="fas fa-spinner fa-spin loading-spinner" />;
   }
 }
