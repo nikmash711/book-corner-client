@@ -230,6 +230,26 @@ export default class Book extends React.Component {
         });
     };
 
+    const sendReminder = mediaId => {
+      const authToken = loadAuthToken();
+      fetch(`${API_BASE_URL}/media/send-reminder/${mediaId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(() => {
+          return this.props.refresh();
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    };
+
     const handleEdit = () => {
       this.props.setShowMediaForm();
       this.props.setCurrentMedia();
@@ -258,28 +278,27 @@ export default class Book extends React.Component {
               {this.state.availability}
             </h6>
           )}
-          {(this.props.category === 'allOverdueMedia' ||
-            this.props.category === 'allCheckedOutMedia') && (
-            <React.Fragment>
-              <h6 className="media-subcontent">
-                Checked Out By:{' '}
-                {this.props.media.checkedOutBy &&
-                  this.props.media.checkedOutBy.firstName +
-                    ' ' +
-                    this.props.media.checkedOutBy.lastName}
-              </h6>
-              <h6 className="unavailable media-subcontent">{`${tense}: ${
-                this.props.media.dueDate
-              }`}</h6>
-            </React.Fragment>
-          )}
           {admin &&
-            this.props.category === 'allCheckedOutMedia' &&
-            this.props.media.holdQueue &&
-            this.props.media.holdQueue.length > 0 && (
-              <h6 className="media-subcontent--bold">
-                Hold Queue: {this.props.media.holdQueue.length}
-              </h6>
+            (this.props.category === 'allOverdueMedia' ||
+              this.props.category === 'allCheckedOutMedia') && (
+              <React.Fragment>
+                <h6 className="media-subcontent">
+                  Checked Out By:{' '}
+                  {this.props.media.checkedOutBy &&
+                    this.props.media.checkedOutBy.firstName +
+                      ' ' +
+                      this.props.media.checkedOutBy.lastName}
+                </h6>
+                {this.props.media.holdQueue &&
+                  this.props.media.holdQueue.length > 0 && (
+                    <h6 className="media-subcontent--bold">
+                      Hold Queue: {this.props.media.holdQueue.length}
+                    </h6>
+                  )}
+                <h6 className="unavailable media-subcontent">{`${tense}: ${
+                  this.props.media.dueDate
+                }`}</h6>
+              </React.Fragment>
             )}
           {admin && this.props.category === 'allRequests' && (
             <h6 className="media-subcontent">
@@ -361,6 +380,16 @@ export default class Book extends React.Component {
                 }
               >
                 Return Media
+              </button>
+            )}
+          {admin &&
+            (this.props.category === 'allOverdueMedia' ||
+              this.props.category === 'allCheckedOutMedia') && (
+              <button
+                className="action-button-skin media-button"
+                onClick={() => sendReminder(this.props.media.id)}
+              >
+                Send Reminder
               </button>
             )}
           {!admin &&

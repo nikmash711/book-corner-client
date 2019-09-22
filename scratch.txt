@@ -108,8 +108,6 @@ Kids DVD
 
 - No media matches your search if empty 
 
-- Add a hold queue under the returns so she knows if an email is about to open 
-
 - The icon doesn’t change when I edit the category … 
 
 - Media form — when saving without putting in info, instead of preventing save, it errors
@@ -121,12 +119,6 @@ Kids DVD
 - The filter will say one thing, but the results will say another if something changes
 
 - If passwords dont match tell them 
-
-- Let you know its on hold 
-
-- Add a button in the overdue section so Sharon can send a reminder text to the user regarding how overdue it is. Please leave payment in book in mailbox. 
-
-- URGENT: Something is broken: if user places hold, and then sharon returns media, the second user is told that its ready, but for admin it just goes back to requests. Text is being sent when it shouldnt 
 
 - Fix the renewal 
 
