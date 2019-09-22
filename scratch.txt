@@ -29,9 +29,9 @@ User Stories:
 [x] User can renew a media
 - If they currently checked it out 
 - It has a due date
-- Cannot renew a given media more than once
+- Cannot renew a given media more than once or if overdue
 - They can still renew it once if its overdue (is this problematic?)
-- Renews for 2 weeks
+- Renews for 2 weeks FROM previous due date
 
 [x] User can see which media they have overdue
 

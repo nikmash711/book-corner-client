@@ -69,7 +69,7 @@ export default class Book extends React.Component {
       sameElse: 'MM/DD/YYYY'
     });
 
-    const overdueBalance = calculateBalance([this.props.media]);
+    const overdueBalance = calculateBalance([this.props.media]) > 0;
 
     const admin = this.props.user.email.toLowerCase() === adminEmail;
 
