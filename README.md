@@ -24,6 +24,8 @@
 
 :point_right: Improve process if user forgets login information.
 
+:point_right: Pagination for catalog.
+
 ## Known Bugs/Edge Cases:
 
 :point_right: User can technically have more than two types of media checked out at a time if they place something on hold, check out two other things, then the one on hold becomes available.

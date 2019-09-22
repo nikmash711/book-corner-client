@@ -100,17 +100,11 @@ Kids DVD
  
 - If admin deletes a book and I still see it, handle the error (if the book doesnt exist when checking out) 
 
-- The icon doesn’t change when I edit the category … 
-
-- Media form — when saving without putting in info, instead of preventing save, it errors
-
 - Clear the error — I still see it when I go back to the book (can’t delete book, currently checked out) 
 
 - Clear search bar if it gets deleted 
 
 - The filter will say one thing, but the results will say another if something changes
-
-- If passwords dont match tell them 
 
 - Add a text for admin to see if the user has renewed the book or not 
 
