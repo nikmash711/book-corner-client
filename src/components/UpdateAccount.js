@@ -59,6 +59,9 @@ export default function Onboarding(props) {
       .then(res => res.json())
       .then(user => {
         setSuccessfulAccountUpdate(true);
+        window.setTimeout(() => {
+          setSuccessfulAccountUpdate(false);
+        }, 3000);
         setUpdateAccountError(null);
         props.refresh();
       })
@@ -87,6 +90,9 @@ export default function Onboarding(props) {
       .then(res => res.json())
       .then(user => {
         setSuccessfulPasswordUpdate(true);
+        window.setTimeout(() => {
+          setSuccessfulPasswordUpdate(false);
+        }, 3000);
         setUpdatePasswordError(null);
         setConfirmPassword('');
         setNewPassword('');
@@ -150,7 +156,9 @@ export default function Onboarding(props) {
           />
         </section>
         <button className="onboarding-form-button" type="submit">
-          {successfulAccountUpdate && <i className="fas fa-check" />}
+          {successfulAccountUpdate && (
+            <i className="fas fa-check update-successful-check" />
+          )}
           Update Account
         </button>
       </form>

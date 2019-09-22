@@ -64,6 +64,10 @@ User Stories:
 [x] Admin can delete media
 - Asks to confirm before deleting
 
+[x] Admin can cancel a request 
+
+[x] Admin can send a reminder to a user if their media is overdue
+
 [x] User can edit their account info 
 - Their basics
 - Their password
@@ -75,10 +79,6 @@ Fix/improve over future:
 - Bug: Balance still shows even after renewing, and shows 0
 
 - Bug: after running app afer awhile, get "Unhandled Rejection (InvalidTokenError): Invalid token specified". Something goes wrong with token. Works upon refresh
-
-- Check that whole process works in prod
-
-- If user submits edit form with same email, its an error. Fix this.
 
 - Make variables for scss window sizes so it stays constant 
 
