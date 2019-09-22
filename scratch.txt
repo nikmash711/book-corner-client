@@ -120,11 +120,9 @@ Kids DVD
 
 - If passwords dont match tell them 
 
-- Fix the renewal 
-
 - Add a text for admin to see if the user has renewed the book or not 
 
-- Allow user to cancel request and text admin (in both steps of process - whether its in mailbox or not)
+- Allow user to cancel request and text admin (in both steps of process - whether its in mailbox or not). Cant allow user to cancel request bc thats like returning the book which will cause problems in cases of that media being on hold. Can only allow admin to do it.
 
 Walk through with Sharon: 
 - Onboarding. 

@@ -253,6 +253,23 @@ export default class Book extends React.Component {
         });
     };
 
+    const handleReturnOrCancel = (mediaId, checkedOutById, type) => {
+      if (this.props.media.holdQueue.length) {
+        let text =
+          type === 'cancel'
+            ? 'cancel the request for whoever currently checked it out'
+            : 'return the media';
+        let confirm = window.confirm(
+          `There is a hold queue for this media. Clicking OK will ${text} and make it ready for pickup for the next person in the queue. Press OK if you would like to do this.`
+        );
+        if (confirm) {
+          returnMedia(mediaId, checkedOutById);
+        }
+      } else {
+        returnMedia(mediaId, checkedOutById);
+      }
+    };
+
     const handleEdit = () => {
       this.props.setShowMediaForm();
       this.props.setCurrentMedia();
@@ -304,13 +321,21 @@ export default class Book extends React.Component {
               </React.Fragment>
             )}
           {admin && this.props.category === 'allRequests' && (
-            <h6 className="media-subcontent">
-              Requested By:{' '}
-              {this.props.media.checkedOutBy &&
-                this.props.media.checkedOutBy.firstName +
-                  ' ' +
-                  this.props.media.checkedOutBy.lastName}
-            </h6>
+            <React.Fragment>
+              <h6 className="media-subcontent">
+                Requested By:{' '}
+                {this.props.media.checkedOutBy &&
+                  this.props.media.checkedOutBy.firstName +
+                    ' ' +
+                    this.props.media.checkedOutBy.lastName}
+              </h6>
+              {this.props.media.holdQueue &&
+                this.props.media.holdQueue.length > 0 && (
+                  <h6 className="media-subcontent--bold">
+                    Hold Queue: {this.props.media.holdQueue.length}
+                  </h6>
+                )}
+            </React.Fragment>
           )}
           {(this.props.category === 'myCheckedOutMedia' ||
             this.props.category === 'myOverdueMedia') && (
@@ -355,15 +380,15 @@ export default class Book extends React.Component {
                 Ready For Pickup
               </button>
             )}
-          {admin &&
-            this.props.category === 'allRequests' &&
+          {this.props.category === 'allRequests' &&
             this.props.media.checkedOutBy && (
               <button
                 className="action-button-skin media-button"
                 onClick={() =>
-                  returnMedia(
+                  handleReturnOrCancel(
                     this.props.media.id,
-                    this.props.media.checkedOutBy.id
+                    this.props.media.checkedOutBy.id,
+                    'cancel'
                   )
                 }
               >
@@ -376,9 +401,10 @@ export default class Book extends React.Component {
               <button
                 className="action-button-skin media-button"
                 onClick={() =>
-                  returnMedia(
+                  handleReturnOrCancel(
                     this.props.media.id,
-                    this.props.media.checkedOutBy.id
+                    this.props.media.checkedOutBy.id,
+                    'return'
                   )
                 }
               >
