@@ -98,11 +98,9 @@ Kids DVD
 
 - Make it more colorful, use flyer theme, icons, fonts 
 
-- Show loading when communicating to server (buttons, page) — something cute
+- Show loading when communicating to server (buttons)
 
 - Pagination 
-
-- Set up Heroku so it doesnt go to sleep ($7 a month) 
  
 - Have a confirm message after clicking ready for pickup or clicking cancel request or clicking return 
 

@@ -273,6 +273,14 @@ export default class Book extends React.Component {
               }`}</h6>
             </React.Fragment>
           )}
+          {admin &&
+            this.props.category === 'allCheckedOutMedia' &&
+            this.props.media.holdQueue &&
+            this.props.media.holdQueue.length > 0 && (
+              <h6 className="media-subcontent--bold">
+                Hold Queue: {this.props.media.holdQueue.length}
+              </h6>
+            )}
           {admin && this.props.category === 'allRequests' && (
             <h6 className="media-subcontent">
               Requested By:{' '}

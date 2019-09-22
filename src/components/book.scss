@@ -45,6 +45,10 @@
   color: $darkBlue;
 }
 
+.media-subcontent--bold {
+  font-weight: bolder;
+}
+
 .media-button {
   border-radius: 10px;
   display: inline-block;
@@ -87,12 +91,12 @@
   }
 
   .media-subcontent {
-    margin-top: 40px;
+    margin-top: 30px;
   }
 
   .media-button {
     font-size: 1rem;
-    margin-top: 50px;
+    margin-top: 30px;
     width: 160px;
   }
 }
