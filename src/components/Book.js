@@ -233,26 +233,6 @@ export default class Book extends React.Component {
         });
     };
 
-    const sendReminder = mediaId => {
-      const authToken = loadAuthToken();
-      fetch(`${API_BASE_URL}/media/send-reminder/${mediaId}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(() => {
-          return this.props.refresh();
-        })
-        .catch(error => {
-          // console.log(error);
-        });
-    };
-
     const handleReturnOrCancel = (mediaId, checkedOutById, type) => {
       if (this.props.media.holdQueue.length) {
         let text =
@@ -411,14 +391,6 @@ export default class Book extends React.Component {
                 Return Media
               </button>
             )}
-          {admin && this.props.category === 'allOverdueMedia' && (
-            <button
-              className="action-button-skin media-button"
-              onClick={() => sendReminder(this.props.media.id)}
-            >
-              Send Reminder
-            </button>
-          )}
           {!admin &&
             (this.props.category === 'myCheckedOutMedia' ||
               this.props.category === 'myOverdueMedia') &&

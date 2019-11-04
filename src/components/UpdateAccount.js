@@ -59,7 +59,7 @@ export default function Onboarding(props) {
       .then(res => res.json())
       .then(user => {
         setSuccessfulAccountUpdate(true);
-        window.setTimeout(() => {
+        setTimeout(() => {
           setSuccessfulAccountUpdate(false);
         }, 3000);
         setUpdateAccountError(null);
@@ -90,7 +90,7 @@ export default function Onboarding(props) {
       .then(res => res.json())
       .then(user => {
         setSuccessfulPasswordUpdate(true);
-        window.setTimeout(() => {
+        setTimeout(() => {
           setSuccessfulPasswordUpdate(false);
         }, 3000);
         setUpdatePasswordError(null);

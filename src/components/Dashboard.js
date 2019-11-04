@@ -34,6 +34,7 @@ export default function Dashboard(props) {
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentMedia, setCurrentMedia] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   let admin = false;
   if (user.info) {
@@ -139,6 +140,29 @@ export default function Dashboard(props) {
           // console.log(error);
         });
     }
+  };
+
+  const sendReminders = () => {
+    const authToken = loadAuthToken();
+    fetch(`${API_BASE_URL}/media/send-reminders`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`
+      }
+    })
+      .then(res => normalizeResponseErrors(res))
+      .then(res => res.json())
+      .then(() => {
+        setSuccess('Reminders sent successfully');
+        setTimeout(() => {
+          setSuccess(null);
+        }, 5000);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const generateBooks = medias => {
@@ -297,6 +321,14 @@ export default function Dashboard(props) {
         <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
+          {admin && category === 'allCheckedOutMedia' && (
+            <button
+              className="action-button-skin media-button send-reminders-btn"
+              onClick={sendReminders}
+            >
+              Send Reminders
+            </button>
+          )}
           {balance && (
             <h2 className="unavailable total-balance">
               Total Balance: ${balance}.00
@@ -308,6 +340,9 @@ export default function Dashboard(props) {
             </button>
           )}
           {error && <h5 className="onboarding-error">{error}</h5>}
+          {success && category === 'allCheckedOutMedia' && (
+            <h5 className="message-success">{success}</h5>
+          )}
           <MediaForm
             show={showMediaForm}
             authToken={authToken}
