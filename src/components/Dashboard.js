@@ -17,6 +17,7 @@ import Navbar from './Navbar';
 import About from './About';
 import MediaForm from './MediaForm';
 import UpdateAccount from './UpdateAccount';
+import moment from 'moment';
 
 export default function Dashboard(props) {
   //make sure user is logged in before being able to see this page (context?)
@@ -166,6 +167,7 @@ export default function Dashboard(props) {
   };
 
   const generateBooks = medias => {
+    console.log('media', medias);
     let filteredMedia = medias;
     if (category === 'allMedia') {
       filteredMedia = medias.filter(
@@ -175,9 +177,25 @@ export default function Dashboard(props) {
           (typeFilter.includes(media.type) || media.type.includes(typeFilter))
       );
     }
-    return filteredMedia.length ? (
-      filteredMedia
-        .sort(function(a, b) {
+    let sortedMedia = filteredMedia;
+    if (sortedMedia.length) {
+      if (category === 'allCheckedOutMedia' || category === 'allOverdueMedia') {
+        sortedMedia = filteredMedia.sort((a, b) => {
+          if (a.dueDate) {
+            let dateA = moment(a.dueDate, 'MM/DD/YYYY');
+            let dateB = moment(b.dueDate, 'MM/DD/YYYY');
+            let diff = moment.duration(dateA.diff(dateB)).asDays();
+            if (diff < 0) {
+              return -1;
+            } else if (diff > 0) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }
+        });
+      } else {
+        sortedMedia = filteredMedia.sort(function(a, b) {
           if (a.author < b.author) {
             return -1;
           } else if (a.author > b.author) {
@@ -185,29 +203,32 @@ export default function Dashboard(props) {
           } else {
             return 0;
           }
-        })
-        .map(media => {
-          return (
-            <Book
-              setShowMediaForm={e => setShowMediaForm(true)}
-              setCurrentMedia={e => setCurrentMedia(media)}
-              setError={error => {
-                setError(error.message);
-                window.scrollTo(0, 0);
-              }}
-              user={user.info}
-              key={media.title}
-              exceededCheckOuts={exceededCheckOuts}
-              exceededHolds={exceededHolds}
-              media={media}
-              category={category}
-              refresh={refresh}
-            />
-          );
-        })
-    ) : (
-      <h3 className="no-results">Sorry, no media matches your search</h3>
-    );
+        });
+      }
+      return sortedMedia.map(media => {
+        return (
+          <Book
+            setShowMediaForm={e => setShowMediaForm(true)}
+            setCurrentMedia={e => setCurrentMedia(media)}
+            setError={error => {
+              setError(error.message);
+              window.scrollTo(0, 0);
+            }}
+            user={user.info}
+            key={media.title}
+            exceededCheckOuts={exceededCheckOuts}
+            exceededHolds={exceededHolds}
+            media={media}
+            category={category}
+            refresh={refresh}
+          />
+        );
+      });
+    } else {
+      return (
+        <h3 className="no-results">Sorry, no media matches your search</h3>
+      );
+    }
   };
 
   const generateDirectory = users => {
