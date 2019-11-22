@@ -1,3 +1,4 @@
+/* global FS*/
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../context';
 import { Redirect } from 'react-router-dom';
@@ -90,12 +91,17 @@ export default function Dashboard(props) {
     } else {
       refresh();
       changeCategory('allMedia');
-      // FS.identify(user.info.id, {
-      //   displayName: `${user.info.firstName} ${user.info.lastName}`,
-      //   email: user.info.email
-      // });
     }
   }, []);
+
+  useEffect(() => {
+    if (user.info) {
+      FS.identify(user.info.id, {
+        displayName: `${user.info.firstName} ${user.info.lastName}`,
+        email: user.info.email
+      });
+    }
+  }, [user.info]);
 
   const changeCategory = category => {
     setMediaFilter('');
