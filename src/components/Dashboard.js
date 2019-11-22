@@ -90,6 +90,10 @@ export default function Dashboard(props) {
     } else {
       refresh();
       changeCategory('allMedia');
+      FS.identify(user.info.id, {
+        displayName: `${user.info.firstName} ${user.info.lastName}`,
+        email: user.info.email
+      });
     }
   }, []);
 
@@ -167,7 +171,6 @@ export default function Dashboard(props) {
   };
 
   const generateBooks = medias => {
-    console.log('media', medias);
     let filteredMedia = medias;
     if (category === 'allMedia') {
       filteredMedia = medias.filter(
