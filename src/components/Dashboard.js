@@ -90,10 +90,10 @@ export default function Dashboard(props) {
     } else {
       refresh();
       changeCategory('allMedia');
-      FS.identify(user.info.id, {
-        displayName: `${user.info.firstName} ${user.info.lastName}`,
-        email: user.info.email
-      });
+      // FS.identify(user.info.id, {
+      //   displayName: `${user.info.firstName} ${user.info.lastName}`,
+      //   email: user.info.email
+      // });
     }
   }, []);
 
