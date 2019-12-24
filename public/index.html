@@ -27,6 +27,10 @@
     />
 
     <title>Jewish Book Corner</title>
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>
+    <script>
+      window.bugsnagClient = bugsnag(process.env.BUGSNAG_API_KEY);
+    </script>
     <script>
       window['_fs_debug'] = false;
       window['_fs_host'] = 'fullstory.com';
