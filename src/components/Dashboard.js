@@ -235,9 +235,7 @@ export default function Dashboard(props) {
         );
       });
     } else {
-      return (
-        <h3 className="no-results">Sorry, no media matches your search</h3>
-      );
+      return <h3 className="no-results">Sorry, no media found.</h3>;
     }
   };
 
