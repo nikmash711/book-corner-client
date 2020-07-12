@@ -179,13 +179,12 @@ export default function Dashboard(props) {
   const generateBooks = medias => {
     let filteredMedia = medias;
     if (category === 'allMedia') {
-      filteredMedia = [];
-      // filteredMedia = medias.filter(
-      //   media =>
-      //     (media.title.toLowerCase().includes(mediaFilter) ||
-      //       media.author.toLowerCase().includes(mediaFilter)) &&
-      //     (typeFilter.includes(media.type) || media.type.includes(typeFilter))
-      // );
+      filteredMedia = medias.filter(
+        media =>
+          (media.title.toLowerCase().includes(mediaFilter) ||
+            media.author.toLowerCase().includes(mediaFilter)) &&
+          (typeFilter.includes(media.type) || media.type.includes(typeFilter))
+      );
     }
     let sortedMedia = filteredMedia;
     if (sortedMedia.length) {
@@ -350,11 +349,6 @@ export default function Dashboard(props) {
         <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
-          <h3 className="page-title" style={{ color: 'red' }}>
-            THE LIBRARY IS CURRENTLY NOT OPERATING DUE TO COVID-19 SAFETY
-            MEASURES SET FORTH BY THE CITY OF LOS ANGELES. WE WILL KEEP YOU
-            POSTED WHEN WE ARE OPERATING AGAIN!
-          </h3>
           {admin && category === 'allCheckedOutMedia' && (
             <button
               className="action-button-skin media-button send-reminders-btn"
