@@ -1,13 +1,13 @@
-@import "~./constants.scss";
+@import '~./constants.scss';
 
-.action-button-skin{
+.action-button-skin {
   background: $darkBlue;
   border: 1px solid $darkBlue;
   color: $beige;
   cursor: pointer;
   display: block;
   font-family: $mainFont;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .sidebar-button {
@@ -17,20 +17,22 @@
   text-align: left;
   width: -webkit-fill-available;
 
-  @media(min-width: 600px) {
+  @media (min-width: 600px) {
     font-size: 1.5rem;
   }
 }
 
-.action-button-skin:hover, .action-button-skin:focus{
+.action-button-skin:hover,
+.action-button-skin:focus {
   background: $beige;
   color: $darkBlue;
   outline: 0;
 }
 
-.open-sidebar{
+.open-sidebar {
   background: $darkBlue;
   border: 1px solid $beige;
+  border-radius: 10px;
   color: $beige;
   cursor: pointer;
   font-size: 25px;
@@ -42,7 +44,8 @@
   z-index: 1000;
 }
 
-.open-sidebar:hover, .open-sidebar:focus{
+.open-sidebar:hover,
+.open-sidebar:focus {
   background: $beige;
   color: $darkBlue;
 }
