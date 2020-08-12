@@ -367,6 +367,14 @@ export default function Dashboard(props) {
               Add New Media
             </button>
           )}
+          {category === 'allMedia' && (
+            <button
+              className="scroll-to-top-btn"
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              <i class="fas fa-chevron-up" />
+            </button>
+          )}
           {error && <h5 className="onboarding-error">{error}</h5>}
           {success && category === 'allCheckedOutMedia' && (
             <h5 className="message-success">{success}</h5>

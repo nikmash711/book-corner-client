@@ -102,3 +102,15 @@
   text-align: center;
   padding: 15px;
 }
+
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 60px;
+  right: 0;
+
+  background-color: #030a43;
+  color: #efe5d8;
+  font-size: 23px;
+  padding: 10px;
+  line-height: 0;
+}
