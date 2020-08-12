@@ -158,11 +158,15 @@ export default function Onboarding(props) {
         <button className="onboarding-form-button" type="submit">
           Log In
         </button>
+
+        <a className="sign-up-link" href="#signup">
+          Don't have an account? Sign up here!
+        </a>
       </form>
     );
   } else {
     return (
-      <form className="onboarding-form" onSubmit={handleSignUp}>
+      <form id="signup" className="onboarding-form" onSubmit={handleSignUp}>
         <h1 className="onboarding-form-title">Sign Up</h1>
         <h6 className="onboarding-form-subtitle">
           ** Please make sure to provide a valid cell phone number as you will
