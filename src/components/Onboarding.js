@@ -166,80 +166,83 @@ export default function Onboarding(props) {
     );
   } else {
     return (
-      <form id="signup" className="onboarding-form" onSubmit={handleSignUp}>
-        <h1 className="onboarding-form-title">Sign Up</h1>
-        <h6 className="onboarding-form-subtitle">
-          ** Please make sure to provide a valid cell phone number as you will
-          be notified via text when your media is ready for pickup! **
-        </h6>
-        {signupError && <h5 className="onboarding-error">{signupError}</h5>}
-        <section className="field">
-          <label htmlFor="first">First</label>
-          <input
-            required
-            type="text"
-            onChange={e => setFirstName(e.target.value)}
-            placeholder="First Name"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="last">Last</label>
-          <input
-            required
-            type="text"
-            id="last"
-            onChange={e => setLastName(e.target.value)}
-            placeholder="Last Name"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="new-email">Email</label>
-          <input
-            required
-            id="new-email"
-            type="email"
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="tel">Cell</label>
-          <input
-            required
-            id="tel"
-            type="tel"
-            onChange={e => setCell(e.target.value)}
-            placeholder="Cell Phone Number"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="new-password">Password</label>
-          <input
-            required
-            id="new-password"
-            type="password"
-            onChange={e => setNewPassword(e.target.value)}
-            placeholder="Password"
-          />
-        </section>
-        <section className="field">
-          <label htmlFor="confirm">Confirm</label>
-          <input
-            required
-            id="confirm"
-            type="password"
-            onChange={e => setConfirmPassword(e.target.value)}
-            placeholder="Confirm Password"
-          />
-        </section>
-        <button
-          className="onboarding-form-button"
-          disabled={newPassword === confirmPassword ? false : true}
-          type="submit"
-        >
-          Sign Up
-        </button>
-      </form>
+      <>
+        <span id="signup" className="sign-up-anchor" />
+        <form className="onboarding-form" onSubmit={handleSignUp}>
+          <h1 className="onboarding-form-title">Sign Up</h1>
+          <h6 className="onboarding-form-subtitle">
+            ** Please make sure to provide a valid cell phone number as you will
+            be notified via text when your media is ready for pickup! **
+          </h6>
+          {signupError && <h5 className="onboarding-error">{signupError}</h5>}
+          <section className="field">
+            <label htmlFor="first">First</label>
+            <input
+              required
+              type="text"
+              onChange={e => setFirstName(e.target.value)}
+              placeholder="First Name"
+            />
+          </section>
+          <section className="field">
+            <label htmlFor="last">Last</label>
+            <input
+              required
+              type="text"
+              id="last"
+              onChange={e => setLastName(e.target.value)}
+              placeholder="Last Name"
+            />
+          </section>
+          <section className="field">
+            <label htmlFor="new-email">Email</label>
+            <input
+              required
+              id="new-email"
+              type="email"
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Email"
+            />
+          </section>
+          <section className="field">
+            <label htmlFor="tel">Cell</label>
+            <input
+              required
+              id="tel"
+              type="tel"
+              onChange={e => setCell(e.target.value)}
+              placeholder="Cell Phone Number"
+            />
+          </section>
+          <section className="field">
+            <label htmlFor="new-password">Password</label>
+            <input
+              required
+              id="new-password"
+              type="password"
+              onChange={e => setNewPassword(e.target.value)}
+              placeholder="Password"
+            />
+          </section>
+          <section className="field">
+            <label htmlFor="confirm">Confirm</label>
+            <input
+              required
+              id="confirm"
+              type="password"
+              onChange={e => setConfirmPassword(e.target.value)}
+              placeholder="Confirm Password"
+            />
+          </section>
+          <button
+            className="onboarding-form-button"
+            disabled={newPassword === confirmPassword ? false : true}
+            type="submit"
+          >
+            Sign Up
+          </button>
+        </form>
+      </>
     );
   }
 }
