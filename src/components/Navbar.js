@@ -6,8 +6,8 @@ export default function Navbar(props) {
   return (
     <nav className="navbar">
       <Link to="/dashboard">
+        <i class="fas fa-book book-icon"></i>
         JewishBookCorner
-        <i className="fas fa-book-open" />
       </Link>
     </nav>
   );
