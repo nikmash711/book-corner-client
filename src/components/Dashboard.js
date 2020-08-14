@@ -418,9 +418,10 @@ export default function Dashboard(props) {
           </section>
         </main>
         <footer className="footer">
-          <a href="https://nikmash.com" target="_blank">
+          {/* Hide this until my website isn't broken */}
+          {/* <a href="https://nikmash.com" target="_blank">
             <i className="fas fa-paint-brush" /> Website by NikMash Creations
-          </a>
+          </a> */}
           <a
             href="mailto:jewishbookcorner@gmail.com?subject=Jewish%20Book%20Corner%20Inquiry"
             target="_blank"

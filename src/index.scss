@@ -80,7 +80,8 @@ footer {
   color: $beige;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
+  justify-content: flex-end;
   margin-left: 0;
   padding: 10px 20px;
 

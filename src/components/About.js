@@ -93,9 +93,9 @@ export default function About(props) {
         </section>
       </section>
       <footer className="footer no-margin-left">
-        <a href="https://nikmash.com" target="_blank">
+        {/* <a href="https://nikmash.com" target="_blank">
           <i className="fas fa-paint-brush" /> Website by NikMash Creations
-        </a>
+        </a> */}
         <a
           href="mailto:jewishbookcorner@gmail.com?subject=Jewish%20Book%20Corner%20Inquiry"
           target="_blank"
