@@ -349,6 +349,19 @@ export default function Dashboard(props) {
         <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
+          {
+            <h2
+              style={{
+                color: 'red',
+                padding: '0px 40px 20px 40px',
+                textAlign: 'center'
+              }}
+            >
+              PLEASE NOTE: Library is closed for checking out Sunday-Wednesday
+              this week. Returning books is acceptable. Library will reopen on
+              Thursday. Thank you!
+            </h2>
+          }
           {admin && category === 'allCheckedOutMedia' && (
             <button
               className="action-button-skin media-button send-reminders-btn"
