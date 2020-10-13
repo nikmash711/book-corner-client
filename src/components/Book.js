@@ -287,7 +287,9 @@ export default class Book extends React.Component {
                   {this.props.media.checkedOutBy &&
                     this.props.media.checkedOutBy.firstName +
                       ' ' +
-                      this.props.media.checkedOutBy.lastName}
+                      this.props.media.checkedOutBy.lastName +
+                      ', ' +
+                      this.props.media.checkedOutBy.email}
                 </h6>
                 {this.props.media.holdQueue &&
                   this.props.media.holdQueue.length > 0 && (
@@ -295,9 +297,7 @@ export default class Book extends React.Component {
                       Hold Queue: {this.props.media.holdQueue.length}
                     </h6>
                   )}
-                <h6 className="unavailable media-subcontent">{`${tense}: ${
-                  this.props.media.dueDate
-                }`}</h6>
+                <h6 className="unavailable media-subcontent">{`${tense}: ${this.props.media.dueDate}`}</h6>
               </React.Fragment>
             )}
           {admin && this.props.category === 'allRequests' && (
