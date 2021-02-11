@@ -224,7 +224,7 @@ export default function Dashboard(props) {
               window.scrollTo(0, 0);
             }}
             user={user.info}
-            key={media.title}
+            key={`${media.title}-${media.id}`}
             exceededCheckOuts={exceededCheckOuts}
             exceededHolds={exceededHolds}
             media={media}
