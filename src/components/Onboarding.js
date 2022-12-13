@@ -5,7 +5,7 @@ import { API_BASE_URL } from '../config';
 import {
   loadAuthToken,
   refreshAuthToken,
-  storeAuthInfo
+  storeAuthInfo,
 } from '../local-storage';
 import { normalizeResponseErrors } from '../utils';
 import { UserContext } from '../context';
@@ -33,7 +33,7 @@ export default function Onboarding(props) {
     const authToken = loadAuthToken();
     if (authToken) {
       user.loggedIn = true;
-      refreshAuthToken().then(token => {
+      refreshAuthToken().then((token) => {
         const decodedToken = jwtDecode(token);
         user.info = decodedToken.user;
       });
@@ -46,27 +46,27 @@ export default function Onboarding(props) {
     fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email,
-        password
-      })
+        password,
+      }),
     })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
+      .then((res) => normalizeResponseErrors(res))
+      .then((res) => res.json())
       .then(({ authToken }) => {
         storeAuthInfo(authToken);
         return authToken;
       })
-      .then(authToken => {
+      .then((authToken) => {
         user.loggedIn = true;
         const decodedToken = jwtDecode(authToken);
         user.info = decodedToken.user;
         setLoginError(null);
         setRedirect(true);
       })
-      .catch(err => {
+      .catch((err) => {
         const { status } = err;
         const message =
           status === 401
@@ -76,12 +76,12 @@ export default function Onboarding(props) {
       });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     loginUser(username, password);
   };
 
-  const handleSignUp = e => {
+  const handleSignUp = (e) => {
     e.preventDefault();
 
     const formattedNumber = parsePhoneNumberFromString(cell, 'US');
@@ -97,23 +97,23 @@ export default function Onboarding(props) {
     fetch(`${API_BASE_URL}/users`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email,
         firstName,
         lastName,
         cell: formattedNumber.number,
-        password: newPassword
-      })
+        password: newPassword,
+      }),
     })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(user => {
+      .then((res) => normalizeResponseErrors(res))
+      .then((res) => res.json())
+      .then((user) => {
         loginUser(email, newPassword);
         setSignupError(null);
       })
-      .catch(err => {
+      .catch((err) => {
         setSignupError(err.message);
       });
   };
@@ -133,7 +133,7 @@ export default function Onboarding(props) {
             required
             id="email"
             type="text"
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             placeholder="Email"
           />
         </section>
@@ -143,7 +143,7 @@ export default function Onboarding(props) {
             required
             id="password"
             type="password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
         </section>
@@ -180,7 +180,7 @@ export default function Onboarding(props) {
             <input
               required
               type="text"
-              onChange={e => setFirstName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
             />
           </section>
@@ -190,7 +190,7 @@ export default function Onboarding(props) {
               required
               type="text"
               id="last"
-              onChange={e => setLastName(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
             />
           </section>
@@ -200,7 +200,7 @@ export default function Onboarding(props) {
               required
               id="new-email"
               type="email"
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
             />
           </section>
@@ -210,9 +210,15 @@ export default function Onboarding(props) {
               required
               id="tel"
               type="tel"
-              onChange={e => setCell(e.target.value)}
+              onChange={(e) => setCell(e.target.value)}
               placeholder="Cell Phone Number"
             />
+          </section>
+          <section className="field">
+            By entering your number, you agree to receive text messages at the
+            phone number provided.
+            <br />
+            Message frequency varies. Message and data rates may apply.
           </section>
           <section className="field">
             <label htmlFor="new-password">Password</label>
@@ -220,7 +226,7 @@ export default function Onboarding(props) {
               required
               id="new-password"
               type="password"
-              onChange={e => setNewPassword(e.target.value)}
+              onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Password"
             />
           </section>
@@ -230,7 +236,7 @@ export default function Onboarding(props) {
               required
               id="confirm"
               type="password"
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
             />
           </section>
