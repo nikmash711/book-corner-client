@@ -170,10 +170,6 @@ export default function Onboarding(props) {
         <span id="signup" className="sign-up-anchor" />
         <form className="onboarding-form" onSubmit={handleSignUp}>
           <h1 className="onboarding-form-title">Sign Up</h1>
-          <h6 className="onboarding-form-subtitle">
-            ** Please make sure to provide a valid cell phone number as you will
-            be notified via text when your media is ready for pickup! **
-          </h6>
           {signupError && <h5 className="onboarding-error">{signupError}</h5>}
           <section className="field">
             <label htmlFor="first">First</label>
@@ -214,9 +210,10 @@ export default function Onboarding(props) {
               placeholder="Cell Phone Number"
             />
           </section>
-          <section className="field">
+          <section className="field" styles={{ fontSize: 12, paddingTop: 0 }}>
             By entering your number, you agree to receive text messages at the
-            phone number provided.
+            phone number provided when your media is ready for pickup or
+            overdue.
             <br />
             Message frequency varies. Message and data rates may apply.
           </section>
