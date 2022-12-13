@@ -210,7 +210,7 @@ export default function Onboarding(props) {
               placeholder="Cell Phone Number"
             />
           </section>
-          <section className="field" styles={{ fontSize: 12, paddingTop: 0 }}>
+          <section className="field" style={{ fontSize: 12, paddingTop: 0 }}>
             By entering your number, you agree to receive text messages at the
             phone number provided when your media is ready for pickup or
             overdue.
