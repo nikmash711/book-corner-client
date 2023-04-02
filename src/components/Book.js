@@ -15,7 +15,7 @@ export default class Book extends React.Component {
       ableToPlaceHold: true,
       ableToCheckOut: true,
       ableToCancelHold: false,
-      availability: ''
+      availability: '',
     };
   }
 
@@ -66,7 +66,7 @@ export default class Book extends React.Component {
       nextWeek: 'MM/DD/YYYY',
       lastDay: 'MM/DD/YYYY',
       lastWeek: 'MM/DD/YYYY',
-      sameElse: 'MM/DD/YYYY'
+      sameElse: 'MM/DD/YYYY',
     });
 
     const overdueBalance = calculateBalance([this.props.media]) > 0;
@@ -86,7 +86,7 @@ export default class Book extends React.Component {
         <i className="fas fa-compact-disc" />
       );
 
-    const checkOut = mediaId => {
+    const checkOut = (mediaId) => {
       this.setState({ ableToPlaceHold: false });
       const authToken = loadAuthToken();
       let userId = this.props.user.id;
@@ -95,22 +95,22 @@ export default class Book extends React.Component {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({
-          available: false
-        })
+          available: false,
+        }),
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(updatedMedia => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((updatedMedia) => {
           this.setState({
             ableToCheckOut: false,
-            availability: 'Unavailable'
+            availability: 'Unavailable',
           });
           return this.props.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           this.props.setError(error);
         });
     };
@@ -123,12 +123,12 @@ export default class Book extends React.Component {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`
-        }
+          Authorization: `Bearer ${authToken}`,
+        },
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(results => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((results) => {
           updatedMedia = results;
           if (action === 'place') {
             this.setState({ ableToPlaceHold: false, ableToCancelHold: true });
@@ -137,12 +137,12 @@ export default class Book extends React.Component {
           }
           return this.props.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error);
         });
     };
 
-    const readyForPickup = mediaId => {
+    const readyForPickup = (mediaId) => {
       let updatedMedia;
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/media/pickup/${mediaId}`, {
@@ -150,21 +150,21 @@ export default class Book extends React.Component {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`
-        }
+          Authorization: `Bearer ${authToken}`,
+        },
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(results => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((results) => {
           updatedMedia = results;
           return this.props.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error);
         });
     };
 
-    const renew = mediaId => {
+    const renew = (mediaId) => {
       let updatedMedia;
       const authToken = loadAuthToken();
       fetch(`${API_BASE_URL}/media/renew/${mediaId}`, {
@@ -172,16 +172,16 @@ export default class Book extends React.Component {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`
-        }
+          Authorization: `Bearer ${authToken}`,
+        },
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(results => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((results) => {
           updatedMedia = results;
           return this.props.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error);
         });
     };
@@ -194,15 +194,15 @@ export default class Book extends React.Component {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({
-          available: true
-        })
+          available: true,
+        }),
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(results => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((results) => {
           updatedMedia = results;
           //if theres a hold queue:
           if (this.props.media.holdQueue.length) {
@@ -211,24 +211,24 @@ export default class Book extends React.Component {
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${authToken}`
+                Authorization: `Bearer ${authToken}`,
               },
               body: JSON.stringify({
-                holdQueue: this.props.media.holdQueue
-              })
+                holdQueue: this.props.media.holdQueue,
+              }),
             });
           } else {
             return Promise.resolve();
           }
         })
-        .then(results => {
+        .then((results) => {
           if (results) {
             updatedMedia = results;
           }
 
           return this.props.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error);
         });
     };
@@ -325,31 +325,7 @@ export default class Book extends React.Component {
                 : 'Not Ready For Pickup'}
             </h6>
           )}
-          {this.state.ableToCheckOut && this.props.category === 'allMedia' ? (
-            <button
-              className="action-button-skin media-button"
-              onClick={() => checkOut(this.props.media.id)}
-            >
-              Check Out
-            </button>
-          ) : this.state.ableToPlaceHold &&
-            this.props.category === 'allMedia' ? (
-            <button
-              className="action-button-skin media-button"
-              onClick={() => placeHold(this.props.media.id, 'place')}
-            >
-              Place Hold
-            </button>
-          ) : this.state.ableToCancelHold ? (
-            <button
-              className="action-button-skin media-button"
-              onClick={() => placeHold(this.props.media.id, 'cancel')}
-            >
-              Cancel Hold
-            </button>
-          ) : (
-            ''
-          )}
+
           {admin &&
             this.props.category === 'allRequests' &&
             this.props.media.checkedOutBy && (

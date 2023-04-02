@@ -6,7 +6,7 @@ import SidebarNav from './SidebarNav';
 import {
   clearAuthToken,
   loadAuthToken,
-  refreshAuthToken
+  refreshAuthToken,
 } from '../local-storage';
 import { API_BASE_URL } from '../config';
 import { calculateBalance } from '../helpers';
@@ -54,7 +54,7 @@ export default function Dashboard(props) {
     allUsers: 'User Directory',
     allRequests: 'Requests',
     allCheckedOutMedia: 'Currently Checked Out Media',
-    allOverdueMedia: 'All Overdue Media'
+    allOverdueMedia: 'All Overdue Media',
   };
 
   let eyes = <i className="fas fa-eye" />;
@@ -67,7 +67,7 @@ export default function Dashboard(props) {
 
   const refresh = () => {
     refreshAuthToken()
-      .then(token => {
+      .then((token) => {
         const decodedToken = jwtDecode(token);
         user.info = decodedToken.user;
         // console.log("refreshing");
@@ -79,7 +79,7 @@ export default function Dashboard(props) {
         //so that the page refreshes:
         changeCategory(category || 'allMedia');
       })
-      .catch(error => {
+      .catch((error) => {
         // If there's an error, it's most likely an invalid token. This needs a long term solution but for the time being just force refresh the page.
         window.location.reload();
       });
@@ -98,12 +98,12 @@ export default function Dashboard(props) {
     if (user.info) {
       FS.identify(user.info.id, {
         displayName: `${user.info.firstName} ${user.info.lastName}`,
-        email: user.info.email
+        email: user.info.email,
       });
     }
   }, [user.info]);
 
-  const changeCategory = category => {
+  const changeCategory = (category) => {
     setMediaFilter('');
     setUserFilter('');
     setTypeFilter('');
@@ -115,16 +115,16 @@ export default function Dashboard(props) {
       fetch(`${API_BASE_URL}/users`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${authToken}`
-        }
+          Authorization: `Bearer ${authToken}`,
+        },
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(users => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((users) => {
           setCategory(category);
           setUsers(users);
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error);
         });
     } else {
@@ -132,12 +132,12 @@ export default function Dashboard(props) {
       fetch(`${API_BASE_URL}/media/${category}`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${authToken}`
-        }
+          Authorization: `Bearer ${authToken}`,
+        },
       })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(media => {
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => res.json())
+        .then((media) => {
           if (category === 'myOverdueMedia') {
             setBalance(media.balance !== 0 ? media.balance : null);
             media = media.overdueMedia;
@@ -147,7 +147,7 @@ export default function Dashboard(props) {
           setCategory(category);
           setMedia(media);
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error);
         });
     }
@@ -160,27 +160,27 @@ export default function Dashboard(props) {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`
-      }
+        Authorization: `Bearer ${authToken}`,
+      },
     })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
+      .then((res) => normalizeResponseErrors(res))
+      .then((res) => res.json())
       .then(() => {
         setSuccess('Reminders sent successfully');
         setTimeout(() => {
           setSuccess(null);
         }, 5000);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
-  const generateBooks = medias => {
+  const generateBooks = (medias) => {
     let filteredMedia = medias;
     if (category === 'allMedia') {
       filteredMedia = medias.filter(
-        media =>
+        (media) =>
           (media.title.toLowerCase().includes(mediaFilter) ||
             media.author.toLowerCase().includes(mediaFilter)) &&
           (typeFilter.includes(media.type) || media.type.includes(typeFilter))
@@ -204,7 +204,7 @@ export default function Dashboard(props) {
           }
         });
       } else {
-        sortedMedia = filteredMedia.sort(function(a, b) {
+        sortedMedia = filteredMedia.sort(function (a, b) {
           if (a.author < b.author) {
             return -1;
           } else if (a.author > b.author) {
@@ -214,12 +214,12 @@ export default function Dashboard(props) {
           }
         });
       }
-      return sortedMedia.map(media => {
+      return sortedMedia.map((media) => {
         return (
           <Book
-            setShowMediaForm={e => setShowMediaForm(true)}
-            setCurrentMedia={e => setCurrentMedia(media)}
-            setError={error => {
+            setShowMediaForm={(e) => setShowMediaForm(true)}
+            setCurrentMedia={(e) => setCurrentMedia(media)}
+            setError={(error) => {
               setError(error.message);
               window.scrollTo(0, 0);
             }}
@@ -238,14 +238,14 @@ export default function Dashboard(props) {
     }
   };
 
-  const generateDirectory = users => {
+  const generateDirectory = (users) => {
     return users
       .filter(
-        user =>
+        (user) =>
           user.firstName.toLowerCase().includes(userFilter) ||
           user.lastName.toLowerCase().includes(userFilter)
       )
-      .sort(function(a, b) {
+      .sort(function (a, b) {
         if (a.firstName < b.firstName) {
           return -1;
         } else if (a.firstName > b.firstName) {
@@ -297,12 +297,23 @@ export default function Dashboard(props) {
         <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
+          {
+            <h2
+              style={{
+                color: 'red',
+                padding: '0px 40px 20px 40px',
+                textAlign: 'center',
+              }}
+            >
+              PLEASE NOTE: Library will be closed from April 3 - April 16!
+            </h2>
+          }
           <section className="user-directory">
             <input
               type="search"
               placeholder="Search Here"
               className="search"
-              onChange={e => setUserFilter(e.target.value.toLowerCase())}
+              onChange={(e) => setUserFilter(e.target.value.toLowerCase())}
             />
             {generateDirectory(users)}
           </section>
@@ -393,11 +404,11 @@ export default function Dashboard(props) {
                   className="search"
                   type="search"
                   placeholder="Search Here"
-                  onChange={e => setMediaFilter(e.target.value.toLowerCase())}
+                  onChange={(e) => setMediaFilter(e.target.value.toLowerCase())}
                 />
                 <select
                   className="select-media"
-                  onChange={e => setTypeFilter(e.target.value)}
+                  onChange={(e) => setTypeFilter(e.target.value)}
                 >
                   <option defaultValue value="">
                     All Media
