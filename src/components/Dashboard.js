@@ -360,6 +360,17 @@ export default function Dashboard(props) {
         <Navbar />
         <main className="dashboard">
           {category && <h1 className="page-title">{titleKey[category]}</h1>}
+          {
+            <h2
+              style={{
+                color: 'red',
+                padding: '0px 40px 20px 40px',
+                textAlign: 'center',
+              }}
+            >
+              PLEASE NOTE: Library will be closed from April 3 - April 16!
+            </h2>
+          }
           {admin && category === 'allCheckedOutMedia' && (
             <button
               className="action-button-skin media-button send-reminders-btn"
