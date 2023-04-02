@@ -326,6 +326,31 @@ export default class Book extends React.Component {
             </h6>
           )}
 
+          {this.state.ableToCheckOut && this.props.category === 'allMedia' ? (
+            <button
+              className="action-button-skin media-button"
+              onClick={() => checkOut(this.props.media.id)}
+            >
+              Check Out
+            </button>
+          ) : this.state.ableToPlaceHold &&
+            this.props.category === 'allMedia' ? (
+            <button
+              className="action-button-skin media-button"
+              onClick={() => placeHold(this.props.media.id, 'place')}
+            >
+              Place Hold
+            </button>
+          ) : this.state.ableToCancelHold ? (
+            <button
+              className="action-button-skin media-button"
+              onClick={() => placeHold(this.props.media.id, 'cancel')}
+            >
+              Cancel Hold
+            </button>
+          ) : (
+            ''
+          )}
           {admin &&
             this.props.category === 'allRequests' &&
             this.props.media.checkedOutBy && (
