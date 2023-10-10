@@ -325,7 +325,7 @@ export default class Book extends React.Component {
                 : 'Not Ready For Pickup'}
             </h6>
           )}
-          {/* {this.state.ableToCheckOut && this.props.category === 'allMedia' ? (
+          {this.state.ableToCheckOut && this.props.category === 'allMedia' ? (
             <button
               className="action-button-skin media-button"
               onClick={() => checkOut(this.props.media.id)}
@@ -349,7 +349,7 @@ export default class Book extends React.Component {
             </button>
           ) : (
             ''
-          )} */}
+          )}
           {admin &&
             this.props.category === 'allRequests' &&
             this.props.media.checkedOutBy && (
