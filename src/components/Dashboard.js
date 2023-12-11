@@ -180,7 +180,6 @@ export default function Dashboard(props) {
     let filteredMedia = medias;
     if (category === 'allMedia') {
       filteredMedia = medias.filter((media) => {
-        console.log('media type', media.type, 'typeFilter', typeFilter);
         return (
           (media.title.toLowerCase().includes(mediaFilter) ||
             media.author.toLowerCase().includes(mediaFilter)) &&
