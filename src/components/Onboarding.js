@@ -25,6 +25,7 @@ export default function Onboarding(props) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [cell, setCell] = useState('');
+  const [location, setLocation] = useState('');
 
   let user = useContext(UserContext);
 
@@ -84,6 +85,16 @@ export default function Onboarding(props) {
   const handleSignUp = (e) => {
     e.preventDefault();
 
+    if (
+      location.toLowerCase() !== 'tarzana' &&
+      location.toLowerCase() !== 'north hollywood'
+    ) {
+      setSignupError(
+        'Please type Tarzana or North Hollywood for your pickup location.'
+      );
+      return;
+    }
+
     const formattedNumber = parsePhoneNumberFromString(cell, 'US');
     if (formattedNumber && formattedNumber.isValid()) {
       setCell(formattedNumber.number);
@@ -105,6 +116,7 @@ export default function Onboarding(props) {
         lastName,
         cell: formattedNumber.number,
         password: newPassword,
+        location,
       }),
     })
       .then((res) => normalizeResponseErrors(res))
@@ -208,6 +220,16 @@ export default function Onboarding(props) {
               type="tel"
               onChange={(e) => setCell(e.target.value)}
               placeholder="Cell Phone Number"
+            />
+          </section>
+          <section className="field">
+            <label htmlFor="location">Pickup Location</label>
+            <input
+              required
+              id="location"
+              type="location"
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Tarzana or North Hollywood"
             />
           </section>
           <section className="field" style={{ fontSize: 12, paddingTop: 0 }}>
