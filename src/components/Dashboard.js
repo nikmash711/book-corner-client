@@ -261,7 +261,7 @@ export default function Dashboard(props) {
             <h2>{user.firstName + ' ' + user.lastName}</h2>
             <h4>{user.email}</h4>
             <h4>{user.cell}</h4>
-            <h4>{user.location ?? 'Tarzana'}</h4>
+            <h4>{user.location || 'Tarzana'}</h4>
             {userBalance > 0 && (
               <h4 className="unavailable">Balance: ${userBalance}.00</h4>
             )}
